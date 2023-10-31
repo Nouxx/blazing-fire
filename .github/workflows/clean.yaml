@@ -1,0 +1,52 @@
+name: Vercel Clean Deployments
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_PROJECT_NAME: blazing-fire-web
+
+concurrency: clean-deployments
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Vercel Preview Deployment, Vercel Staging Deployment]
+    types:
+      - completed
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  clean-environments:
+    name: Clean Unaliased Deployments
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Vercel CLI
+        run: npm install --global vercel@32.5.0
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Remove PR Alias
+        if: github.event.pull_request.state == 'closed'
+        run: vercel alias remove blazing-fire-preview-pr-${{ github.event.pull_request.number }} --yes --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Remove all unaliased Vercel deployments
+        run: |
+          set +e
+
+          vercel_output=$(vercel remove ${{ env.VERCEL_PROJECT_NAME }} --safe --yes --token=${{ secrets.VERCEL_TOKEN }} 2>&1)
+          exit_code=$?
+          echo "$vercel_output" | tee out.txt
+
+          if [ $exit_code -ne 0 ]; then
+              echo "Vercel command failed with exit code $exit_code"
+          fi
+
+          if grep -q "Could not find unaliased deployments" out.txt; then
+              echo "No unaliased deployment found, skipping error"
+              exit_code=0
+          fi
+
+          exit $exit_code
