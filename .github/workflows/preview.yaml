@@ -1,0 +1,66 @@
+name: Vercel Preview Deployment
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  PUBLIC_ENVIRONMENT: preview
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy-preview:
+    name: Deploy Preview Environment
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.2
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.17.1
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@32.5.0
+
+      - name: Set 'VERCEL_ALIAS'
+        run: echo "VERCEL_ALIAS=blazing-fire-preview-pr-${{ github.event.number }}" >> $GITHUB_ENV
+
+      - name: Set 'MOST_RECENT_COMMIT_SHA'
+        run: echo "MOST_RECENT_COMMIT_SHA=$(git log --format=%h -n 1)" >> $GITHUB_ENV
+
+      - name: Set 'MOST_RECENT_COMMIT_NAME'
+        run: echo "MOST_RECENT_COMMIT_NAME=$(git log --format=%B -n 1)" >> $GITHUB_ENV
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        id: deployment
+        run: echo "deployment-url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_OUTPUT
+
+      - name: Set Alias to Deployment
+        run: vercel alias set ${{ steps.deployment.outputs.deployment-url }} ${{ env.VERCEL_ALIAS }} --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Comment PR with the preview URL
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          pr_number: ${{ github.event.number }}
+          comment_tag: deploy-message
+          message: |
+            :rocket: **Preview environment successfully deployed at [${{ env.VERCEL_ALIAS }}.vercel.app](https://${{ env.VERCEL_ALIAS }}.vercel.app)**
+            :information_source: Commit `${{ env.MOST_RECENT_COMMIT_SHA }}` - `${{ env.MOST_RECENT_COMMIT_NAME }}`
