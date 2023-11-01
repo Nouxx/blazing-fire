@@ -11,6 +11,7 @@
     "format": {},
     "//#format": {},
     "test:unit": {},
+    "test:integration": {},
     "dev": {
       "cache": false,
       "persistent": true

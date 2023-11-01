@@ -46,3 +46,9 @@ jobs:
 
       - name: Run Vitest Unit Tests
         run: npx turbo run test:unit
+
+      - name: Install Playwright dependencies
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright Integration Tests
+        run: npx turbo run test:integration
