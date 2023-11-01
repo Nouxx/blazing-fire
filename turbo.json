@@ -10,6 +10,7 @@
     "//#check-format": {},
     "format": {},
     "//#format": {},
+    "test:unit": {},
     "dev": {
       "cache": false,
       "persistent": true

@@ -13,7 +13,7 @@
 		"check-format": "prettier --plugin-search-dir . --check . ",
 		"format": "prettier --plugin-search-dir . --write .",
 		"test:integration": "playwright test",
-		"test:unit": "vitest"
+		"test:unit": "vitest run"
 	},
 	"dependencies": {
 		"ui": "workspace:*"

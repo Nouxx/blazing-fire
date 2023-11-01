@@ -40,3 +40,9 @@ jobs:
 
       - name: Run Prettier check
         run: npx turbo run check-format
+
+      - name: Run ESLint check
+        run: npx turbo run lint
+
+      - name: Run Vitest Unit Tests
+        run: npx turbo run test:unit
