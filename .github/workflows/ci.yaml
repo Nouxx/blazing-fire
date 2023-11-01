@@ -1,0 +1,36 @@
+name: CI
+
+concurrency:
+  group: ci-pr-${{ github.event.number }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  continous-integration:
+    if: github.event.pull_request.draft == false
+    name: CI Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.2
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.17.1
+
+      - name: Install project dependencies
+        run: pnpm install
+
+      - name: Run Prettier check
+        run: pnpm check-format
