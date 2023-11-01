@@ -6,6 +6,10 @@
       "outputs": [".svelte-kit/**", ".vercel/**"]
     },
     "lint": {},
+    "check-format": {},
+    "//#check-format": {},
+    "format": {},
+    "//#format": {},
     "dev": {
       "cache": false,
       "persistent": true

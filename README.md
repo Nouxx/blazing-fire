@@ -21,3 +21,18 @@ Once a PR is opened, a new _"preview"_ environment is deployed. This environment
 ### Staging deployment
 
 When a tag is pushed to the `main` branch, a new _"staging"_ environment gets deployed. Final verification can be done this environment before promoting it to production.
+
+## Quick tips
+
+### Install project dependencies
+
+```bash
+pnpm install
+```
+
+### Run npm script
+
+```bash
+pnpm <script-name>
+npx turbo run <script-name>
+```
