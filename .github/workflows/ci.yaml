@@ -4,9 +4,6 @@ concurrency:
   group: ci-pr-${{ github.event.number }}
   cancel-in-progress: true
 
-env:
-  PUBLIC_ENVIRONMENT: ci
-
 on:
   pull_request:
     branches:
