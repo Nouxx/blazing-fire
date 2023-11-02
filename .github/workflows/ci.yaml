@@ -49,6 +49,7 @@ jobs:
 
       - name: Install Playwright dependencies
         run: npx playwright install --with-deps
+        working-directory: apps/web
 
       - name: Run Playwright Integration Tests
         run: npx turbo run test:integration
