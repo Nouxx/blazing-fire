@@ -83,6 +83,9 @@ jobs:
         run: |
           set +e
 
+          gcloud config set storage/transfer/processor 1
+          gcloud config set storage/transfer/thread 1
+
           gcloud_output=$(gcloud storage ls --recursive gs://blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }} 2>&1)
           exit_code=$?
 
