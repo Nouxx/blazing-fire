@@ -20,6 +20,9 @@ jobs:
     if: github.event.pull_request.draft == false
     name: CI Checks
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -53,3 +56,19 @@ jobs:
 
       - name: Run Playwright Integration Tests
         run: npx turbo run test:integration
+
+      - name: Authenticate to Google Cloud
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ secrets.GCLOUD_WORKLOAD_ID_PROVIDER }}
+          service_account: ${{ secrets.GCLOUD_SERVICE_ACCOUNT }}
+
+      - id: 'upload-folder'
+        uses: google-github-actions/upload-cloud-storage@v1
+        with:
+          path: 'apps/web/playwright-report'
+          destination: 'blazing-fire-playwright-reports/pr-${{ github.event.number }}'
+
+      - id: 'uploaded-files'
+        run: echo "${{ steps.upload-folder.outputs.uploaded }}"
+# https://storage.cloud.google.com/blazing-fire-playwright-reports/playwright-report/index.html
