@@ -76,15 +76,17 @@ jobs:
           version: '>= 363.0.0'
           project_id: blazing-fire-reports
 
+      - name: Test
+        run: |
+          gcloud config set storage/transfer/processor 1
+          gcloud config set storage/transfer/thread 1
+
       - name: "Delete the report at: 'blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }}'"
         run: gcloud storage rm --recursive --continue-on-error gs://blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }}/
 
       - name: Check that the report has been deleted
         run: |
           set +e
-
-          gcloud config set storage/transfer/processor 1
-          gcloud config set storage/transfer/thread 1
 
           gcloud_output=$(gcloud storage ls --recursive gs://blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }} 2>&1)
           exit_code=$?
