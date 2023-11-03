@@ -14,8 +14,9 @@ on:
     types:
       - completed
   pull_request:
-    types:
-      - closed
+    # uncomment before the merge
+    # types:
+    #   - closed
 
 jobs:
   clean-deployments:
@@ -53,19 +54,27 @@ jobs:
 
   delete-reports:
     name: Delete Playwright report
+    # uncomment before the merge
+    # if: github.event.pull_request.state == 'closed'
     runs-on: ubuntu-latest
-    if: github.event.pull_request.state == 'closed'
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1
         with:
           workload_identity_provider: ${{ secrets.GCLOUD_WORKLOAD_ID_PROVIDER }}
           service_account: ${{ secrets.GCLOUD_SERVICE_ACCOUNT }}
 
-      - uses: 'google-github-actions/setup-gcloud@v1'
+      - uses: google-github-actions/setup-gcloud@v1
         with:
           version: '>= 363.0.0'
           project_id: blazing-fire-reports
 
       - name: "Delete the report at: 'blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }}'"
         run: gcloud storage rm --recursive gs://blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }}/
+        # what happened if the folder has been deleted already?
