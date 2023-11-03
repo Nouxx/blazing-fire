@@ -67,5 +67,5 @@ jobs:
           version: '>= 363.0.0'
           project_id: blazing-fire-reports
 
-      - name: Delete it
-        run: gcloud storage rm --recursive gs://blazing-fire-playwright-reports/pr-${{ github.event.number }}/
+      - name: "Delete the report at: 'blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }}'"
+        run: gcloud storage rm --recursive gs://blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }}/
