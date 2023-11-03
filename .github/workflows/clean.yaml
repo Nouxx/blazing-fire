@@ -18,7 +18,7 @@ on:
       - closed
 
 jobs:
-  clean-environments:
+  clean-deployments:
     name: Clean Unaliased Deployments
     runs-on: ubuntu-latest
     steps:
@@ -50,3 +50,22 @@ jobs:
           fi
 
           exit $exit_code
+
+  delete-reports:
+    name: Delete Playwright report
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.state == 'closed'
+    steps:
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.GCLOUD_WORKLOAD_ID_PROVIDER }}
+          service_account: ${{ secrets.GCLOUD_SERVICE_ACCOUNT }}
+
+      - uses: 'google-github-actions/setup-gcloud@v1'
+        with:
+          version: '>= 363.0.0'
+          project_id: blazing-fire-reports
+
+      - name: Delete it
+        run: gcloud storage rm --recursive gs://blazing-fire-playwright-reports/pr-${{ github.event.number }}/
