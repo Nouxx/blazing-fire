@@ -68,6 +68,7 @@ jobs:
         with:
           path: 'apps/web/playwright-report'
           destination: 'blazing-fire-playwright-reports/pr-${{ github.event.number }}'
+          process_gcloudignore: false
 
       - id: 'uploaded-files'
         run: echo "${{ steps.upload-folder.outputs.uploaded }}"
