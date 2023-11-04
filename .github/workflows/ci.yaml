@@ -63,40 +63,33 @@ jobs:
         continue-on-error: true
         run: npx turbo run test:integration
 
-      - uses: actions/upload-artifact@v3
+      - name: Authenticate to Google Cloud
         if: steps.integration-tests.outcome == 'failure'
+        uses: google-github-actions/auth@v1
         with:
-          name: playwright-report-pr-${{ github.event.number }}
-          path: apps/web/playwright-report
-          retention-days: 10
+          workload_identity_provider: ${{ secrets.GCLOUD_WORKLOAD_ID_PROVIDER }}
+          service_account: ${{ secrets.GCLOUD_SERVICE_ACCOUNT }}
 
-      # - name: Authenticate to Google Cloud
-      #   if: steps.integration-tests.outcome == 'failure'
-      #   uses: google-github-actions/auth@v1
-      #   with:
-      #     workload_identity_provider: ${{ secrets.GCLOUD_WORKLOAD_ID_PROVIDER }}
-      #     service_account: ${{ secrets.GCLOUD_SERVICE_ACCOUNT }}
+      - name: Upload Playwright report
+        if: steps.integration-tests.outcome == 'failure'
+        id: upload-report
+        uses: google-github-actions/upload-cloud-storage@v1
+        with:
+          path: 'apps/web/playwright-report'
+          destination: 'blazing-fire-playwright-reports/pr-${{ github.event.number }}'
+          process_gcloudignore: false
+          parent: false
+          gzip: false
 
-      # - name: Upload Playwright report
-      #   if: steps.integration-tests.outcome == 'failure'
-      #   id: upload-report
-      #   uses: google-github-actions/upload-cloud-storage@v1
-      #   with:
-      #     path: 'apps/web/playwright-report'
-      #     destination: 'blazing-fire-playwright-reports/pr-${{ github.event.number }}'
-      #     process_gcloudignore: false
-      #     parent: false
-      #     gzip: false
-
-      # - name: Update PR Test Comment
-      #   uses: thollander/actions-comment-pull-request@v2
-      #   with:
-      #     pr_number: ${{ github.event.number }}
-      #     mode: ${{ steps.integration-tests.outcome == 'failure' && 'upsert' || 'delete' }}
-      #     comment_tag: test-report
-      #     message: |
-      #       :dizzy_face: **Playwright tests suite has failed!**
-      #       :performing_arts: Report is available [here](https://storage.cloud.google.com/blazing-fire-playwright-reports/pr-${{ github.event.number }}/index.html).
+      - name: Update PR Test Comment
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          pr_number: ${{ github.event.number }}
+          mode: ${{ steps.integration-tests.outcome == 'failure' && 'upsert' || 'delete' }}
+          comment_tag: test-report
+          message: |
+            :dizzy_face: **Playwright tests suite has failed!**
+            :performing_arts: Report is available [here](https://storage.googleapis.com/blazing-fire-playwright-reports/pr-${{ github.event.number }}/index.html).
 
       - name: Fail if integration tests failed
         if: steps.integration-tests.outcome == 'failure'

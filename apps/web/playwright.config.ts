@@ -3,6 +3,7 @@ import type { PlaywrightTestConfig } from '@playwright/test';
 const config: PlaywrightTestConfig = {
 	reporter: [['html', { open: process.env.CI ? 'never' : 'on-failure' }]],
 	retries: 0,
+	maxFailures: 1,
 	use: {
 		trace: 'retain-on-failure',
 		video: 'retain-on-failure'
