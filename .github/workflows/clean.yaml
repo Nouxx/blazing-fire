@@ -76,13 +76,9 @@ jobs:
           version: '>= 363.0.0'
           project_id: blazing-fire-reports
 
-      - name: Test
-        run: |
-          gcloud config set storage/transfer/processor 1
-          gcloud config set storage/transfer/thread 1
-
-      - name: "Delete the report at: 'blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }}'"
-        run: gcloud storage rm --recursive --continue-on-error gs://blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }}/
+      - name: "Delete the report for PR #${{ github.event.pull_request.number }}"
+        continue-on-error: true
+        run: gcloud storage rm --recursive gs://blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }}/
 
       - name: Check that the report has been deleted
         run: |
@@ -94,7 +90,7 @@ jobs:
           echo "$gcloud_output" | tee gcloud_out.txt
 
           if grep -q "gs://" gcloud_out.txt; then
-              echo "File(s) have been found in the folder /pr-${{ github.event.pull_request.number }}"
+              echo "File(s) have been found in the bucket in ./pr-${{ github.event.pull_request.number }}/"
               exit_code=1
           fi
 
