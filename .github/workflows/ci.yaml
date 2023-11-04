@@ -88,7 +88,7 @@ jobs:
           comment_tag: test-report
           message: |
             :dizzy_face: **Playwright tests suite has failed!**
-            :performing_arts: Report is available [here](https://storage.cloud.google.com/blazing-fire-playwright-reports/${{ steps.upload-report.outputs.uploaded }}).
+            :performing_arts: Report is available [here](https://storage.cloud.google.com/blazing-fire-playwright-reports/pr-${{ github.event.number }}/index.html).
 
       - name: Fail if integration tests failed
         if: steps.integration-tests.outcome == 'failure'
