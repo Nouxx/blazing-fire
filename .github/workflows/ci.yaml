@@ -72,5 +72,11 @@ jobs:
           process_gcloudignore: false
           parent: false
 
-      - id: 'uploaded-files'
-        run: echo "https://storage.cloud.google.com/blazing-fire-playwright-reports/${{ steps.upload-report.outputs.uploaded }}"
+      - name: Comment PR with the report URL
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          pr_number: ${{ github.event.number }}
+          comment_tag: report-message
+          message: |
+            :dizzy_face: **Playwright tests suite has failed**
+            :performing_arts: Report is available [here](https://storage.cloud.google.com/blazing-fire-playwright-reports/${{ steps.upload-report.outputs.uploaded }}).
