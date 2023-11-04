@@ -15,6 +15,9 @@ on:
       - converted_to_draft
       - ready_for_review
 
+env:
+  CI: true
+
 jobs:
   continous-integration:
     if: github.event.pull_request.draft == false
@@ -56,15 +59,19 @@ jobs:
         working-directory: apps/web
 
       - name: Run Playwright Integration Tests
+        id: integration-tests
+        continue-on-error: true
         run: npx turbo run test:integration
 
       - name: Authenticate to Google Cloud
+        if: steps.integration-tests.outcome == 'failure'
         uses: google-github-actions/auth@v1
         with:
           workload_identity_provider: ${{ secrets.GCLOUD_WORKLOAD_ID_PROVIDER }}
           service_account: ${{ secrets.GCLOUD_SERVICE_ACCOUNT }}
 
       - name: Upload Playwright report
+        if: steps.integration-tests.outcome == 'failure'
         id: upload-report
         uses: google-github-actions/upload-cloud-storage@v1
         with:
@@ -77,7 +84,8 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           pr_number: ${{ github.event.number }}
+          mode: ${{ steps.integration-tests.outcome == 'failure' && 'upsert' || 'delete' }}
           comment_tag: report-message
           message: |
-            :dizzy_face: **Playwright tests suite has failed**
+            :dizzy_face: **Playwright tests suite has failed!**
             :performing_arts: Report is available [here](https://storage.cloud.google.com/blazing-fire-playwright-reports/${{ steps.upload-report.outputs.uploaded }}).

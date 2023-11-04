@@ -1,7 +1,7 @@
 import type { PlaywrightTestConfig } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
-	reporter: 'html',
+	reporter: [['html', { open: process.env.CI ? 'never' : 'on-failure' }]],
 	webServer: {
 		command: 'npm run build -- --mode playwright && npm run preview',
 		port: 4173
