@@ -14,9 +14,8 @@ on:
     types:
       - completed
   pull_request:
-    # uncomment before the merge
-    # types:
-    #   - closed
+    types:
+      - closed
 
 jobs:
   clean-deployments:
@@ -54,8 +53,7 @@ jobs:
 
   delete-reports:
     name: Delete Playwright report
-    # uncomment before the merge
-    # if: github.event.pull_request.state == 'closed'
+    if: github.event.pull_request.state == 'closed'
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -76,11 +74,11 @@ jobs:
           version: '>= 363.0.0'
           project_id: blazing-fire-reports
 
-      - name: "Delete the report for PR #${{ github.event.pull_request.number }}"
+      - name: 'Delete the report for PR #${{ github.event.pull_request.number }}'
         continue-on-error: true
         run: gcloud storage rm --recursive gs://blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }}/
 
-      - name: Check that the report has been deleted
+      - name: Verify report deletion
         run: |
           set +e
 
