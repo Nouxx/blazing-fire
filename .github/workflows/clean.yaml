@@ -4,6 +4,7 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   VERCEL_PROJECT_NAME: blazing-fire-web
+  GCLOUD_BUCKET_NAME: blazing-fire-playwright-reports
 
 concurrency: clean-deployments
 
@@ -18,7 +19,7 @@ on:
       - closed
 
 jobs:
-  clean-environments:
+  clean-deployments:
     name: Clean Unaliased Deployments
     runs-on: ubuntu-latest
     steps:
@@ -38,14 +39,62 @@ jobs:
 
           vercel_output=$(vercel remove ${{ env.VERCEL_PROJECT_NAME }} --safe --yes --token=${{ secrets.VERCEL_TOKEN }} 2>&1)
           exit_code=$?
-          echo "$vercel_output" | tee out.txt
+          echo "$vercel_output" | tee vercel_out.txt
 
           if [ $exit_code -ne 0 ]; then
-              echo "Vercel command failed with exit code $exit_code"
+              echo "vercel command failed with exit code $exit_code"
           fi
 
-          if grep -q "Could not find unaliased deployments" out.txt; then
+          if grep -q "Could not find unaliased deployments" vercel_out.txt; then
               echo "No unaliased deployment found, skipping error"
+              exit_code=0
+          fi
+
+          exit $exit_code
+
+  delete-reports:
+    name: Delete Playwright report
+    if: github.event.pull_request.state == 'closed'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.GCLOUD_WORKLOAD_ID_PROVIDER }}
+          service_account: ${{ secrets.GCLOUD_SERVICE_ACCOUNT }}
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: '>= 363.0.0'
+          project_id: blazing-fire-reports
+
+      - name: 'Delete the report for PR #${{ github.event.pull_request.number }}'
+        continue-on-error: true
+        run: gcloud storage rm --recursive gs://${{ env.GCLOUD_BUCKET_NAME }}/pr-${{ github.event.pull_request.number }}/
+
+      - name: Verify report deletion
+        run: |
+          set +e
+
+          gcloud_output=$(gcloud storage ls --recursive gs://${{ env.GCLOUD_BUCKET_NAME }}/pr-${{ github.event.pull_request.number }} 2>&1)
+          exit_code=$?
+
+          echo "$gcloud_output" | tee gcloud_out.txt
+
+          if grep -q "gs://" gcloud_out.txt; then
+              echo "File(s) have been found in the bucket in ./pr-${{ github.event.pull_request.number }}/"
+              exit_code=1
+          fi
+
+          if grep -q "One or more URLs matched no objects" gcloud_out.txt; then
+              echo "The report folder is not found, skipping error."
               exit_code=0
           fi
 

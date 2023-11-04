@@ -1,0 +1,97 @@
+name: CI
+
+concurrency:
+  group: ci-pr-${{ github.event.number }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - converted_to_draft
+      - ready_for_review
+
+env:
+  CI: true
+  GCLOUD_BUCKET_NAME: blazing-fire-playwright-reports
+
+jobs:
+  continous-integration:
+    if: github.event.pull_request.draft == false
+    name: CI Checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.2
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.17.1
+
+      - name: Install project dependencies
+        run: pnpm install
+
+      - name: Run Prettier check
+        run: npx turbo run check-format
+
+      - name: Run ESLint check
+        run: npx turbo run lint
+
+      - name: Run Vitest Unit Tests
+        run: npx turbo run test:unit
+
+      - name: Install Playwright dependencies
+        run: npx playwright install --with-deps
+        working-directory: apps/web
+
+      - name: Run Playwright Integration Tests
+        id: integration-tests
+        continue-on-error: true
+        run: npx turbo run test:integration
+
+      - name: Authenticate to Google Cloud
+        if: steps.integration-tests.outcome == 'failure'
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.GCLOUD_WORKLOAD_ID_PROVIDER }}
+          service_account: ${{ secrets.GCLOUD_SERVICE_ACCOUNT }}
+
+      - name: Upload Playwright report
+        if: steps.integration-tests.outcome == 'failure'
+        id: upload-report
+        uses: google-github-actions/upload-cloud-storage@v1
+        with:
+          path: 'apps/web/playwright-report'
+          destination: '${{ env.GCLOUD_BUCKET_NAME }}/pr-${{ github.event.number }}'
+          process_gcloudignore: false
+          parent: false
+          gzip: false
+
+      - name: Update PR Test Comment
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          pr_number: ${{ github.event.number }}
+          mode: ${{ steps.integration-tests.outcome == 'failure' && 'upsert' || 'delete' }}
+          comment_tag: test-report
+          message: |
+            :dizzy_face: **Playwright tests suite has failed!**
+            :performing_arts: Report is available [here](https://storage.googleapis.com/${{ env.GCLOUD_BUCKET_NAME}}/pr-${{ github.event.number }}/index.html).
+
+      - name: Fail if integration tests failed
+        if: steps.integration-tests.outcome == 'failure'
+        run: exit 1
