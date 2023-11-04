@@ -4,6 +4,7 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   VERCEL_PROJECT_NAME: blazing-fire-web
+  GCLOUD_BUCKET_NAME: blazing-fire-playwright-reports
 
 concurrency: clean-deployments
 
@@ -76,13 +77,13 @@ jobs:
 
       - name: 'Delete the report for PR #${{ github.event.pull_request.number }}'
         continue-on-error: true
-        run: gcloud storage rm --recursive gs://blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }}/
+        run: gcloud storage rm --recursive gs://${{ env.GCLOUD_BUCKET_NAME }}/pr-${{ github.event.pull_request.number }}/
 
       - name: Verify report deletion
         run: |
           set +e
 
-          gcloud_output=$(gcloud storage ls --recursive gs://blazing-fire-playwright-reports/pr-${{ github.event.pull_request.number }} 2>&1)
+          gcloud_output=$(gcloud storage ls --recursive gs://${{ env.GCLOUD_BUCKET_NAME }}/pr-${{ github.event.pull_request.number }} 2>&1)
           exit_code=$?
 
           echo "$gcloud_output" | tee gcloud_out.txt

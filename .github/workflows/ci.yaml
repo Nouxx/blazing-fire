@@ -17,6 +17,7 @@ on:
 
 env:
   CI: true
+  GCLOUD_BUCKET_NAME: blazing-fire-playwright-reports
 
 jobs:
   continous-integration:
@@ -76,7 +77,7 @@ jobs:
         uses: google-github-actions/upload-cloud-storage@v1
         with:
           path: 'apps/web/playwright-report'
-          destination: 'blazing-fire-playwright-reports/pr-${{ github.event.number }}'
+          destination: '${{ env.GCLOUD_BUCKET_NAME }}/pr-${{ github.event.number }}'
           process_gcloudignore: false
           parent: false
           gzip: false
@@ -89,7 +90,7 @@ jobs:
           comment_tag: test-report
           message: |
             :dizzy_face: **Playwright tests suite has failed!**
-            :performing_arts: Report is available [here](https://storage.googleapis.com/blazing-fire-playwright-reports/pr-${{ github.event.number }}/index.html).
+            :performing_arts: Report is available [here](https://storage.googleapis.com/${{ env.GCLOUD_BUCKET_NAME}}/pr-${{ github.event.number }}/index.html).
 
       - name: Fail if integration tests failed
         if: steps.integration-tests.outcome == 'failure'
