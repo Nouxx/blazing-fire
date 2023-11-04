@@ -79,6 +79,7 @@ jobs:
           destination: 'blazing-fire-playwright-reports/pr-${{ github.event.number }}'
           process_gcloudignore: false
           parent: false
+          gzip: false
 
       - name: Update PR Test Comment
         uses: thollander/actions-comment-pull-request@v2
