@@ -4,15 +4,18 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".svelte-kit/**", ".vercel/**"]
+      "outputs": [".svelte-kit/**", ".vercel/**"],
+      "env": ["PUBLIC_SUPABASE_ANON_KEY", "PUBLIC_SUPABASE_URL", "PUBLIC_ENVIRONMENT"]
     },
-    "lint": {},
+    "lint": {
+      "env": ["PUBLIC_SUPABASE_URL", "PUBLIC_SUPABASE_SERVICE_ROLE_KEY"]
+    },
     "check-format": {},
-    "//#check-format": {},
     "format": {},
-    "//#format": {},
     "test:unit": {},
-    "test:integration": {},
+    "test:e2e": {
+      "env": ["PUBLIC_SUPABASE_URL", "PUBLIC_SUPABASE_SERVICE_ROLE_KEY"]
+    },
     "dev": {
       "cache": false,
       "persistent": true
