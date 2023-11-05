@@ -6,7 +6,7 @@
 <p>Environment: {PUBLIC_ENVIRONMENT}</p>
 
 <div id="g_id_onload"
-     data-client_id=" 291462974388-uu40umo2shubgklqt49ogofod0n9527o.apps.googleusercontent.com"
+     data-client_id="291462974388-uu40umo2shubgklqt49ogofod0n9527o.apps.googleusercontent.com"
      data-context="signin"
      data-ux_mode="popup"
      data-login_uri="http://localhost:5173"
