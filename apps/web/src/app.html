@@ -8,6 +8,7 @@
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
-		<script src="https://accounts.google.com/gsi/client" async></script>
+		<!-- https://stackoverflow.com/questions/72411045/google-auth-oauth-2-0-sveltekit-wierd-behavior -->
+		<script src="https://accounts.google.com/gsi/client"></script>
 	</body>
 </html>

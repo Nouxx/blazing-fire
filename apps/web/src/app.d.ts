@@ -7,6 +7,7 @@ declare global {
 		// interface PageData {}
 		// interface Platform {}
 	}
+	async function handleAuth(response: GoogleSignInResponse): void;
 }
 
 export {};

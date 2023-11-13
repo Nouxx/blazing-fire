@@ -30,6 +30,12 @@ When a tag is pushed to the `main` branch, a new _"staging"_ environment gets de
 pnpm install
 ```
 
+## Add new dependency
+
+```bash
+pnpm add <package> --filter <workspace>
+```
+
 ### Run npm script
 
 ```bash
