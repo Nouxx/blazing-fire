@@ -1,4 +1,4 @@
-import { getTokens, getUserData } from '$lib/auth';
+import { getTokens, getUserData, type Tokens } from '$lib/auth';
 import { mapToUser } from '$lib/types/user';
 import { getUser } from '$lib/user/user.js';
 import { firestore } from '$lib/firestore';
@@ -8,7 +8,7 @@ export const GET = async ({ url }) => {
 	const { idToken, accessToken } = await getTokens(code);
 	const userReference = mapToUser(await getUserData(accessToken));
 	getUser(firestore, userReference);
-	return redirectResponse(303, `idToken=${idToken}`);
+	return redirectWithCookies(303, { idToken, accessToken });
 };
 
 function extractCode(url: URL): string {
@@ -19,9 +19,12 @@ function extractCode(url: URL): string {
 	return code;
 }
 
-function redirectResponse(status: 302 | 303, cookie: string) {
+function redirectWithCookies(status: 302 | 303, cookies: Tokens) {
+	const headers = new Headers({ Location: '/' });
+	headers.append('Set-Cookie', `idToken=${cookies.idToken}; Secure; HttpOnly;`);
+	headers.append('Set-Cookie', `accessToken=${cookies.accessToken}; Secure; HttpOnly;`);
 	return new Response(undefined, {
 		status: status,
-		headers: { Location: '/', 'Set-Cookie': `${cookie}; Secure; HttpOnly;` }
+		headers: headers
 	});
 }

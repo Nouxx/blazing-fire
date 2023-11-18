@@ -35,7 +35,7 @@ export async function getTokens(code: string): Promise<Tokens> {
 	};
 }
 
-type Tokens = {
+export type Tokens = {
 	idToken: string;
 	accessToken: string;
 };

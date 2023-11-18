@@ -15,7 +15,8 @@ export const actions = {
 	}
 };
 
-export function load({ cookies }) {
-	const token = cookies.get('idToken');
-	return { token };
+export async function load({ cookies }) {
+	const idToken = cookies.get('idToken');
+	const accessToken = cookies.get('accessToken');
+	return { idToken, accessToken };
 }
