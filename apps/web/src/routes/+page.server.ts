@@ -12,6 +12,10 @@ export const actions = {
 			prompt: 'consent'
 		});
 		throw redirect(302, authorizeUrl);
+	},
+	logout: async ({ cookies }) => {
+		cookies.delete('idToken');
+		cookies.delete('accessToken');
 	}
 };
 

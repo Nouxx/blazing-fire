@@ -1,30 +1,40 @@
 <script lang="ts">
-	import { PUBLIC_HOST } from '$env/static/public';
 	import { PUBLIC_ENVIRONMENT } from '$env/static/public';
+	import Greeter from './Greeter.svelte';
 	export let data;
 
-	async function fetchUser() {
-		const res = await fetch(`${PUBLIC_HOST}/user`, {
-			method: 'GET'
-		});
-		return await res.json();
+	function isUserLoggedIn(idToken: string | undefined, accessToken: string | undefined): boolean {
+		return !idToken || !accessToken ? false : true;
 	}
-	const userPromise = fetchUser();
+
+	const loggedIn = isUserLoggedIn(data.idToken, data.accessToken);
 </script>
 
-<h1>Blazing fire</h1>
-<p>Environment: {PUBLIC_ENVIRONMENT}</p>
+<section>
+	<h1>Blazing fire</h1>
+	<p>Environment: {PUBLIC_ENVIRONMENT}</p>
+</section>
 
-<form method="post" action="?/googleSignIn">
-	<p>
-		Hello,
-		{#await userPromise}
-			you...
-		{:then user}
-			{user.firstname}!
-		{/await}
-	</p>
-	<button type="submit">Sign In With Google</button>
+<section>
+	<Greeter idToken={data.idToken} />
+	{#if loggedIn}
+		<form method="post" action="?/logout">
+			<button type="submit">Logout</button>
+		</form>
+	{:else}
+		<form method="post" action="?/googleSignIn">
+			<button type="submit">Sign In With Google</button>
+		</form>
+	{/if}
+</section>
+
+<section class="grey-content">
 	<p>id token = {data.idToken}</p>
 	<p>access token = {data.accessToken}</p>
-</form>
+</section>
+
+<style>
+	.grey-content {
+		color: grey;
+	}
+</style>

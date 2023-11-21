@@ -1,14 +1,22 @@
-import { getTokens, getUserData, type Tokens } from '$lib/auth';
+import { getTokens, getUserData } from '$lib/auth';
 import { mapToUser } from '$lib/types/user';
 import { getUser } from '$lib/user/user.js';
 import { firestore } from '$lib/firestore';
+import { redirect } from '@sveltejs/kit';
 
-export const GET = async ({ url }) => {
+const oneMonth = 60 * 60 * 24 * 30;
+
+// how can I get type completion with CookieSerializeOptions, which does not seems to be exported?
+const tokensCookiesOptions = { path: '/', httpOnly: true, secure: true, maxAge: oneMonth };
+
+export const GET = async ({ url, cookies }) => {
 	const code = extractCode(url);
 	const { idToken, accessToken } = await getTokens(code);
 	const userReference = mapToUser(await getUserData(accessToken));
 	getUser(firestore, userReference);
-	return redirectWithCookies(303, { idToken, accessToken });
+	cookies.set('idToken', idToken, tokensCookiesOptions);
+	cookies.set('accessToken', accessToken, tokensCookiesOptions);
+	throw redirect(303, '/');
 };
 
 function extractCode(url: URL): string {
@@ -17,14 +25,4 @@ function extractCode(url: URL): string {
 		throw 'ERROR: could not extract code from callback url';
 	}
 	return code;
-}
-
-function redirectWithCookies(status: 302 | 303, cookies: Tokens) {
-	const headers = new Headers({ Location: '/' });
-	headers.append('Set-Cookie', `idToken=${cookies.idToken}; Secure; HttpOnly;`);
-	headers.append('Set-Cookie', `accessToken=${cookies.accessToken}; Secure; HttpOnly;`);
-	return new Response(undefined, {
-		status: status,
-		headers: headers
-	});
 }

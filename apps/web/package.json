@@ -18,6 +18,7 @@
 	"dependencies": {
 		"firebase": "10.6.0",
 		"google-auth-library": "^9.2.0",
+		"jwt-decode": "^4.0.0",
 		"ui": "workspace:*"
 	},
 	"devDependencies": {
