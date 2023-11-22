@@ -23,12 +23,11 @@
 	const userInfo = getUserInformation(idToken);
 </script>
 
-<strong>
+<span class="text-xl font-serif font-bold text-slate-900">
 	Hello,
 	{#if userInfo}
-		{userInfo.firstName}
+		{userInfo.firstName}.
 	{:else}
-		you
+		you.
 	{/if}
-	!
-</strong>
+</span>
