@@ -23,7 +23,7 @@
 	const userInfo = getUserInformation(idToken);
 </script>
 
-<span class="text-xl font-serif font-bold text-slate-900">
+<span class="text-l my-2">
 	Hello,
 	{#if userInfo}
 		{userInfo.firstName}.

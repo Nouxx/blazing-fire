@@ -10,31 +10,32 @@
 	const loggedIn = isUserLoggedIn(data.idToken, data.accessToken);
 </script>
 
-<section>
-	<h1>Blazing fire</h1>
-	<p>Environment: {PUBLIC_ENVIRONMENT}</p>
-</section>
+<div class="font-opensans flex flex-col items-center wrappe">
+	<div class="my-4 w-28">
+		<img alt="The project logo" src="/logo.png" />
+	</div>
 
-<section>
+	<h1 class="text-3xl font-bold my-3">Blazing Fire</h1>
+
 	<Greeter idToken={data.idToken} />
-	{#if loggedIn}
-		<form method="post" action="?/logout">
-			<button type="submit">Logout</button>
-		</form>
-	{:else}
-		<form method="post" action="?/googleSignIn">
-			<button type="submit">Sign In With Google</button>
-		</form>
-	{/if}
-</section>
 
-<section class="grey-content">
-	<p>id token = {data.idToken}</p>
-	<p>access token = {data.accessToken}</p>
-</section>
+	<div>
+		{#if loggedIn}
+			<form method="post" action="?/logout">
+				<button type="submit">Logout</button>
+			</form>
+		{:else}
+			<form method="post" action="?/googleSignIn">
+				<div>
+					To use the app, you must
+					<button class="inline underline text-blue-500" type="submit">login</button>
+					first.
+				</div>
+			</form>
+		{/if}
+	</div>
 
-<style>
-	.grey-content {
-		color: grey;
-	}
-</style>
+	<div class="my-5 text-gray-400 text-sm">
+		<p>(environment: {PUBLIC_ENVIRONMENT})</p>
+	</div>
+</div>
