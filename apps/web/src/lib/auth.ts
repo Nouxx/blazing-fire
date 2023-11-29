@@ -13,6 +13,7 @@ export async function getUserData(access_token: string): Promise<UserDao> {
 		`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
 	);
 	return await response.json();
+	// todo: handle error
 }
 
 export async function verifyIdToken(token: string) {

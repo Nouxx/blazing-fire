@@ -10,7 +10,7 @@
 	const loggedIn = isUserLoggedIn(data.idToken, data.accessToken);
 </script>
 
-<div class="font-opensans flex flex-col items-center wrappe">
+<div class="font-opensans flex flex-col w-full items-center">
 	<div class="my-4 w-28">
 		<img alt="The project logo" src="/logo.png" />
 	</div>
@@ -22,7 +22,7 @@
 	<div>
 		{#if loggedIn}
 			<form method="post" action="?/logout">
-				<button type="submit">Logout</button>
+				<button class="inline underline text-blue-500" type="submit">Logout</button>
 			</form>
 		{:else}
 			<form method="post" action="?/googleSignIn">

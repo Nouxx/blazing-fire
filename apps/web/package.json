@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "concurrently \"vite dev\" \"pnpm emulators\"",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "npm run test:integration && npm run test:unit",
@@ -13,10 +13,10 @@
 		"check-format": "prettier --plugin-search-dir . --check . ",
 		"format": "prettier --plugin-search-dir . --write .",
 		"test:integration": "playwright test",
-		"test:unit": "vitest run"
+		"test:unit": "vitest run",
+		"emulators": "firebase emulators:start"
 	},
 	"dependencies": {
-		"firebase": "10.6.0",
 		"google-auth-library": "^9.2.0",
 		"jwt-decode": "^4.0.0",
 		"ui": "workspace:*"
@@ -29,8 +29,10 @@
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
 		"autoprefixer": "^10.4.16",
+		"concurrently": "^8.2.2",
 		"eslint": "^8.28.0",
 		"eslint-config-custom": "workspace:*",
+		"firebase": "10.6.0",
 		"postcss": "^8.4.31",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.10.1",

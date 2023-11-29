@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
+import { FIRESTORE_EMULATOR } from '$env/static/private';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyDREdAD5F5zUKGIqO92iYCsOdNUJZApsrQ',
@@ -11,4 +12,11 @@ const firebaseConfig = {
 };
 
 initializeApp(firebaseConfig);
-export const firestore = getFirestore();
+
+const firestore = getFirestore();
+
+if (FIRESTORE_EMULATOR === 'true') {
+	connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
+}
+
+export { firestore };

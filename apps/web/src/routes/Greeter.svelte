@@ -4,12 +4,17 @@
 
 	export let idToken: string | undefined;
 
+	type GoogleJwtPayload = {
+		given_name: string;
+		family_name: string;
+	};
+
 	function getUserInformation(idToken: string | undefined): UserInformation | undefined {
 		if (!idToken) {
 			return undefined;
 		}
 		if ($userInformation === null) {
-			const decoded = jwtDecode(idToken);
+			const decoded = jwtDecode<GoogleJwtPayload>(idToken);
 			const userInfo: UserInformation = {
 				firstName: decoded.given_name,
 				lastName: decoded.family_name
