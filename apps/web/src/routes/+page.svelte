@@ -11,7 +11,7 @@
 </script>
 
 <div class="font-opensans flex flex-col w-full items-center">
-	<div class="my-4 w-28">
+	<div class="my-4 w-24">
 		<img alt="The project logo" src="/logo.png" />
 	</div>
 

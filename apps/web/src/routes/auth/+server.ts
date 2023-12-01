@@ -14,6 +14,7 @@ export const GET = async ({ url, cookies }) => {
 	const { idToken, accessToken } = await getTokens(code);
 	const userReference = mapToUser(await getUserData(accessToken));
 	getUser(firestore, userReference);
+	// need to ensure firestore response is ok!
 	cookies.set('idToken', idToken, tokensCookiesOptions);
 	cookies.set('accessToken', accessToken, tokensCookiesOptions);
 	throw redirect(303, '/');
