@@ -1,13 +1,24 @@
 <script lang="ts">
 	import { PUBLIC_ENVIRONMENT } from '$env/static/public';
 	import Greeter from './Greeter.svelte';
-	export let data;
 
-	function isUserLoggedIn(idToken: string | undefined, accessToken: string | undefined): boolean {
-		return !idToken || !accessToken ? false : true;
+	import { auth, googleAuthProvider } from '$lib/firebase.client';
+	import { signInWithRedirect, signOut } from 'firebase/auth';
+	import { userStore } from '../stores/user-store';
+
+	// to do: https://firebase.google.com/docs/auth/web/redirect-best-practices#handle-signin-independently
+
+	function handleLogin() {
+		console.log('handleLogin()');
+		signInWithRedirect(auth, googleAuthProvider);
 	}
 
-	const loggedIn = isUserLoggedIn(data.idToken, data.accessToken);
+	function logout() {
+		signOut(auth);
+		userStore.update(() => {
+			return { information: null, isLoggedIn: false };
+		});
+	}
 </script>
 
 <div class="font-opensans flex flex-col w-full items-center">
@@ -17,21 +28,17 @@
 
 	<h1 class="text-3xl font-bold my-3">Blazing Fire</h1>
 
-	<Greeter idToken={data.idToken} />
+	<Greeter />
 
 	<div>
-		{#if loggedIn}
-			<form method="post" action="?/logout">
-				<button class="inline underline text-blue-500" type="submit">Logout</button>
-			</form>
+		{#if $userStore.isLoggedIn}
+			<button class="inline underline text-blue-500" on:click={logout}>Logout</button>
 		{:else}
-			<form method="post" action="?/googleSignIn">
-				<div>
-					To use the app, you must
-					<button class="inline underline text-blue-500" type="submit">login</button>
-					first.
-				</div>
-			</form>
+			<div>
+				To use the app, you must
+				<button class="inline underline text-blue-500" on:click={handleLogin}>login</button>
+				first.
+			</div>
 		{/if}
 	</div>
 

@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "concurrently \"vite dev\" \"pnpm emulators\"",
+		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "npm run test:integration && npm run test:unit",
@@ -17,7 +17,6 @@
 		"emulators": "firebase emulators:start"
 	},
 	"dependencies": {
-		"google-auth-library": "^9.2.0",
 		"jwt-decode": "^4.0.0",
 		"ui": "workspace:*"
 	},

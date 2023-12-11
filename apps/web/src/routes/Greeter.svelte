@@ -1,37 +1,11 @@
 <script lang="ts">
-	import { userInformation, type UserInformation } from '$lib/stores/user-store';
-	import { jwtDecode } from 'jwt-decode';
-
-	export let idToken: string | undefined;
-
-	type GoogleJwtPayload = {
-		given_name: string;
-		family_name: string;
-	};
-
-	function getUserInformation(idToken: string | undefined): UserInformation | undefined {
-		if (!idToken) {
-			return undefined;
-		}
-		if ($userInformation === null) {
-			const decoded = jwtDecode<GoogleJwtPayload>(idToken);
-			const userInfo: UserInformation = {
-				firstName: decoded.given_name,
-				lastName: decoded.family_name
-			};
-			userInformation.set(userInfo);
-			return userInfo;
-		}
-		return $userInformation;
-	}
-
-	const userInfo = getUserInformation(idToken);
+	import { userStore } from '../stores/user-store';
 </script>
 
 <span class="text-l my-2">
 	Hello,
-	{#if userInfo}
-		{userInfo.firstName}.
+	{#if $userStore.information && $userStore.isLoggedIn}
+		{$userStore.information.name}.
 	{:else}
 		you.
 	{/if}
