@@ -3,10 +3,10 @@
 </script>
 
 <span class="text-l my-2">
-	Hello,
-	{#if $userStore.information && $userStore.isLoggedIn}
-		{$userStore.information.name}.
+	<span>Hello,</span>
+	{#if $userStore.information?.name}
+		<span>{$userStore.information.name}.</span>
 	{:else}
-		you.
+		<span>you</span>.
 	{/if}
 </span>

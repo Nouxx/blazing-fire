@@ -2,29 +2,35 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import { auth, firestore } from '$lib/firebase.client';
-	import { toUserInformation, userStore, type UserInformation } from '../stores/user-store';
-	import { getRedirectResult, type User } from 'firebase/auth';
-	import { createNewUser, userExists } from '$lib/user/user';
+	import { toUserInformation, userStore } from '../stores/user-store';
+	import { getRedirectResult } from 'firebase/auth';
+	import { createNewUser, userExists } from '$lib/user';
 
 	onMount(() => {
-		const unsub = auth.onAuthStateChanged((user) => {
-			console.log('onAuthStateChanged()');
+		auth.onAuthStateChanged(async (user) => {
+			if (user) {
+				// todo: refactor
+				userStore.update(() => {
+					return { information: toUserInformation(user), isLoggedIn: true, isLoading: false };
+				});
+			}
 			getRedirectResult(auth)
 				.then(async (result) => {
-					console.log('getRedirectResult() - then');
 					if (result) {
-						const user = toUserInformation(result.user);
+						const userInformation = toUserInformation(result.user);
+						// todo: refactor
 						userStore.update(() => {
-							return { information: user, isLoggedIn: true };
+							return { information: userInformation, isLoggedIn: true, isLoading: false };
 						});
-						const userIsNotRegistered = !(await userExists(firestore, user.userId));
+						const userIsNotRegistered = !(await userExists(firestore, userInformation.userId));
 						if (userIsNotRegistered) {
-							createNewUser(firestore, user);
+							createNewUser(firestore, userInformation);
 						}
 					}
 				})
 				.catch((error) => {
-					// ca me trigger que le truc catch des errors tout le temps
+					// todo: step #1 - log the error
+					// todo: step #2 - display the error
 					console.log('getRedirectResult() - error');
 					console.log('error', error);
 				});

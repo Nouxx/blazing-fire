@@ -1,7 +1,7 @@
 import type { Firestore } from 'firebase/firestore';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { firestoreUsersCollectionName } from '$lib/firebase.client';
-import type { UserInformation } from '../../stores/user-store';
+import type { UserInformation } from '../stores/user-store';
 
 export async function createNewUser(firestore: Firestore, user: UserInformation): Promise<void> {
 	const documentReference = doc(firestore, `users/${user.userId}`);

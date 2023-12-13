@@ -1,11 +1,10 @@
-import { auth, googleAuthProvider } from '$lib/firebase.client';
-import { signInWithRedirect, signOut } from 'firebase/auth';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { writable } from 'svelte/store';
 
 export type User = {
 	isLoggedIn: boolean;
 	information: UserInformation | null;
+	isLoading: boolean;
 };
 
 export type UserInformation = {
@@ -24,15 +23,6 @@ export function toUserInformation(firebaseUser: FirebaseUser): UserInformation {
 
 export const userStore = writable<User>({
 	isLoggedIn: false,
-	information: null
+	information: null,
+	isLoading: true
 });
-
-// todo: put somewhere else
-export const authHandlers = {
-	signIn: () => {
-		signInWithRedirect(auth, googleAuthProvider);
-	},
-	signOut: () => {
-		signOut(auth);
-	}
-};
