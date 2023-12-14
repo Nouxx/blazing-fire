@@ -8,10 +8,15 @@
 
 	onMount(() => {
 		auth.onAuthStateChanged(async (user) => {
+			console.log('onAuthStateChanged');
 			if (user) {
 				// todo: refactor
 				userStore.update(() => {
 					return { information: toUserInformation(user), isLoggedIn: true, isLoading: false };
+				});
+			} else {
+				userStore.update(() => {
+					return { information: null, isLoggedIn: false, isLoading: false };
 				});
 			}
 			getRedirectResult(auth)
