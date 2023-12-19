@@ -8,7 +8,6 @@
 
 	onMount(() => {
 		auth.onAuthStateChanged(async (user) => {
-			console.log('onAuthStateChanged');
 			if (user) {
 				// todo: refactor
 				userStore.update(() => {
@@ -34,8 +33,7 @@
 					}
 				})
 				.catch((error) => {
-					// todo: step #1 - log the error
-					// todo: step #2 - display the error
+					// todo: log error
 					console.log('getRedirectResult() - error');
 					console.log('error', error);
 				});
