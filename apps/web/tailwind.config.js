@@ -4,8 +4,8 @@ export default {
 	theme: {
 		extend: {},
 		fontFamily: {
-      'opensans': ['Open Sans', 'sans-serif']
-    }
+			opensans: ['Open Sans', 'sans-serif']
+		}
 	},
 	plugins: []
 };
