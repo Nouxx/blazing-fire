@@ -1,38 +1,22 @@
-# create-svelte
+# :fire: Web Application
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+:desktop_computer: Frontend application developed with [SvelteKit](https://kit.svelte.dev).
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+:bust_in_silhouette: User information backend with [Firebase](https://firebase.google.com).
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+pnpm dev
 ```
 
-## Building
+This will:
 
-To create a production version of your app:
+- build and serve the application on [localhost](http://localhost:5173).
+- start the Firebase emulators.
 
-```bash
-npm run build
-```
+## Deploying
 
-You can preview the production build with `npm run preview`.
+The application is deployed within Vercel.
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Refer to the [workflow documentation](../../README.md) for more information.
