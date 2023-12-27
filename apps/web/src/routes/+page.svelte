@@ -2,8 +2,6 @@
 	import { PUBLIC_ENVIRONMENT } from '$env/static/public';
 	import Greeter from '../components/Greeter.svelte';
 	import Login from '../components/Login.svelte';
-
-	// to do: https://firebase.google.com/docs/auth/web/redirect-best-practices#handle-signin-independently
 </script>
 
 <div class="font-opensans flex flex-col justify-center w-full items-center">
