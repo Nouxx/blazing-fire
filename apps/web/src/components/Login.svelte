@@ -1,12 +1,9 @@
 <script lang="ts">
-	import { auth, googleAuthProvider } from '$lib/firebase.client';
+	
 	import { signInWithRedirect, signOut } from 'firebase/auth';
 	import { userStore } from '../stores/user-store';
 
-	function handleLogin() {
-		console.log('handleLogin()');
-		signInWithRedirect(auth, googleAuthProvider);
-	}
+
 
 	function logout() {
 		signOut(auth);

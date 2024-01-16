@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import '../app.css';
+	import { onMount } from 'svelte';
 	import { auth, firestore } from '$lib/firebase.client';
 	import { toUserInformation, userStore } from '../stores/user-store';
 	import { getRedirectResult } from 'firebase/auth';
