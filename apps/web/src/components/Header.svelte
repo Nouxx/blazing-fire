@@ -1,29 +1,8 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
+	import type { HeaderLink } from '$lib/types/header-link';
 	import { userStore } from '../stores/user-store';
 
-	type HeaderLink = {
-		label: string;
-		url: string;
-	};
-
 	export let linkOverride: HeaderLink | undefined = undefined;
-
-	let link: HeaderLink;
-
-	if (linkOverride) {
-		link = linkOverride;
-	}
-
-	const unsub = userStore.subscribe((user) => {
-		console.log('user', user);
-	});
-
-	onDestroy(() => {
-		unsub();
-	});
-
-	//todo: update the link according to the user signed in.
 </script>
 
 <div class="flex flex-col sticky top-0">
@@ -35,19 +14,19 @@
 		</div>
 
 		<div class="flex flex-col content-center px-2 hover:text-sky-500 cursor-pointer">
-			<a href={link.url}>{link.label}</a>
+			{#if linkOverride}
+				<a href={linkOverride.url}>{linkOverride.label}</a>
+			{:else if $userStore.isLoading}
+				<div class="h-2 w-14 animate-pulse bg-slate-300 rounded" />
+			{:else if $userStore.isLoggedIn}
+				<a href="/account">My Account</a>
+			{:else}
+				<a href="/signin">Sign In</a>
+			{/if}
 		</div>
 	</div>
 </div>
-<div>
-	{#if $userStore.isLoading}
-		<div class="h-2 w-14 animate-pulse bg-slate-300 rounded" />
-	{:else if $userStore.isLoggedIn}
-		<a href="/account">My Account</a>
-	{:else}
-		<a href="/signin">Sign In</a>
-	{/if}
-</div>
+<div />
 
 <!-- {#if $userStore.isLoading}
 	<div class="w-28 flex space-x-4 animate-pulse items-center pl-1">

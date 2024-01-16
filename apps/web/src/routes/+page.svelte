@@ -1,9 +1,14 @@
 <script lang="ts">
 	import Environment from '../components/Environment.svelte';
 	import Header from '../components/Header.svelte';
+
+	const headerLink = {
+		url:'/menus',
+		label: 'Go to app'
+	}
 </script>
 
-<Header linkLabel="Go to the app" link="/menus" />
+<Header linkOverride={headerLink} />
 
 <div class="flex flex-col items-center mx-5">
 	<h1 class="text-3xl font-bold my-3">Blazing Fire</h1>
