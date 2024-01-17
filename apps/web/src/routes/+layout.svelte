@@ -8,11 +8,13 @@
 
 	onMount(() => {
 		auth.onAuthStateChanged(async (user) => {
+			console.log('onAuthStateChanged', user)
 			if (user) {
 				userStore.update(() => {
 					return { information: toUserInformation(user), isLoggedIn: true, isLoading: false };
 				});
 			} else {
+				// why in preview I'm getting there?
 				userStore.update(() => {
 					return { information: null, isLoggedIn: false, isLoading: false };
 				});

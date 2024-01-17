@@ -13,8 +13,9 @@
 	let user: User;
 
 	const unsub = userStore.subscribe(async (userValue) => {
-		user = userValue;
+		console.log('userValue', userValue);
 		if (!userValue.isLoading) {
+			user = userValue;
 			pageIsLoading = false;
 			if (userValue.isLoggedIn) {
 				goto('/menus');
