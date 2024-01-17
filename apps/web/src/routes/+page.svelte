@@ -13,7 +13,7 @@
 <div class="flex flex-col items-center mx-5">
 	<h1 class="text-3xl font-bold my-3">Blazing Fire</h1>
 
-	<div class="my-3">
+	<div class="mb-3">
 		<Environment />
 	</div>
 

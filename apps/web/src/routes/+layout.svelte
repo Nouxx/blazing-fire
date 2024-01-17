@@ -9,7 +9,6 @@
 	onMount(() => {
 		auth.onAuthStateChanged(async (user) => {
 			if (user) {
-				// todo: refactor
 				userStore.update(() => {
 					return { information: toUserInformation(user), isLoggedIn: true, isLoading: false };
 				});
@@ -22,7 +21,6 @@
 				.then(async (result) => {
 					if (result) {
 						const userInformation = toUserInformation(result.user);
-						// todo: refactor
 						userStore.update(() => {
 							return { information: userInformation, isLoggedIn: true, isLoading: false };
 						});
