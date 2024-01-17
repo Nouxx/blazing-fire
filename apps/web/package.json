@@ -17,6 +17,7 @@
 		"emulators": "firebase emulators:start"
 	},
 	"dependencies": {
+		"firebase-tools": "^13.0.1",
 		"jwt-decode": "^4.0.0",
 		"ui": "workspace:*"
 	},
