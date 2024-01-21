@@ -3,7 +3,7 @@
 	import Header from '../components/Header.svelte';
 
 	const headerLink = {
-		url:'/menus',
+		url:'/home',
 		label: 'Go to app'
 	}
 </script>

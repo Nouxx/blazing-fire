@@ -20,5 +20,5 @@
 		Logout
 	</button>
 
-	<a href="/menus" class="p-1 my-3 border-2 border-slate-200 shadow-md rounded"> Back to app </a>
+	<a href="/home" class="p-1 my-3 border-2 border-slate-200 shadow-md rounded"> Back to app </a>
 </div>

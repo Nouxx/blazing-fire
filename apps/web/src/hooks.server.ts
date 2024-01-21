@@ -1,27 +1,29 @@
-// https://firebase.google.com/docs/auth/web/redirect-best-practices#handle-signin-independently
+import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public'
+import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit'
+import type { Handle } from '@sveltejs/kit'
 
-const authUri = '/__/auth';
-const firebaseAuthDomain = 'https://blazing-fire-456220.firebaseapp.com';
+export const handle: Handle = async ({ event, resolve }) => {
+  event.locals.supabase = createSupabaseServerClient({
+    supabaseUrl: PUBLIC_SUPABASE_URL,
+    supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
+    event,
+  })
 
-export async function handle({ event, resolve }) {
-	console.log(`hook : ${event.url.pathname}`);
+  /**
+   * a little helper that is written for convenience so that instead
+   * of calling `const { data: { session } } = await supabase.auth.getSession()`
+   * you just call this `await getSession()`
+   */
+  event.locals.getSession = async () => {
+    const {
+      data: { session },
+    } = await event.locals.supabase.auth.getSession()
+    return session
+  }
 
-	const url = event.url.pathname;
-
-	if (url.startsWith(authUri)) {
-		const resource = url.substring(authUri.length);
-		const newUrl = firebaseAuthDomain + authUri + resource + event.url.search;
-		const proxyUrl = new URL(newUrl);
-		console.log('proxyUrl', proxyUrl.toString());
-		return await fetch(proxyUrl.toString(), {
-			body: event.request.body,
-			method: event.request.method,
-			headers: event.request.headers
-		}).catch((err) => {
-			console.log('Could not proxy API request: ', err);
-			throw err;
-		});
-	}
-	const response = await resolve(event);
-	return response;
+  return resolve(event, {
+    filterSerializedResponseHeaders(name) {
+      return name === 'content-range'
+    },
+  })
 }

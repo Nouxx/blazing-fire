@@ -16,12 +16,8 @@
 		<div class="flex flex-col content-center px-2 hover:text-sky-500 cursor-pointer">
 			{#if linkOverride}
 				<a href={linkOverride.url}>{linkOverride.label}</a>
-			{:else if $userStore.isLoading}
-				<div class="h-2 w-14 animate-pulse bg-slate-300 rounded" />
-			{:else if $userStore.isLoggedIn}
-				<a href="/account">My Account</a>
 			{:else}
-				<a href="/signin">Sign In</a>
+				<a href="/account">My Account</a>
 			{/if}
 		</div>
 	</div>

@@ -1,43 +1,24 @@
 <script lang="ts">
 	import '../app.css';
+	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import { auth, firestore } from '$lib/firebase.client';
-	import { toUserInformation, userStore } from '../stores/user-store';
-	import { getRedirectResult } from 'firebase/auth';
-	import { createNewUser, userExists } from '$lib/user';
+
+	export let data;
+
+	let { supabase, session } = data;
+	$: ({ supabase, session } = data);
 
 	onMount(() => {
-		auth.onAuthStateChanged(async (user) => {
-			console.log('onAuthStateChanged', user)
-			if (user) {
-				userStore.update(() => {
-					return { information: toUserInformation(user), isLoggedIn: true, isLoading: false };
-				});
-			} else {
-				// why in preview I'm getting there?
-				userStore.update(() => {
-					return { information: null, isLoggedIn: false, isLoading: false };
-				});
+		const {
+			data: { subscription }
+		} = supabase.auth.onAuthStateChange((event, _session) => {
+			console.log('onAuthStateChange')
+			if (_session?.expires_at !== session?.expires_at) {
+				invalidate('supabase:auth');
 			}
-			getRedirectResult(auth)
-				.then(async (result) => {
-					if (result) {
-						const userInformation = toUserInformation(result.user);
-						userStore.update(() => {
-							return { information: userInformation, isLoggedIn: true, isLoading: false };
-						});
-						const userIsNotRegistered = !(await userExists(firestore, userInformation.userId));
-						if (userIsNotRegistered) {
-							createNewUser(firestore, userInformation);
-						}
-					}
-				})
-				.catch((error) => {
-					// todo: log error
-					console.log('getRedirectResult() - error');
-					console.log('error', error);
-				});
 		});
+
+		return () => subscription.unsubscribe();
 	});
 </script>
 
