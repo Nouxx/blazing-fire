@@ -12,6 +12,7 @@ export const actions: Actions = {
 			password
 		});
 
+		// todo: return the error properly to the user in the signin screen
 		if (error) {
 			if (error instanceof AuthApiError && error.status === 400) {
 				console.log('Invalid credentials');
@@ -23,7 +24,6 @@ export const actions: Actions = {
 				message: 'Server error. Try again later.'
 			});
 		}
-        console.log('All good... i think');
 		throw redirect(303, '/home');
 	}
 };

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Environment from '../components/Environment.svelte';
-	import Header from '../components/Header.svelte';
+	import Environment from '$lib/components/Environment.svelte';
+	import Header from '$lib/components/Header.svelte';
 
 	const headerLink = {
-		url:'/home',
+		url: '/home',
 		label: 'Go to app'
-	}
+	};
 </script>
 
 <Header linkOverride={headerLink} />

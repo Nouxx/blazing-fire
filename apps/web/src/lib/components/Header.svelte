@@ -1,8 +1,10 @@
 <script lang="ts">
 	import type { HeaderLink } from '$lib/types/header-link';
-	import { userStore } from '../stores/user-store';
+	import type { Session } from '@supabase/supabase-js';
 
 	export let linkOverride: HeaderLink | undefined = undefined;
+
+	export let session: Session | null = null;
 </script>
 
 <div class="flex flex-col sticky top-0">
@@ -16,7 +18,7 @@
 		<div class="flex flex-col content-center px-2 hover:text-sky-500 cursor-pointer">
 			{#if linkOverride}
 				<a href={linkOverride.url}>{linkOverride.label}</a>
-			{:else}
+			{:else if session}
 				<a href="/account">My Account</a>
 			{/if}
 		</div>

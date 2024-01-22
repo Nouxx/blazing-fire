@@ -21,6 +21,6 @@ export const actions = {
 
 		const encodedEmail = encodeURIComponent(email);
 
-		throw redirect(303, '/auth/signup/waiting?email=' + encodedEmail);
+		throw redirect(303, '/auth/signup/pending?email=' + encodedEmail);
 	}
 };

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Header from '$lib/components/Header.svelte';
-	import AuthenticationRequired from '$lib/components/errors/AuthenticationRequired.svelte';
+	import AlreadySignedIn from '$lib/components/errors/AlreadySignedIn.svelte';
 
 	export let data;
 
@@ -11,7 +11,7 @@
 <Header {session} />
 
 {#if session}
-	<slot />
+	<AlreadySignedIn />
 {:else}
-	<AuthenticationRequired />
+	<slot />
 {/if}
