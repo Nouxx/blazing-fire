@@ -1,10 +1,19 @@
 import { fail, type Actions, redirect } from '@sveltejs/kit';
-import { AuthApiError } from '@supabase/supabase-js';
+import { AuthApiError, AuthError } from '@supabase/supabase-js';
+
+function isWrongCredentialsError(error: AuthError | null) {
+	return error instanceof AuthApiError && error.status === 400;
+}
+
+type SignInFormError = {
+	error: string;
+	email: string;
+};
 
 export const actions: Actions = {
-	default: async ({ request, locals: { supabase } }) => {
+	signInWithPassword: async ({ request, locals: { supabase } }) => {
 		const formData = await request.formData();
-		const email = formData.get('email') as string;
+		const email = formData.get('email') as string; // todo: remove cast
 		const password = formData.get('password') as string;
 
 		const { error } = await supabase.auth.signInWithPassword({
@@ -12,16 +21,16 @@ export const actions: Actions = {
 			password
 		});
 
-		// todo: return the error properly to the user in the signin screen
 		if (error) {
-			if (error instanceof AuthApiError && error.status === 400) {
-				console.log('Invalid credentials');
-				return fail(400, {
-					error: 'Invalid credentials'
+			if (isWrongCredentialsError(error)) {
+				return fail<SignInFormError>(400, {
+					error: 'Invalid credentials',
+					email
 				});
 			}
-			return fail(500, {
-				message: 'Server error. Try again later.'
+			return fail<SignInFormError>(500, {
+				error: 'Server error. Try again later.',
+				email
 			});
 		}
 		throw redirect(303, '/home');
