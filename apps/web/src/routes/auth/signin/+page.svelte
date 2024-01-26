@@ -1,20 +1,24 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { onMount } from 'svelte';
 	export let form;
 
-	let isEmailEmpty = form?.email ? false : true;
-	let isPasswordEmpty = true;
+	// set default value (is JS disabled)
+	let isEmailValid = true;
+	let isPasswordValid = true;
 
-	console.log(form?.email);
-	console.log('isEmailEmpty', isEmailEmpty);
-	console.log('isPasswordEmpty', isEmailEmpty);
+	onMount(() => {
+		// update values (is JS enabled)
+		isEmailValid = form?.email ? true : false;
+		isPasswordValid = false;
+	});
 
 	function handleInput(event: any, field: string) {
 		const inputValue: string = event.target.value;
 		if (field === 'email') {
-			isEmailEmpty = inputValue.trim() === '';
+			isEmailValid = inputValue.trim() !== '';
 		} else if (field === 'password') {
-			isPasswordEmpty = inputValue.trim() === '';
+			isPasswordValid = inputValue.trim() !== '';
 		}
 	}
 </script>
@@ -42,7 +46,7 @@
 		{/if}
 		<button
 			class="p-1 my-3 border-2 border-slate-200 shadow-md rounded disabled:text-slate-200"
-			disabled={isEmailEmpty || isPasswordEmpty}>Sign in</button
+			disabled={!isEmailValid || !isPasswordValid}>Sign in</button
 		>
 	</form>
 
