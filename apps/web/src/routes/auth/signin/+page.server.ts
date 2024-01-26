@@ -23,10 +23,11 @@ export const actions: Actions = {
 
 		if (error) {
 			if (isWrongCredentialsError(error)) {
-				return fail<SignInFormError>(400, {
+				// if we return fail(), the form is not updated on the client-side
+				return {
 					error: 'Invalid credentials',
 					email
-				});
+				};
 			}
 			return fail<SignInFormError>(500, {
 				error: 'Server error. Try again later.',
