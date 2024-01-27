@@ -6,14 +6,23 @@ const config: PlaywrightTestConfig = {
 	maxFailures: 1,
 	use: {
 		trace: 'retain-on-failure',
-		video: 'retain-on-failure'
+		video: 'retain-on-failure',
+		baseURL: 'http://localhost:4173'
 	},
-	webServer: {
-		command: 'npm run build -- --mode playwright && npm run preview',
-		port: 4173
-	},
-	testDir: 'tests',
-	testMatch: /(.+\.)?(test|spec)\.[jt]s/
+	webServer: [
+		{
+			command: 'pnpm build -- --mode local && pnpm preview',
+			url: 'http://localhost:4173',
+			reuseExistingServer: true
+		},
+		{
+			command: 'pnpm supa:start',
+			url: 'http://localhost:54323',
+			reuseExistingServer: true
+		}
+	],
+	testDir: 'e2e',
+	testMatch: /(.+\.)?(test)\.ts/
 };
 
 export default config;

@@ -1,5 +1,5 @@
 import { fail, type Actions, redirect } from '@sveltejs/kit';
-import { AuthApiError, AuthError } from '@supabase/supabase-js';
+import { AuthApiError, type AuthError } from '@supabase/supabase-js';
 
 function isWrongCredentialsError(error: AuthError | null) {
 	return error instanceof AuthApiError && error.status === 400;
