@@ -50,9 +50,9 @@
 		>
 	</form>
 
-	<button class="p-1 my-3 w-1/3 border-2 border-slate-200 shadow-md rounded">
+	<!-- <button class="p-1 my-3 w-1/3 border-2 border-slate-200 shadow-md rounded">
 		Sign In with Google
-	</button>
+	</button> -->
 
 	<h2 class="text-sm my-3">Don't have an account?</h2>
 

@@ -22,11 +22,14 @@
 		<button class="p-1 my-3 border-2 border-slate-200 shadow-md rounded">Sign up</button>
 	</form>
 
-	<!-- todo: display a generic error -->
+	{#if form?.error}
+		<p class="text-sm my-1 text-red-600">{form.error.userFriendlyMessage}</p>
+	{/if}
 
 	<h2 class="text-sm my-3">Have an account already?</h2>
 
-	<a href="/auth/signin" class="p-1 my-3 w-1/6 border-2 text-center border-slate-200 shadow-md rounded"
-		>Go to Sign in</a
+	<a
+		href="/auth/signin"
+		class="p-1 my-3 w-1/6 border-2 text-center border-slate-200 shadow-md rounded">Go to Sign in</a
 	>
 </div>
