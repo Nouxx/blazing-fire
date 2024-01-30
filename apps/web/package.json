@@ -16,7 +16,10 @@
 		"test:unit": "vitest run",
 		"db-types": "npx supabase gen types typescript --project-id gwdqcvmygjbnfhatthvi > src/lib/database/database.types.ts",
 		"supa:start": "npx supabase start",
-		"supa:stop": "npx supabase stop"
+		"supa:stop": "npx supabase stop",
+		"db:dump": "npx supabase db dump --local --schema auth --data-only --file supabase/seed.sql",
+		"db:reset" : "npx supabase db reset --local"
+
 	},
 	"dependencies": {
 		"@supabase/auth-helpers-sveltekit": "^0.11.0",
