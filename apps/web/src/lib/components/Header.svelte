@@ -20,6 +20,8 @@
 				<a href={linkOverride.url}>{linkOverride.label}</a>
 			{:else if session}
 				<a href="/account">My Account</a>
+			{:else}
+			<a href="/auth/signin">Sign in</a>
 			{/if}
 		</div>
 	</div>

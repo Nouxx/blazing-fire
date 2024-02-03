@@ -6,7 +6,7 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-		"test": "npm run test:e2e && npm run test:unit",
+		"test": "pnpm run test:e2e && pnpm run test:unit",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "eslint .",
@@ -14,12 +14,12 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"test:e2e": "DEBUG=pw:webserver playwright test",
 		"test:unit": "vitest run",
-		"db-types": "npx supabase gen types typescript --project-id gwdqcvmygjbnfhatthvi > src/lib/database/database.types.ts",
-		"supa:start": "npx supabase start",
-		"supa:stop": "npx supabase stop",
-		"db:dump": "npx supabase db dump --local --schema auth --data-only --file supabase/seed.sql",
-		"db:reset" : "npx supabase db reset --local"
-
+		"db-types": "supabase gen types typescript --project-id gwdqcvmygjbnfhatthvi > src/lib/database/database.types.ts",
+		"supa:start": "supabase start",
+		"supa:stop": "supabase stop",
+		"supa:restart": "supabase stop && supabase start",
+		"db:dump": "supabase db dump --local --schema auth --data-only --file supabase/seed.sql",
+		"db:reset": "supabase db reset --local"
 	},
 	"dependencies": {
 		"@supabase/auth-helpers-sveltekit": "^0.11.0",
