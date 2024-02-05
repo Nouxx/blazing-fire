@@ -1,25 +1,43 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import type { GenericInputElement } from '$lib/types/input-event.js';
 	import { onMount } from 'svelte';
+
 	export let form;
 
-	// set default value (is JS disabled)
-	let isEmailValid = true;
-	let isPasswordValid = true;
+	let validityState = {
+		email: true,
+		password: true
+	};
+
+	type FormField = 'email' | 'password';
+
+	type SignInFormField = {
+		isValid: (value: string) => boolean;
+	};
+
+	const fields: Record<FormField, SignInFormField> = {
+		email: {
+			isValid: (value) => {
+				return value !== '';
+			}
+		},
+		password: {
+			isValid: (value) => {
+				return value !== '';
+			}
+		}
+	};
 
 	onMount(() => {
-		// update values (is JS enabled)
-		isEmailValid = form?.email ? true : false;
-		isPasswordValid = false;
+		validityState.email = form?.email ? true : false;
+		validityState.password = false;
 	});
 
-	function handleInput(event: any, field: string) {
-		const inputValue: string = event.target.value;
-		if (field === 'email') {
-			isEmailValid = inputValue.trim() !== '';
-		} else if (field === 'password') {
-			isPasswordValid = inputValue.trim() !== '';
-		}
+	function handleInput(event: GenericInputElement, field: FormField): void {
+		const inputValue = event.currentTarget.value ?? '';
+		const isValid = fields[field].isValid(inputValue);
+		validityState[field] = isValid;
 	}
 </script>
 
@@ -46,7 +64,7 @@
 		{/if}
 		<button
 			class="p-1 my-3 border-2 border-slate-200 shadow-md rounded disabled:text-slate-200"
-			disabled={!isEmailValid || !isPasswordValid}>Sign in</button
+			disabled={!validityState.email || !validityState.password}>Sign in</button
 		>
 	</form>
 
