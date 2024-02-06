@@ -67,7 +67,7 @@ export const actions = {
 
 		if (error) {
 			// console.log(`ERROR ${error.status}`, error.message, error.name);
-			// we return fail so that the form is not update don the client
+			// we return fail so that the form is not updated on the client
 			if (notValidPassword(error)) {
 				return fail<SignUpFormResponse>(422, {
 					error: {
