@@ -21,25 +21,9 @@
 			{:else if session}
 				<a href="/account">My Account</a>
 			{:else}
-			<a href="/auth/signin">Sign in</a>
+				<a href="/auth/signin">Sign in</a>
 			{/if}
 		</div>
 	</div>
 </div>
 <div />
-
-<!-- {#if $userStore.isLoading}
-	<div class="w-28 flex space-x-4 animate-pulse items-center pl-1">
-		<div class="flex-1 space-y-6">
-			<div class="h-2 bg-slate-300 rounded" />
-		</div>
-	</div>
-{:else if $userStore.isLoggedIn}
-	<button class="inline underline text-blue-500">My Account</button>
-{:else}
-	<div>
-		To use the app, you must
-		<button class="inline underline text-blue-500">login</button>
-		first.
-	</div>
-{/if} -->

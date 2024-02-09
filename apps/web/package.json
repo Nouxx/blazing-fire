@@ -23,20 +23,24 @@
 	},
 	"dependencies": {
 		"@supabase/auth-helpers-sveltekit": "^0.11.0",
-		"@supabase/supabase-js": "^2.39.3",
-		"@vitest/coverage-v8": "^1.2.2"
+		"@supabase/supabase-js": "^2.39.3"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/adapter-vercel": "2",
 		"@sveltejs/kit": "^1.20.4",
+		"@testing-library/jest-dom": "^6.4.2",
+		"@testing-library/svelte": "^4.1.0",
+		"@testing-library/user-event": "^14.5.2",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
+		"@vitest/coverage-v8": "^1.2.2",
 		"autoprefixer": "^10.4.16",
 		"concurrently": "^8.2.2",
 		"eslint": "^8.28.0",
 		"eslint-config-custom": "workspace:*",
+		"jsdom": "^24.0.0",
 		"postcss": "^8.4.31",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.10.1",
