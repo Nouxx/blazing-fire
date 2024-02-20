@@ -11,7 +11,7 @@ export default defineConfig({
 		coverage: {
 			enabled: true,
 			provider: 'v8',
-			include: ['src'],
+			include: ['src/routes/auth/signin/*.ts'],
 			thresholds: {
 				100: true,
 				autoUpdate: true

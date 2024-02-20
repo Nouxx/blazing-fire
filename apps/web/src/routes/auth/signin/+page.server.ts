@@ -1,9 +1,14 @@
 import { fail, type Actions, redirect } from '@sveltejs/kit';
-import { AuthApiError, type AuthError } from '@supabase/supabase-js';
+import type { AuthError } from '@supabase/supabase-js';
 import { extractFromFormData } from '$lib/functions';
 
+type SignInFormError = {
+	error: string;
+	email: string;
+};
+
 function isWrongCredentialsError(error: AuthError | null) {
-	return error instanceof AuthApiError && error.status === 400;
+	return error?.status === 400;
 }
 
 function signInFormError(message: string, email: string): SignInFormError {
@@ -12,11 +17,6 @@ function signInFormError(message: string, email: string): SignInFormError {
 		email
 	};
 }
-
-type SignInFormError = {
-	error: string;
-	email: string;
-};
 
 export const actions: Actions = {
 	signInWithPassword: async ({ request, locals: { supabase } }) => {
@@ -30,7 +30,6 @@ export const actions: Actions = {
 		});
 
 		if (error) {
-			// todo: maybe a better way (typeguard?)
 			if (isWrongCredentialsError(error)) {
 				return signInFormError('Invalid credentials', email);
 			}

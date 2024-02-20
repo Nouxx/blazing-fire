@@ -31,7 +31,7 @@ describe('SignInForm.svelte', () => {
 	});
 
 	it('return an error', async () => {
-		const mockedForm: ActionData = { error: {} } as ActionData;
+		const mockedForm: ActionData = { error: 'test error' } as ActionData;
 		render(SignInForm, { form: mockedForm });
 		const error = screen.getByTestId('error');
 		expect(error).toBeVisible();
