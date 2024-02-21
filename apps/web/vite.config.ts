@@ -11,7 +11,8 @@ export default defineConfig({
 		coverage: {
 			enabled: true,
 			provider: 'v8',
-			include: ['src/routes/auth/signin/*.ts'],
+			include: ['src/**/*.ts'],
+			exclude: ['src/**/*.d.ts', 'src/lib/types','src/lib/database/types.ts'],
 			thresholds: {
 				100: true,
 				autoUpdate: true

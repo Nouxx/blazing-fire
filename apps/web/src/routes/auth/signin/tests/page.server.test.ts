@@ -7,35 +7,29 @@ import {
 } from '$lib/tests/action-form-helpers';
 import type { ActionFormInput } from '$lib/tests/action-form-helpers';
 import { createFakeAuthSupabaseClient } from '$lib/tests/supabase-helpers';
-import { createFakeLocals } from '$lib/tests/locals-helpers';
+import { createFakeLocalsWithSupabase } from '$lib/tests/locals-helpers';
 
 describe('actions.signInWithPassword()', () => {
-	test('should redirect when sign in is successful', async () => {
+	test('should throw a redirect when sign in is successful', async () => {
 		// Given
 		const mockEmail = 'test@mail.com';
 		const mockForm = createFakeSignInFormData(mockEmail, 'a-random-password');
 		const mockRequest = createFakeActionFormRequest(mockForm);
 		const mockSupabaseResponse = {
-            error: null
+			error: null
 		} as AuthTokenResponsePassword;
 		const mockSupabaseClient = createFakeAuthSupabaseClient(mockSupabaseResponse);
-		const mockLocals = createFakeLocals(mockSupabaseClient);
+		const mockLocals = createFakeLocalsWithSupabase(mockSupabaseClient);
 		const mockActionForm = {
 			request: mockRequest,
 			locals: mockLocals
 		} as ActionFormInput;
 
 		// When
-		const result = await actions.signInWithPassword(mockActionForm);
+		const result = async () => actions.signInWithPassword(mockActionForm);
 
 		// Then
-		const expectedResult = {
-			email: mockEmail,
-			error: 'Invalid credentials'
-		};
-
-        // implement toThrow()
-		expect(result).toEqual(expectedResult);
+		await expect(result).rejects.toThrowError();
 	});
 
 	test('should return an error object when credentials are invalid', async () => {
@@ -49,7 +43,7 @@ describe('actions.signInWithPassword()', () => {
 			}
 		} as AuthTokenResponsePassword;
 		const mockSupabaseClient = createFakeAuthSupabaseClient(mockSupabaseError);
-		const mockLocals = createFakeLocals(mockSupabaseClient);
+		const mockLocals = createFakeLocalsWithSupabase(mockSupabaseClient);
 		const mockActionForm = {
 			request: mockRequest,
 			locals: mockLocals
@@ -78,7 +72,7 @@ describe('actions.signInWithPassword()', () => {
 			}
 		} as AuthTokenResponsePassword;
 		const mockSupabaseClient = createFakeAuthSupabaseClient(mockSupabaseError);
-		const mockLocals = createFakeLocals(mockSupabaseClient);
+		const mockLocals = createFakeLocalsWithSupabase(mockSupabaseClient);
 		const mockActionForm = {
 			request: mockRequest,
 			locals: mockLocals

@@ -1,4 +1,4 @@
-import type { Database } from '$lib/database/database.types';
+import type { Database } from '$lib/database/types';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { redirect } from '@sveltejs/kit';
 

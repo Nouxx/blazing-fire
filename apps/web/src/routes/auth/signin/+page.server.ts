@@ -1,6 +1,17 @@
 import { fail, type Actions, redirect } from '@sveltejs/kit';
 import type { AuthError } from '@supabase/supabase-js';
-import { extractFromFormData } from '$lib/functions';
+import { getStringFromFormValue } from '$lib/forms/form-input';
+
+export type AuthFormData = {
+	email: string;
+	password: string;
+};
+
+function extractFromFormData(formData: FormData): AuthFormData {
+	const email = getStringFromFormValue(formData.get('email'));
+	const password = getStringFromFormValue(formData.get('password'));
+	return { email, password };
+}
 
 type SignInFormError = {
 	error: string;

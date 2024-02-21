@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import LoginNavigation from '$lib/components/LoginNavigation.svelte';
-	import type { FormInput } from '$lib/forms/form-input.js';
 	import type { GenericInputElement } from '$lib/types/input-event.js';
 	import { loginNavigationTypes } from '$lib/types/login-navigation';
 	import { onMount } from 'svelte';
@@ -9,7 +8,10 @@
 
 	export let form: ActionData;
 
-	// wrap in a function to standardize the way we create form validity state
+	type FormInput = {
+		isValid: (value: string) => boolean;
+	};
+
 	let validityState = {
 		email: true,
 		password: true
@@ -29,9 +31,6 @@
 			}
 		}
 	};
-
-	// validityState.email = form?.email ? true : false;
-	// validityState.password = false;
 
 	onMount(() => {
 		validityState.email = form?.email ? true : false;
