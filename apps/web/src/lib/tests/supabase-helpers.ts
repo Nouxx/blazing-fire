@@ -1,10 +1,11 @@
 import type {
 	AuthApiError,
+	AuthError,
 	AuthTokenResponsePassword,
 	SupabaseClient
 } from '@supabase/supabase-js';
 
-type SupabaseResponses = AuthTokenResponsePassword | AuthApiError | unknown;
+type SupabaseResponses = AuthTokenResponsePassword | AuthApiError | AuthError | unknown;
 
 export function createFakeSupabaseResponse<T extends SupabaseResponses>(response: T) {
 	return async () => {
@@ -21,6 +22,7 @@ export function createFakeAuthSupabaseClient<T extends SupabaseResponses>(
 		auth: {
 			signInWithPassword: createFakeSupabaseResponse<T>(supabaseResponse),
 			getSession: createFakeSupabaseResponse<T>(supabaseResponse),
+			signOut: createFakeSupabaseResponse<T>(supabaseResponse)
 		}
 	} as unknown as SupabaseClient;
 }

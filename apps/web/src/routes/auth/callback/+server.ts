@@ -1,10 +1,7 @@
+import { extractCodeFromUrl } from '$lib/api/functions';
 import type { Database } from '$lib/database/types';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { redirect } from '@sveltejs/kit';
-
-function extractCodeFromUrl(url: URL) {
-	return url.searchParams.get('code');
-}
 
 async function signInUser(code: string, supabaseClient: SupabaseClient<Database>) {
 	try {
