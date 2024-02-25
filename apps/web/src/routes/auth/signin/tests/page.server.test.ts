@@ -29,7 +29,7 @@ describe('actions.signInWithPassword()', () => {
 		const result = async () => actions.signInWithPassword(mockActionForm);
 
 		// Then
-		await expect(result).rejects.toThrowError();
+		await expect(result).rejects.toThrowError(); //todo: refactor
 	});
 
 	test('should return an error object when credentials are invalid', async () => {

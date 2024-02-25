@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { extractCodeFromUrl } from '../functions';
+import { extractCodeFromUrl, getHttpStatusOrDefault } from '../functions';
 
 describe('extractCodeFromUrl', () => {
 	test('should return a code when present', () => {
@@ -20,5 +20,24 @@ describe('extractCodeFromUrl', () => {
 		const result = extractCodeFromUrl(input);
 		// Then
 		expect(result).toStrictEqual(null);
+	});
+});
+
+describe('getHttpStatusOrDefault', () => {
+	test('should return a http status when one is provided', () => {
+		// Given
+		const fakeCode = 201;
+		// When
+		const result = getHttpStatusOrDefault(fakeCode);
+		// Then
+		expect(result).toStrictEqual(201);
+	});
+	test('should null when there is no code in the provided url', () => {
+		// Given
+		const fakeCode = undefined;
+		// When
+		const result = getHttpStatusOrDefault(fakeCode);
+		// Then
+		expect(result).toStrictEqual(500);
 	});
 });

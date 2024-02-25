@@ -16,7 +16,7 @@ describe('actions.signOut', () => {
 		// When
 		const result = actions.signOut(fakeActionForm);
 		// Then
-		await expect(result).rejects.toThrowError();
+		await expect(result).rejects.toThrowError(); //todo: refactor
 	});
 	test('should throw an HttpError when there is an error', async () => {
 		// Given
@@ -29,6 +29,6 @@ describe('actions.signOut', () => {
 		// When
 		const result = actions.signOut(fakeActionForm);
 		// Then
-		await expect(result).rejects.toThrowError();
+		await expect(result).rejects.toThrowError(); //todo: refactor
 	});
 });
