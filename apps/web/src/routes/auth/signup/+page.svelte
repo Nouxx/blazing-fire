@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import LoginNavigation from '$lib/components/LoginNavigation.svelte';
+	import { loginNavigationTypes } from '$lib/types/login-navigation.js';
 	export let form;
 </script>
 
@@ -23,13 +25,8 @@
 	</form>
 
 	{#if form?.error}
-		<p class="text-sm my-1 text-red-600">{form.error.userFriendlyMessage}</p>
+		<p class="text-sm my-1 text-red-600">{form.error.message}</p>
 	{/if}
 
-	<h2 class="text-sm my-3">Have an account already?</h2>
-
-	<a
-		href="/auth/signin"
-		class="p-1 my-3 w-1/6 border-2 text-center border-slate-200 shadow-md rounded">Go to Sign in</a
-	>
+	<LoginNavigation properties={loginNavigationTypes.signIn} />
 </div>

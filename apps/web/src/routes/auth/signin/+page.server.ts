@@ -1,11 +1,7 @@
 import { fail, type Actions, redirect } from '@sveltejs/kit';
 import type { AuthError } from '@supabase/supabase-js';
 import { getStringFromFormValue } from '$lib/forms/form-input';
-
-export type AuthFormData = {
-	email: string;
-	password: string;
-};
+import type { AuthFormData } from '$lib/types/forms/auth';
 
 function extractFromFormData(formData: FormData): AuthFormData {
 	const email = getStringFromFormValue(formData.get('email'));
