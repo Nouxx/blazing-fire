@@ -2,13 +2,14 @@
 	import { enhance } from '$app/forms';
 	import LoginNavigation from '$lib/components/LoginNavigation.svelte';
 	import { loginNavigationTypes } from '$lib/types/login-navigation.js';
-	export let form;
+	import type { ActionData } from './$types';
+	export let form: ActionData;
 </script>
 
 <div class="flex flex-col items-center">
 	<h1 class="text-3xl font-bold my-3">Sign Up</h1>
 
-	<form method="post" class="flex flex-col w-1/3" use:enhance>
+	<form method="post" action="?/signUp" class="flex flex-col w-1/3" use:enhance>
 		<input
 			class="p-1 my-3 border-2 border-slate-200 shadow-md rounded"
 			name="email"

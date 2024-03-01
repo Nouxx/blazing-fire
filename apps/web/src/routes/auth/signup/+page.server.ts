@@ -41,8 +41,27 @@ function extractFromFormData(formData: FormData): AuthFormData {
 	return { email, password };
 }
 
+export function _handleError(
+	error: AuthError,
+	email: string
+): ActionFailure<SignUpFormErrorResponse> {
+	if (invalidPassword(error)) {
+		return formError('The password you provided is not valid', 422, email);
+	}
+
+	if (invalidEmail(error)) {
+		return formError('The email you provided is not valid', 422, email);
+	}
+
+	if (weakPassword(error)) {
+		return formError('The password you provided is too weak.', 422, email);
+	}
+
+	return formError('Server Error. Try again later.', 500, email);
+}
+
 export const actions = {
-	default: async ({ request, url, locals: { supabase } }) => {
+	signUp: async ({ request, url, locals: { supabase } }) => {
 		const formData = await request.formData();
 
 		const { email, password } = extractFromFormData(formData);
@@ -56,19 +75,7 @@ export const actions = {
 		});
 
 		if (error) {
-			if (invalidPassword(error)) {
-				return formError('The password you provided is not valid', 422, email);
-			}
-
-			if (invalidEmail(error)) {
-				return formError('The email you provided is not valid', 422, email);
-			}
-
-			if (weakPassword(error)) {
-				return formError('The password you provided is too weak.', 422, email);
-			}
-
-			return formError('Server Error. Try again later.', 500, email);
+			return _handleError(error, email);
 		}
 
 		const encodedEmail = encodeURIComponent(email);
