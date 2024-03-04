@@ -16,7 +16,7 @@ const config: PlaywrightTestConfig = {
 			reuseExistingServer: true
 		},
 		{
-			command: 'pnpm supa:start',
+			command: 'pnpm supa:start', // will works in CI?
 			url: 'http://localhost:54323',
 			reuseExistingServer: true
 		}

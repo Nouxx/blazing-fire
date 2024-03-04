@@ -17,11 +17,11 @@
 
 		<div class="flex flex-col content-center px-2 hover:text-sky-500 cursor-pointer">
 			{#if linkOverride}
-				<a href={linkOverride.url}>{linkOverride.label}</a>
+				<a href={linkOverride.url} data-testid="header-link">{linkOverride.label}</a>
 			{:else if session}
-				<a href="/account">My Account</a>
+				<a href="/account" data-testid="header-link">My Account</a>
 			{:else}
-				<a href="/auth/signin">Sign in</a>
+				<a href="/auth/signin" data-testid="header-link">Sign in</a>
 			{/if}
 		</div>
 	</div>

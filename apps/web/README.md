@@ -14,6 +14,15 @@ This will:
 
 - build and serve the application on [localhost](http://localhost:5173).
 
+## Testing
+
+Made with Playwright and heavily relying on [visual snapshot comparaison](https://playwright.dev/docs/test-snapshots).
+
+```bash
+pnpm test:e2e
+pnpm test:e2e --update-snapshots
+```
+
 ## Deploying
 
 The application is deployed within [Vercel](https://vercel.com).
