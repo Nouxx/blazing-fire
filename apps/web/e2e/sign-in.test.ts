@@ -2,12 +2,14 @@ import { test, expect } from '@playwright/test';
 import { HeaderPage } from './pages/shared/header.page';
 import { HomepagePage } from './pages/home.page';
 import { SignInPage } from './pages/signin.page';
+import { AccountPage } from './pages/account.page';
 
-test('A user can consult the landing page', async ({ page }) => {
-	// Given
+test('A user can sign in', async ({ page }) => {
+	// Setup
 	const headerPage = new HeaderPage(page);
 	const homepagePage = new HomepagePage(page);
 	const signInPage = new SignInPage(page);
+	const accountPage = new AccountPage(page);
 
 	await page.goto('/');
 	await expect(page).toHaveScreenshot('landing.png');
@@ -19,4 +21,8 @@ test('A user can consult the landing page', async ({ page }) => {
 	await expect(page).toHaveScreenshot('sign-in-form-filled.png');
 	await signInPage.submitForm();
 	await expect(page).toHaveScreenshot('home-signed-in.png');
+	await headerPage.goToMyAccount();
+	await expect(page).toHaveScreenshot('my-account.png');
+	await accountPage.logout();
+	await expect(page).toHaveScreenshot('landing.png');
 });

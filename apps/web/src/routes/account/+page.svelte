@@ -11,7 +11,9 @@
 	<p class="text-sm my-3">{session?.user.email}</p>
 
 	<form method="post" action="?/signOut">
-		<button class="p-1 my-3 border-2 border-slate-200 shadow-md rounded">Logout</button>
+		<button class="p-1 my-3 border-2 border-slate-200 shadow-md rounded" data-testid="logout"
+			>Logout</button
+		>
 	</form>
 
 	<a href="/home" class="p-1 my-3 border-2 border-slate-200 shadow-md rounded">Back to app</a>
