@@ -3,9 +3,9 @@ import type { Locator, Page } from '@playwright/test';
 export class SignInPage {
 	readonly page: Page;
 	private readonly pageLocator: Locator;
-	readonly emailInput: Locator;
-	readonly passwordInput: Locator;
-	readonly submitButton: Locator;
+	private readonly emailInput: Locator;
+	private readonly passwordInput: Locator;
+	private readonly submitButton: Locator;
 
 	constructor(page: Page) {
 		this.page = page;

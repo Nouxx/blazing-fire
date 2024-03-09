@@ -42,6 +42,7 @@ export const actions: Actions = {
 			}
 			return fail<SignInFormError>(500, signInFormError('Server error. Try again later.', email));
 		}
+
 		throw redirect(303, '/home');
 	}
 };
