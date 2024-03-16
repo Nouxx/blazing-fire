@@ -45,7 +45,7 @@
 </script>
 
 <div class="flex flex-col items-center" data-testid="sign-in-form">
-	<h1 class="text-3xl font-bold my-3" data-testid="title">Sign In</h1>
+	<h1 class="text-3xl font-bold my-3">Sign In</h1>
 
 	<form method="post" action="?/signInWithPassword" class="flex flex-col w-1/3" use:enhance>
 		<input

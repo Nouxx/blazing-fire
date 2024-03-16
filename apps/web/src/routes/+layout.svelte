@@ -6,7 +6,7 @@
 
 	export let data;
 
-	let { supabase, session } = data;
+	let { supabase } = data;
 	$: ({ supabase, session } = data);
 
 	function invalidateExpiredSession(session: Session) {

@@ -6,7 +6,7 @@
 	export let form: ActionData;
 </script>
 
-<div class="flex flex-col items-center">
+<div class="flex flex-col items-center" data-testid="sign-up-form">
 	<h1 class="text-3xl font-bold my-3">Sign Up</h1>
 
 	<form method="post" action="?/signUp" class="flex flex-col w-1/3" use:enhance>
@@ -15,14 +15,18 @@
 			name="email"
 			placeholder="email"
 			value={form?.email ?? ''}
+			data-testid="email"
 		/>
 		<input
 			class="p-1 my-3 border-2 border-slate-200 shadow-md rounded"
 			type="password"
 			placeholder="password"
 			name="password"
+			data-testid="password"
 		/>
-		<button class="p-1 my-3 border-2 border-slate-200 shadow-md rounded">Sign up</button>
+		<button class="p-1 my-3 border-2 border-slate-200 shadow-md rounded" data-testid="submit">
+			Sign up</button
+		>
 	</form>
 
 	{#if form?.error}

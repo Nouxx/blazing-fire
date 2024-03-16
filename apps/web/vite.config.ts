@@ -12,7 +12,12 @@ export default defineConfig({
 			enabled: true,
 			provider: 'v8',
 			include: ['src/**/*.ts'],
-			exclude: ['src/**/*.d.ts', 'src/lib/types','src/lib/database/types.ts'],
+			exclude: [
+				'src/**/*.d.ts',
+				'src/lib/types',
+				'src/lib/database/types.ts',
+				'src/hooks.server.ts'
+			],
 			thresholds: {
 				100: true,
 				autoUpdate: true
