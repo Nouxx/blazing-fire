@@ -1,4 +1,21 @@
-import type { Locator, Page } from '@playwright/test';
+import type { APIRequestContext, Locator, Page } from '@playwright/test';
+
+/**
+ * reference: https://github.com/inbucket/inbucket/wiki/REST-GET-message
+ */
+type InbucketMail = {
+	body: {
+		text: string;
+	};
+};
+
+/**
+ * reference: https://github.com/inbucket/inbucket/wiki/REST-GET-mailbox
+ */
+type InbucketMailboxItem = {
+	id: string;
+	'posix-millis': number;
+};
 
 export class SignUpPage {
 	private readonly page: Page;
@@ -22,5 +39,27 @@ export class SignUpPage {
 
 	async submitForm() {
 		await this.submitButton.click();
+	}
+
+	/**
+	 * fetch the confirmation link of the latest email sent to the provided mailbox
+	 * @param request
+	 * @param mailbox
+	 */
+	async fetchConfirmationLink(request: APIRequestContext, mailbox: string): Promise<string | null> {
+		const fetchMailboxResponse = await request.get(
+			`http://127.0.0.1:54324/api/v1/mailbox/${mailbox}`
+		);
+		const mails: InbucketMailboxItem[] = await fetchMailboxResponse.json();
+		const mostRecentEmail: InbucketMailboxItem = mails.reduce(
+			(accumulator: InbucketMailboxItem, current: InbucketMailboxItem) =>
+				accumulator['posix-millis'] > current['posix-millis'] ? accumulator : current
+		);
+		const fetchMailResponse = await request.get(
+			`http://127.0.0.1:54324/api/v1/mailbox/correct@mail.com/${mostRecentEmail.id}`
+		);
+		const mail: InbucketMail = await fetchMailResponse.json();
+		const linkRegExpMatch = mail.body.text.match(/(?<=address \( )(.*)(?= \))/g);
+		return linkRegExpMatch === null ? null : linkRegExpMatch[0];
 	}
 }

@@ -2,10 +2,9 @@ import { test, expect } from '@playwright/test';
 import { HeaderPage } from './pages/shared/header.page';
 import { HomepagePage } from './pages/home.page';
 import { SignInPage } from './pages/signin.page';
-import { AccountPage } from './pages/account.page';
 import { SignUpPage } from './pages/signup.page';
 
-test('A user can sign up', async ({ page }) => {
+test('A user can sign up', async ({ page, context, request }) => {
 	// Setup
 	const headerPage = new HeaderPage(page);
 	const homepagePage = new HomepagePage(page);
@@ -35,7 +34,9 @@ test('A user can sign up', async ({ page }) => {
 	await signUpPage.fillForm('correct@mail.com', 'aProperPassword');
 	await signUpPage.submitForm();
 	await expect(page).toHaveScreenshot('sign-up-pending.png');
-
-	// todo: open a new tab to inbucket, validate the confirmation email
-    // and follow the link to the signed in tab.
+	const confirmationLink = await signUpPage.fetchConfirmationLink(request, 'correct@mail.com');
+	const newTab = await context.newPage();
+	// throw error if the confirmation link is not fetched
+	await newTab.goto(confirmationLink);
+	await expect(newTab).toHaveScreenshot('sign-up-success.png');
 });
