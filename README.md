@@ -30,9 +30,16 @@ When a tag is pushed to the `main` branch, a new _"staging"_ environment gets de
 pnpm install
 ```
 
+## Add new dependency
+
+```bash
+pnpm add <package> --filter <workspace>
+pnpm remove <package> --filter <workspace>
+```
+
 ### Run npm script
 
 ```bash
 pnpm <script-name>
-npx turbo run <script-name>
+pnpm turbo run <script-name>
 ```

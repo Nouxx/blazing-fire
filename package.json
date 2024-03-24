@@ -5,7 +5,9 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write .",
-    "check-format": "prettier --check ."
+    "check-format": "prettier --check .",
+    "nuke": "find . -name 'node_modules' -type d -exec rm -rf '{}' +",
+    "reset": "pnpm run nuke && pnpm install"
   },
   "devDependencies": {
     "eslint": "^8.0.0",
