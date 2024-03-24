@@ -17,12 +17,13 @@ type InbucketMailboxItem = {
 	'posix-millis': number;
 };
 
-export class SignUpPage {
+export class SignUpFormPage {
 	private readonly page: Page;
 	private readonly pageLocator: Locator;
 	private readonly emailInput: Locator;
 	private readonly passwordInput: Locator;
 	private readonly submitButton: Locator;
+	private readonly inbucketUrl: string;
 
 	constructor(page: Page) {
 		this.page = page;
@@ -30,6 +31,7 @@ export class SignUpPage {
 		this.emailInput = this.pageLocator.getByTestId('email');
 		this.passwordInput = this.pageLocator.getByTestId('password');
 		this.submitButton = this.pageLocator.getByTestId('submit');
+		this.inbucketUrl = 'http://127.0.0.1:54324';
 	}
 
 	async fillForm(email: string, password: string) {
@@ -46,20 +48,21 @@ export class SignUpPage {
 	 * @param request
 	 * @param mailbox
 	 */
-	async fetchConfirmationLink(request: APIRequestContext, mailbox: string): Promise<string | null> {
-		const fetchMailboxResponse = await request.get(
-			`http://127.0.0.1:54324/api/v1/mailbox/${mailbox}`
-		);
+	async fetchConfirmationLink(request: APIRequestContext, mailbox: string): Promise<string> {
+		const fetchMailboxResponse = await request.get(`${this.inbucketUrl}/api/v1/mailbox/${mailbox}`);
 		const mails: InbucketMailboxItem[] = await fetchMailboxResponse.json();
 		const mostRecentEmail: InbucketMailboxItem = mails.reduce(
 			(accumulator: InbucketMailboxItem, current: InbucketMailboxItem) =>
 				accumulator['posix-millis'] > current['posix-millis'] ? accumulator : current
 		);
 		const fetchMailResponse = await request.get(
-			`http://127.0.0.1:54324/api/v1/mailbox/correct@mail.com/${mostRecentEmail.id}`
+			`${this.inbucketUrl}/api/v1/mailbox/${mailbox}/${mostRecentEmail.id}`
 		);
 		const mail: InbucketMail = await fetchMailResponse.json();
 		const linkRegExpMatch = mail.body.text.match(/(?<=address \( )(.*)(?= \))/g);
-		return linkRegExpMatch === null ? null : linkRegExpMatch[0];
+		if (linkRegExpMatch === null) {
+			throw 'No confirmation link matched';
+		}
+		return linkRegExpMatch[0];
 	}
 }

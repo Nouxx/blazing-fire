@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { HeaderPage } from './pages/shared/header.page';
 import { HomepagePage } from './pages/home.page';
-import { SignInPage } from './pages/signin.page';
+import { SignInPage } from './pages/auth/signin/signin.page';
 import { AccountPage } from './pages/account.page';
 
 test('A user can sign in', async ({ page }) => {

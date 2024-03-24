@@ -41,5 +41,5 @@ pnpm remove <package> --filter <workspace>
 
 ```bash
 pnpm <script-name>
-npx turbo run <script-name>
+pnpm turbo run <script-name>
 ```
