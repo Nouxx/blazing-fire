@@ -1,8 +1,5 @@
 {
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"prettier.configPath": ".prettierrc",
-	"prettier.ignorePath": ".prettierignore",
-	"[svelte]": {
-		"editor.defaultFormatter": "svelte.svelte-vscode"
-	}
+	"prettier.ignorePath": ".prettierignore"
 }

@@ -5,7 +5,7 @@ export const actions: Actions = {
 		const { error: err } = await supabase.auth.signOut();
 
 		if (err) {
-			error(500, 'Something went wrong logging you out.');
+			error(500, { name: 'Something went wrong logging you out.', message: 'LogOutError' });
 		}
 
 		redirect(303, '/');

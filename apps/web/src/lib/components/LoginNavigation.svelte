@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { LoginNavigationProperties } from '$lib/types/login-navigation';
-
 	export let properties: LoginNavigationProperties;
 </script>
 
