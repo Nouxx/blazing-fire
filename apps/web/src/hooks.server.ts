@@ -16,7 +16,7 @@ const resolveOptions = {
 
 export const handle: Handle = async ({ event, resolve }) => {
 	console.log('Server Hook!', event.request.url);
-	
+
 	// createServerClient() is a singleton
 	event.locals.supabase = createServerClient<Database>(
 		PUBLIC_SUPABASE_URL,
