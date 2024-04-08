@@ -1,10 +1,5 @@
 <script lang="ts">
 	import Environment from '$lib/components/Environment.svelte';
-
-	const headerLink = {
-		url: '/home',
-		label: 'Go to app'
-	};
 </script>
 
 <div class="flex flex-col items-center mx-5">

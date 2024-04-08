@@ -1,5 +1,4 @@
 <script>
-	import LoginNavigation from '../CallToAction.svelte';
 	import LinkButton from '../LinkButton.svelte';
 </script>
 
