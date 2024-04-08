@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import LoginNavigation from '$lib/components/LoginNavigation.svelte';
-	import { loginNavigationTypes } from '$lib/types/login-navigation.js';
 	import type { ActionData } from './$types';
+	import CallToAction from '$lib/components/CallToAction.svelte';
 	export let form: ActionData;
 </script>
 
@@ -33,5 +32,5 @@
 		<p class="text-sm my-1 text-red-600">{form.error.message}</p>
 	{/if}
 
-	<LoginNavigation properties={loginNavigationTypes.signIn} />
+	<CallToAction title="Have an account already?" label="Go to Sign In" link="/auth/signin" />
 </div>

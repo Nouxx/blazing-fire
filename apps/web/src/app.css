@@ -2,11 +2,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer components {
-	.debug-container {
-		background-color: #38ada9;
-		border-color: #079992;
-		border-width: 4px;
-	}
-}

@@ -1,4 +1,4 @@
-import { ActionFailure, fail, redirect } from '@sveltejs/kit';
+import { type ActionFailure, fail, redirect } from '@sveltejs/kit';
 import type { AuthError } from '@supabase/supabase-js';
 import type { AuthFormData } from '$lib/types/forms/auth';
 import { getStringFromFormValue } from '$lib/forms/form-input';

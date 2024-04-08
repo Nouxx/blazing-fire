@@ -2,9 +2,9 @@ import { error, type Actions, redirect } from '@sveltejs/kit';
 
 export const actions: Actions = {
 	signOut: async ({ locals: { supabase } }) => {
-		const { error: err } = await supabase.auth.signOut();
+		const { error: _error } = await supabase.auth.signOut();
 
-		if (err) {
+		if (_error) {
 			error(500, { name: 'Something went wrong logging you out.', message: 'LogOutError' });
 		}
 

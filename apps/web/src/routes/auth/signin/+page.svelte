@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import LoginNavigation from '$lib/components/LoginNavigation.svelte';
+	import CallToAction from '$lib/components/CallToAction.svelte';
 	import type { GenericInputElement } from '$lib/types/input-event.js';
-	import { loginNavigationTypes } from '$lib/types/login-navigation';
 	import { onMount } from 'svelte';
 	import type { ActionData } from './$types';
 
@@ -74,5 +73,5 @@
 		>
 	</form>
 
-	<LoginNavigation properties={loginNavigationTypes.signUp} />
+	<CallToAction title="Don't have an account?" label="Go to Sign Up" link="/auth/signup" />
 </div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import LinkButton from '$lib/components/LinkButton.svelte';
 	export let data;
 </script>
 
@@ -9,7 +10,5 @@
 		<span class="font-bold">({data.email})</span>
 		to verify your email address.
 	</p>
-	<a href="/auth/signin" class="p-1 my-3 text-center border-2 border-slate-200 shadow-md rounded"
-		>Sign in</a
-	>
+	<LinkButton label="Sign in" link="/auth/signin" />
 </div>

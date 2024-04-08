@@ -1,6 +1,6 @@
 <script lang="ts">
+	import LinkButton from '$lib/components/LinkButton.svelte';
 	export let data;
-
 	let { session } = data;
 	$: ({ session } = data);
 </script>
@@ -16,5 +16,5 @@
 		>
 	</form>
 
-	<a href="/home" class="p-1 my-3 border-2 border-slate-200 shadow-md rounded">Back to app</a>
+	<LinkButton label="Go back to app" link="/home" />
 </div>
