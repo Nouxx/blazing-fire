@@ -24,5 +24,7 @@
 		Suspendisse potenti. Integer consequat luctus metus, et hendrerit quam bibendum non. Nunc
 		porttitor sagittis diam, ut pretium lorem convallis eget.
 	</p>
-	<a href="/home" class="p-1 my-3 border-2 border-slate-200 shadow-md rounded">Go to app</a>
+	<a href="/home" class="p-1 my-3 border-2 border-slate-200 shadow-md rounded" data-testid="link"
+		>Go to app</a
+	>
 </div>

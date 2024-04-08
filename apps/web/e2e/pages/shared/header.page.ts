@@ -11,19 +11,9 @@ export class HeaderPage {
 		this.page = page;
 		this._page = page.getByTestId('header');
 		this.linkButton = this._page.getByTestId('link');
-		this.myAccountLinkButton = this._page.getByTestId('link-my-account');
-		this.signInLinkButton = this._page.getByTestId('link-sign-in');
 	}
 
 	async followLink() {
 		await this.linkButton.click();
-	}
-
-	async goToMyAccount() {
-		await this.myAccountLinkButton.click();
-	}
-
-	async goToSignIn() {
-		await this.signInLinkButton.click();
 	}
 }

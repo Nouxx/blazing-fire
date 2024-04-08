@@ -66,6 +66,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	const session = await event.locals.getUserSession();
+
 	if (!session.user) {
 		redirect(302, '/auth/signin/error');
 	}

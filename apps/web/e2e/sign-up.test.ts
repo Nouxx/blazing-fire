@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { HeaderPage } from './pages/shared/header.page';
-import { HomepagePage } from './pages/home.page';
 import { SignInPage } from './pages/auth/signin/signin.page';
 import { SignUpFormPage } from './pages/auth/signup/signup-form.page';
 import { SignUpSuccessPage } from './pages/auth/signup/signup-success.page';
 import { AuthHelpers } from './pages/auth/auth-helpers';
+import { LandingPage } from './pages/landing.page';
 
 test.afterEach(async () => {
 	if (!process.env.CI) {
@@ -16,16 +16,16 @@ test.afterEach(async () => {
 test('A user can sign up', async ({ page, context, request }) => {
 	// Setup
 	const headerPage = new HeaderPage(page);
-	const homepagePage = new HomepagePage(page);
+	const landingPage = new LandingPage(page);
 	const signInPage = new SignInPage(page);
 	const signUpFormPage = new SignUpFormPage(page);
 
 	// Go to sign up page
 	await page.goto('/');
 	await expect(page).toHaveScreenshot('landing.png');
-	await headerPage.followLink();
+	await landingPage.goToApp();
 	await expect(page).toHaveScreenshot('not-signed-in.png');
-	await homepagePage.goToSignIn();
+	await headerPage.followLink();
 	await expect(page).toHaveScreenshot('sign-in.png');
 	await signInPage.goToSignUp();
 

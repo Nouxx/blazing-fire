@@ -59,7 +59,7 @@ export class SignUpFormPage {
 			`${this.inbucketUrl}/api/v1/mailbox/${mailbox}/${mostRecentEmail.id}`
 		);
 		const mail: InbucketMail = await fetchMailResponse.json();
-		const linkRegExpMatch = mail.body.text.match(/(?<=address \( )(.*)(?= \))/g);
+		const linkRegExpMatch = mail.body.text.match(/(http.*)(?= \))/g);
 		if (linkRegExpMatch === null) {
 			throw 'No confirmation link matched';
 		}
