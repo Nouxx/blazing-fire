@@ -52,7 +52,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// prevent the cookies API to be triggered after the response is sent
 	const session = await event.locals.getUserSession();
 
-	// // there's maybe a better way
+	// Using prefered way to get session and user from locals which is rerun in hooks for every request.
+	// This is more secure way compared to gettting the session and user from layout data because layout data are not refreshed everytime.
+	// Also it is important to note that server load functions run all at once.
+
 	const isPreloadRequest = event.request.url.includes('__data.json');
 	if (isPreloadRequest) {
 		return resolve(event, resolveOptions);
@@ -62,8 +65,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return resolve(event, resolveOptions);
 	}
 
-	const isPathProtectedByAuth =
-		event.route.id.includes('home') || event.route.id.includes('account'); // todo: update
+	const isPathProtectedByAuth = event.route.id.includes('(app)');
 
 	if (!isPathProtectedByAuth) {
 		return resolve(event, resolveOptions);
@@ -72,6 +74,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (!session.user) {
 		redirect(302, '/auth/signin/error');
 	}
-	console.log('resolve route', event.request.url);
+
 	return resolve(event, resolveOptions);
 };
