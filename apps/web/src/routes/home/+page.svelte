@@ -1,0 +1,24 @@
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import LinkButton from '$lib/components/LinkButton.svelte';
+
+	export let data;
+	let { session, supabase } = data;
+	$: ({ session } = data);
+
+	onMount(async () => {
+		(await supabase.auth.getSession()).data.session;
+		if (session === null) {
+			goto('/auth/signin/error');
+		}
+	});
+</script>
+
+<div class="flex flex-col items-center mx-5">
+	<h1 class="text-3xl font-bold my-3">Home</h1>
+	<div class="flex flex-col items-center mt-2">
+		<p class="text-sm my-1">There is nothing to do here, yet.</p>
+	</div>
+	<LinkButton label="Go to account" link="/account" />
+</div>

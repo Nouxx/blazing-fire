@@ -1,8 +1,18 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 	import LinkButton from '$lib/components/LinkButton.svelte';
+
 	export let data;
-	let { session } = data;
+	let { session, supabase } = data;
 	$: ({ session } = data);
+
+	onMount(async () => {
+		(await supabase.auth.getSession()).data.session;
+		if (session === null) {
+			goto('/auth/signin/error');
+		}
+	});
 </script>
 
 <div class="flex flex-col items-center mx-5">

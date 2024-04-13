@@ -15,6 +15,7 @@ const resolveOptions = {
 };
 
 export const handle: Handle = async ({ event, resolve }) => {
+	console.log('hook server');
 	// createServerClient() is a singleton
 	event.locals.supabase = createServerClient<Database>(
 		PUBLIC_SUPABASE_URL,
@@ -45,11 +46,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 		const {
 			data: { session }
 		} = await event.locals.supabase.auth.getSession();
-		// .session.user seems to match .user
 		return { session, user };
 	};
 
-	// there's maybe a better way
+	// prevent the cookies API to be triggered after the response is sent
+	const session = await event.locals.getUserSession();
+
+	// // there's maybe a better way
 	const isPreloadRequest = event.request.url.includes('__data.json');
 	if (isPreloadRequest) {
 		return resolve(event, resolveOptions);
@@ -59,17 +62,16 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return resolve(event, resolveOptions);
 	}
 
-	const isPathProtectedByAuth = event.route.id.includes('(protected)');
+	const isPathProtectedByAuth =
+		event.route.id.includes('home') || event.route.id.includes('account'); // todo: update
 
 	if (!isPathProtectedByAuth) {
 		return resolve(event, resolveOptions);
 	}
 
-	const session = await event.locals.getUserSession();
-
 	if (!session.user) {
 		redirect(302, '/auth/signin/error');
 	}
-
+	console.log('resolve route', event.request.url);
 	return resolve(event, resolveOptions);
 };
