@@ -18,5 +18,5 @@ export const GET = async (event) => {
 		}
 	}
 
-	redirect(303, '/auth/signup/error');
+	redirect(303, '/error/signup');
 };

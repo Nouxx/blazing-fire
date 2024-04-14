@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { HeaderPage } from './pages/shared/header.page';
 import { LandingPage } from './pages/landing.page';
-import { SignInPage } from './pages/auth/signin/signin.page';
+import { SignInPage } from './pages/auth/signin/signin-form.page';
 import { AccountPage } from './pages/account.page';
+import { NotSignedInPage } from './pages/error/not-signed-in.page';
 
 test('A user can sign in', async ({ page }) => {
 	// Setup
@@ -10,13 +11,14 @@ test('A user can sign in', async ({ page }) => {
 	const landingPage = new LandingPage(page);
 	const signInPage = new SignInPage(page);
 	const accountPage = new AccountPage(page);
+	const notSignedInPage = new NotSignedInPage(page);
 
 	// Go to sign in page
 	await page.goto('/');
 	await expect(page).toHaveScreenshot('landing.png');
 	await landingPage.goToApp();
 	await expect(page).toHaveScreenshot('not-signed-in.png');
-	await headerPage.followLink();
+	await notSignedInPage.goToSignInPage();
 	await expect(page).toHaveScreenshot('sign-in.png');
 
 	// Edge case: wrong credentials

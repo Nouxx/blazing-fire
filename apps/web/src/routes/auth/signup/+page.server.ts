@@ -2,6 +2,7 @@ import { type ActionFailure, fail, redirect } from '@sveltejs/kit';
 import type { AuthError } from '@supabase/supabase-js';
 import type { AuthFormData } from '$lib/types/forms/auth';
 import { getStringFromFormValue } from '$lib/forms/form-input';
+import type { PageServerLoad } from './$types';
 
 type SignUpError = {
 	message: string;
@@ -59,6 +60,15 @@ export function _handleError(
 
 	return formError('Server Error. Try again later.', 500, email);
 }
+
+export const load: PageServerLoad = async ({ parent, locals }) => {
+	await parent();
+	const { session, user } = locals;
+	if (session) {
+		redirect(303, '/error/already-signed-in');
+	}
+	return { session, user };
+};
 
 export const actions = {
 	signUp: async ({ request, url, locals: { supabase } }) => {

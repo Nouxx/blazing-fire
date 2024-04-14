@@ -15,7 +15,6 @@ const resolveOptions = {
 };
 
 export const handle: Handle = async ({ event, resolve }) => {
-	console.log('hook server');
 	// createServerClient() is a singleton
 	event.locals.supabase = createServerClient<Database>(
 		PUBLIC_SUPABASE_URL,
@@ -35,26 +34,28 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	);
 
-	event.locals.getUserSession = async () => {
+	const getUserAndSession = async () => {
 		const {
 			data: { user },
 			error
 		} = await event.locals.supabase.auth.getUser();
+		if (user === null) {
+			return { session: null, user: null };
+		}
 		if (error) {
 			return { session: null, user: null };
 		}
 		const {
 			data: { session }
-		} = await event.locals.supabase.auth.getSession();
+		} = await event.locals.supabase.auth.getSession(); // todo: catch error
 		return { session, user };
 	};
 
 	// prevent the cookies API to be triggered after the response is sent
-	const session = await event.locals.getUserSession();
+	const { session, user } = await getUserAndSession();
 
-	// Using prefered way to get session and user from locals which is rerun in hooks for every request.
-	// This is more secure way compared to gettting the session and user from layout data because layout data are not refreshed everytime.
-	// Also it is important to note that server load functions run all at once.
+	event.locals.session = session;
+	event.locals.user = user;
 
 	const isPreloadRequest = event.request.url.includes('__data.json');
 	if (isPreloadRequest) {
@@ -71,8 +72,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return resolve(event, resolveOptions);
 	}
 
-	if (!session.user) {
-		redirect(302, '/auth/signin/error');
+	if (!session) {
+		// todo: enum for error routes
+		redirect(302, '/error/not-signed-in');
 	}
 
 	return resolve(event, resolveOptions);

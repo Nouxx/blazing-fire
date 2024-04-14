@@ -2,6 +2,7 @@ import { fail, type Actions, redirect } from '@sveltejs/kit';
 import type { AuthError } from '@supabase/supabase-js';
 import { getStringFromFormValue } from '$lib/forms/form-input';
 import type { AuthFormData } from '$lib/types/forms/auth';
+import type { PageServerLoad } from './$types';
 
 function extractFromFormData(formData: FormData): AuthFormData {
 	const email = getStringFromFormValue(formData.get('email'));
@@ -24,6 +25,15 @@ function signInFormError(message: string, email: string): SignInFormError {
 		email
 	};
 }
+
+export const load: PageServerLoad = async ({ parent, locals }) => {
+	await parent();
+	const { session, user } = locals;
+	if (session) {
+		redirect(303, '/error/already-signed-in');
+	}
+	return { session, user };
+};
 
 export const actions: Actions = {
 	signInWithPassword: async ({ request, locals: { supabase } }) => {
