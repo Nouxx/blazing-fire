@@ -1,11 +1,11 @@
 import type { Locator, Page } from '@playwright/test';
 
 export class HeaderPage {
-	readonly page: Page;
+	private readonly page: Page;
 	private readonly _page: Locator;
-	readonly linkButton: Locator;
-	readonly myAccountLinkButton: Locator;
-	readonly signInLinkButton: Locator;
+	private readonly linkButton: Locator;
+	private readonly myAccountLinkButton: Locator;
+	private readonly signInLinkButton: Locator;
 
 	constructor(page: Page) {
 		this.page = page;

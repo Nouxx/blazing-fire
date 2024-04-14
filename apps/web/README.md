@@ -18,7 +18,7 @@ pnpm supa:start
 
 Create a `.env` file in this directory with the values specified in [`.env.example`](.env.example).
 
-The `anon` and `service role` keys are required. They can be in from the local Supabase environment, by running:
+The `anon` and `service role` keys from your local Supabase environment are required. They can be found by running:
 
 ```bash
 pnpm supabase status
@@ -38,7 +38,7 @@ Made with Playwright and heavily relying on [visual snapshot comparaison](https:
 
 ```bash
 pnpm test:e2e
-pnpm test:e2e --update-snapshots
+pnpm test:e2e -u # for --update-snapshots
 ```
 
 ## Deploying

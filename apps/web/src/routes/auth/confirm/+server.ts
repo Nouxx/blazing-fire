@@ -9,12 +9,11 @@ export const GET = async (event) => {
 
 	const token_hash = url.searchParams.get('token_hash');
 	const type = url.searchParams.get('type') as EmailOtpType | null;
-	const next = url.searchParams.get('next') ?? '/auth/signup/success';
 
 	if (token_hash && type) {
 		const { error } = await supabase.auth.verifyOtp({ token_hash, type });
 		if (!error) {
-			redirect(303, `/${next.slice(1)}`);
+			redirect(303, '/auth/signup/success');
 		}
 	}
 

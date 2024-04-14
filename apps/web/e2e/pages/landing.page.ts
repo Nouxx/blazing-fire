@@ -1,8 +1,8 @@
 import type { Locator, Page } from '@playwright/test';
 
 export class LandingPage {
-	readonly page: Page;
-	readonly goToAppButton: Locator;
+	private readonly page: Page;
+	private readonly goToAppButton: Locator;
 
 	constructor(page: Page) {
 		this.page = page;

@@ -8,3 +8,5 @@
 
 # Supabse generated types
 src/lib/database/types.ts
+
+supabase/.**
