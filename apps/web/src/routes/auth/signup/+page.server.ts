@@ -4,6 +4,7 @@ import type { AuthFormData } from '$lib/types/forms/auth';
 import { getStringFromFormValue } from '$lib/forms/form-input';
 import type { PageServerLoad } from './$types';
 import { routes } from '$lib/types/routes';
+import { redirectIfSession } from '$lib/server/auth';
 
 type SignUpError = {
 	message: string;
@@ -64,11 +65,8 @@ export function _handleError(
 
 export const load: PageServerLoad = async ({ parent, locals }) => {
 	await parent();
-	const { session, user } = locals;
-	if (session) {
-		redirect(303, routes.alreadySignedIn);
-	}
-	return { session, user };
+	const { session } = locals;
+	redirectIfSession(session);
 };
 
 export const actions = {

@@ -4,6 +4,7 @@ import type { PageServerLoad } from './$types';
 import { getStringFromFormValue } from '$lib/forms/form-input';
 import type { AuthFormData } from '$lib/types/forms/auth';
 import { routes } from '$lib/types/routes';
+import { redirectIfSession } from '$lib/server/auth';
 
 function extractFromFormData(formData: FormData): AuthFormData {
 	const email = getStringFromFormValue(formData.get('email'));
@@ -28,13 +29,9 @@ function signInFormError(message: string, email: string): SignInFormError {
 }
 
 export const load: PageServerLoad = async ({ parent, locals }) => {
-	// todo: create a function for the redirect logic
 	await parent();
-	const { session, user } = locals;
-	if (session) {
-		redirect(303, routes.alreadySignedIn);
-	}
-	return { session, user };
+	const { session } = locals;
+	redirectIfSession(session);
 };
 
 export const actions: Actions = {
