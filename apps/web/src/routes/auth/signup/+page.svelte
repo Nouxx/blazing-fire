@@ -32,5 +32,5 @@
 		<p class="text-sm my-1 text-red-600">{form.error.message}</p>
 	{/if}
 
-	<CallToAction title="Have an account already?" label="Go to Sign In" link="/auth/signin" />
+	<CallToAction title="Have an account already?" label="Go to Sign In" link={routes.signin} />
 </div>

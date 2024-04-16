@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { routes } from '$lib/types/routes';
 	import type { Session } from '@supabase/supabase-js';
 	export let session: Session | null;
 </script>
@@ -13,9 +14,9 @@
 
 		<div class="flex flex-col content-center px-2 hover:text-sky-500 cursor-pointer">
 			{#if session}
-				<a href="/account" data-testid="link">My Account</a>
+				<a href={routes.account} data-testid="link">My Account</a>
 			{:else}
-				<a href="/auth/signin" data-testid="link">Sign in</a>
+				<a href={routes.signin} data-testid="link">Sign in</a>
 			{/if}
 		</div>
 	</div>

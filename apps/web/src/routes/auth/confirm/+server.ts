@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { type EmailOtpType } from '@supabase/supabase-js';
+import { routes } from '$lib/types/routes';
 
 export const GET = async (event) => {
 	const {
@@ -13,7 +14,7 @@ export const GET = async (event) => {
 	if (token_hash && type) {
 		const { error } = await supabase.auth.verifyOtp({ token_hash, type });
 		if (!error) {
-			redirect(303, '/auth/signup/success');
+			redirect(303, routes.signupSuccess);
 		}
 	}
 

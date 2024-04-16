@@ -4,6 +4,7 @@
 	import type { GenericInputElement } from '$lib/types/input-event.js';
 	import { onMount } from 'svelte';
 	import type { ActionData } from './$types';
+	import { routes } from '$lib/types/routes';
 
 	export let form: ActionData;
 
@@ -73,5 +74,5 @@
 		>
 	</form>
 
-	<CallToAction title="Don't have an account?" label="Go to Sign Up" link="/auth/signup" />
+	<CallToAction title="Don't have an account?" label="Go to Sign Up" link={routes.signup} />
 </div>

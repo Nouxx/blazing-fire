@@ -3,6 +3,7 @@ import type { AuthError } from '@supabase/supabase-js';
 import type { AuthFormData } from '$lib/types/forms/auth';
 import { getStringFromFormValue } from '$lib/forms/form-input';
 import type { PageServerLoad } from './$types';
+import { routes } from '$lib/types/routes';
 
 type SignUpError = {
 	message: string;
@@ -65,7 +66,7 @@ export const load: PageServerLoad = async ({ parent, locals }) => {
 	await parent();
 	const { session, user } = locals;
 	if (session) {
-		redirect(303, '/error/already-signed-in');
+		redirect(303, routes.alreadySignedIn);
 	}
 	return { session, user };
 };
@@ -80,7 +81,7 @@ export const actions = {
 			email,
 			password,
 			options: {
-				emailRedirectTo: `${url.origin}/auth/confirm`
+				emailRedirectTo: `${url.origin}${routes.signupConfirm}`
 			}
 		});
 
@@ -90,6 +91,6 @@ export const actions = {
 
 		const encodedEmail = encodeURIComponent(email);
 
-		redirect(303, '/auth/signup/pending?email=' + encodedEmail);
+		redirect(303, `${routes.signupPending}?email=${encodedEmail}`);
 	}
 };

@@ -1,11 +1,13 @@
 import { error, type Actions, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { routes } from '$lib/types/routes';
 
 export const load: PageServerLoad = async ({ parent, locals }) => {
+	// todo: create a function for the redirect logic
 	await parent();
 	const { session, user } = locals;
 	if (!session) {
-		redirect(303, '/error/not-signed-in');
+		redirect(303, routes.notSignedIn);
 	}
 	return { session, user };
 };
@@ -18,6 +20,6 @@ export const actions: Actions = {
 			error(500, { name: 'Something went wrong logging you out.', message: 'LogOutError' });
 		}
 
-		redirect(303, '/');
+		redirect(303, routes.landing);
 	}
 };

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import LinkButton from '$lib/components/LinkButton.svelte';
+	import { routes } from '$lib/types/routes.js';
 	export let data;
 	let { user } = data;
 </script>
@@ -15,5 +16,5 @@
 		>
 	</form>
 
-	<LinkButton label="Go back to app" link="/home" />
+	<LinkButton label="Go back to app" link={routes.home} />
 </div>
