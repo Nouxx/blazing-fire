@@ -1,5 +1,6 @@
 <script lang="ts">
 	import LinkButton from '$lib/components/LinkButton.svelte';
+	import { routes } from '$lib/types/routes.js';
 	export let data;
 </script>
 

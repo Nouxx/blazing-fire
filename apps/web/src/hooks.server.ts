@@ -1,11 +1,10 @@
+import type { Handle } from '@sveltejs/kit';
+import type { AuthError, SupabaseClient, User } from '@supabase/supabase-js';
 import { createServerClient } from '@supabase/ssr';
-import { redirect, type Handle } from '@sveltejs/kit';
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 import type { Database } from '$lib/database/types';
-import { routes } from '$lib/types/routes';
-import type { SupabaseClient, User } from '@supabase/supabase-js';
+import { redirectIfNoSession } from '$lib/server/auth';
 
-// move all this sh*t to lib?
 const supabaseCookiesOptions = {
 	path: '/',
 	secure: true
@@ -25,10 +24,26 @@ export const isProtectedRoute = (routeId: string): boolean => {
 	return routeId.startsWith('/(app)');
 };
 
+function isInvalidClaimError(error: AuthError | null): error is AuthError {
+	if (!error) {
+		return false;
+	}
+	const authError = error as AuthError;
+	return (
+		authError.status === 401 && authError.message.toLocaleLowerCase().includes('invalid claim')
+	);
+}
+
 export const getUser = async (supabase: SupabaseClient) => {
 	const { data, error } = await supabase.auth.getUser();
-	if (data.user === null || error) {
-		console.error(error);
+	if (isInvalidClaimError(error)) {
+		return null;
+	}
+	if (data.user === null) {
+		return null;
+	}
+	if (error) {
+		console.error('getUser', error);
 		return null;
 	}
 	return data.user;
@@ -37,7 +52,7 @@ export const getUser = async (supabase: SupabaseClient) => {
 export const getSession = async (supabase: SupabaseClient) => {
 	const { data, error } = await supabase.auth.getSession();
 	if (error) {
-		console.error(error);
+		console.error('getSession', error);
 		return null;
 	}
 	return data.session;
@@ -73,8 +88,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// prevent the cookies API to be triggered after the response is sent
 	const user = await getUser(event.locals.supabase);
 	const session = await getSessionForUser(event.locals.supabase, user);
-
-	// unit test here, we need to ensure that locals are updated everytime!
 	event.locals.session = session;
 	event.locals.user = user;
 
@@ -90,9 +103,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return resolve(event, resolveOptions);
 	}
 
-	if (!session) {
-		redirect(302, routes.notSignedIn);
-	}
+	redirectIfNoSession(session);
 
 	return resolve(event, resolveOptions);
 };
