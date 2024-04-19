@@ -14,7 +14,6 @@ test.afterEach(async () => {
 });
 
 test('A user can sign up', async ({ page, context, request }) => {
-	// Setup
 	const landingPage = new LandingPage(page);
 	const signInPage = new SignInPage(page);
 	const signUpFormPage = new SignUpFormPage(page);
@@ -22,7 +21,6 @@ test('A user can sign up', async ({ page, context, request }) => {
 	const secondTab = await context.newPage();
 	const signUpSuccessPage = new SignUpSuccessPage(page);
 
-	// Go to sign up page
 	await test.step('Go to Sign Up page', async () => {
 		await page.goto('/');
 		await expect(page).toHaveScreenshot('landing.png');
