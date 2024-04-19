@@ -10,7 +10,7 @@
     "lint": {
       "env": ["PUBLIC_SUPABASE_URL", "PUBLIC_SUPABASE_SERVICE_ROLE_KEY"]
     },
-    "check-format": {},
+    "format:check": {},
     "format": {},
     "test:unit": {},
     "test:e2e": {

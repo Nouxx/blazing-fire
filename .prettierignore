@@ -18,6 +18,5 @@ yarn.lock
 .vercel
 
 # Code Formatting is handled at the package level
-# TODO: setup the extension properly
 /apps
 /packages
