@@ -16,6 +16,7 @@ export const GET = async (event) => {
 		if (!error) {
 			redirect(303, routes.signupSuccess);
 		}
+		console.log('GET /auth/confirm', error);
 	}
 
 	redirect(303, '/error/signup');
