@@ -2,14 +2,14 @@ direction: right
 
 local-environment: local environment {
   style.font-size: 20
-  local-env: local deployment
-  firebase-emulators: {
+  local-env: local environment
+  local-emulators: {
     label: local emulators
-    icon: https://cdn.icon-icons.com/icons2/2699/PNG/512/firebase_logo_icon_171157.png
+    icon: https://seeklogo.com/images/S/supabase-logo-DCC676FFE2-seeklogo.com.png
     shape: image
     height: 50
   }
-  local-env -> firebase-emulators
+  local-env -> local-emulators
 }
 
 preview: preview environment {
@@ -18,24 +18,24 @@ preview: preview environment {
   pr-dep: preview deployment {
     style.multiple: true
   }
-  firebase-dev: {
+  supabase-dev: {
     label: dev project
-    icon: https://cdn.icon-icons.com/icons2/2699/PNG/512/firebase_logo_icon_171157.png
+    icon: https://seeklogo.com/images/S/supabase-logo-DCC676FFE2-seeklogo.com.png
     shape: image
     height: 50
   }
-  pr-dep -> firebase-dev
+  pr-dep -> supabase-dev
   staging-dep: staging deployment
-  staging-dep -> firebase-dev
+  staging-dep -> supabase-dev
 }
 prod: production environment {
   style.font-size: 20
   prod-dep: production deployment
-  firebase-prod: {
+  supabase-prod: {
     label: prod project
-    icon: https://cdn.icon-icons.com/icons2/2699/PNG/512/firebase_logo_icon_171157.png
+    icon: https://seeklogo.com/images/S/supabase-logo-DCC676FFE2-seeklogo.com.png
     shape: image
     height: 50
   }
-  prod-dep -> firebase-prod
+  prod-dep -> supabase-prod
 }
