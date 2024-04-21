@@ -31,8 +31,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
 
       - uses: pnpm/action-setup@v2
         with:
@@ -47,22 +45,33 @@ jobs:
         run: pnpm install
 
       - name: Run Prettier check
-        run: npx turbo run check-format
+        run: pnpm run format:check
 
       - name: Run ESLint check
-        run: npx turbo run lint
+        run: pnpm run lint
 
       - name: Run Vitest Unit Tests
-        run: npx turbo run test:unit
+        run: pnpm run test:unit
 
       - name: Install Playwright dependencies
-        run: npx playwright install --with-deps
+        run: pnpm playwright install --with-deps
         working-directory: apps/web
+
+      - name: Set up supabase
+        working-directory: apps/web
+        run: |
+          pnpm db:update-seed
+          pnpm supa:start
 
       - name: Run Playwright Integration Tests
         id: integration-tests
         continue-on-error: true
-        run: npx turbo run test:integration
+        run: CI=true pnpm turbo run test:e2e
+        env:
+          PUBLIC_ENVIRONMENT: local
+          PUBLIC_SUPABASE_URL: http://127.0.0.1:54321
+          PUBLIC_SUPABASE_ANON_KEY: dummy
+          PUBLIC_SUPABASE_SERVICE_ROLE_KEY: dummy
 
       - name: Authenticate to Google Cloud
         if: steps.integration-tests.outcome == 'failure'

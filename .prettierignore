@@ -16,3 +16,7 @@ yarn.lock
 
 # Vercel
 .vercel
+
+# Code Formatting is handled at the package level
+/apps
+/packages

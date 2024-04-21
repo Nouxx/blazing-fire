@@ -1,0 +1,41 @@
+direction: right
+
+local-environment: local environment {
+  style.font-size: 20
+  local-env: local environment
+  local-emulators: {
+    label: local emulators
+    icon: https://seeklogo.com/images/S/supabase-logo-DCC676FFE2-seeklogo.com.png
+    shape: image
+    height: 50
+  }
+  local-env -> local-emulators
+}
+
+preview: preview environment {
+  direction: right
+  style.font-size: 20
+  pr-dep: preview deployment {
+    style.multiple: true
+  }
+  supabase-dev: {
+    label: dev project
+    icon: https://seeklogo.com/images/S/supabase-logo-DCC676FFE2-seeklogo.com.png
+    shape: image
+    height: 50
+  }
+  pr-dep -> supabase-dev
+  staging-dep: staging deployment
+  staging-dep -> supabase-dev
+}
+prod: production environment {
+  style.font-size: 20
+  prod-dep: production deployment
+  supabase-prod: {
+    label: prod project
+    icon: https://seeklogo.com/images/S/supabase-logo-DCC676FFE2-seeklogo.com.png
+    shape: image
+    height: 50
+  }
+  prod-dep -> supabase-prod
+}
