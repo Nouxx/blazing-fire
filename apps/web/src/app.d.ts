@@ -15,6 +15,9 @@ declare global {
 		interface PageData {
 			session: Session | null;
 			user: User | null;
+			menus?: {
+				name: string;
+			}[]
 		}
 	}
 }

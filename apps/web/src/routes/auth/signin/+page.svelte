@@ -74,5 +74,10 @@
 		>
 	</form>
 
-	<CallToAction title="Don't have an account?" label="Go to Sign Up" link={routes.signup} />
+	<CallToAction
+		title="Don't have an account?"
+		label="Go to Sign Up"
+		link={routes.signup}
+		id="signup"
+	/>
 </div>

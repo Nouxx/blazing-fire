@@ -69,9 +69,9 @@ jobs:
         run: CI=true pnpm turbo run test:e2e
         env:
           PUBLIC_ENVIRONMENT: local
-          PUBLIC_SUPABASE_URL: http://127.0.0.1:54321
-          PUBLIC_SUPABASE_ANON_KEY: dummy
-          PUBLIC_SUPABASE_SERVICE_ROLE_KEY: dummy
+          SUPABASE_URL: http://127.0.0.1:54321
+          SUPABASE_ANON_KEY: dummy
+          SUPABASE_SERVICE_ROLE_KEY: dummy
 
       - name: Authenticate to Google Cloud
         if: steps.integration-tests.outcome == 'failure'

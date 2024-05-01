@@ -1,7 +1,7 @@
 import type { Handle } from '@sveltejs/kit';
 import type { AuthError, SupabaseClient, User } from '@supabase/supabase-js';
 import { createServerClient } from '@supabase/ssr';
-import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from '$env/static/private';
 import type { Database } from '$lib/database/types';
 import { redirectIfNoSession } from '$lib/server/auth';
 
@@ -66,10 +66,9 @@ export const getSessionForUser = async (supabase: SupabaseClient, user: User | n
 };
 
 export const handle: Handle = async ({ event, resolve }) => {
-	// createServerClient() is a singleton
 	event.locals.supabase = createServerClient<Database>(
-		PUBLIC_SUPABASE_URL,
-		PUBLIC_SUPABASE_ANON_KEY,
+		SUPABASE_URL,
+		SUPABASE_ANON_KEY,
 		{
 			cookies: {
 				get: (key) => {

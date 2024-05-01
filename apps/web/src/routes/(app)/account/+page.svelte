@@ -16,5 +16,5 @@
 		>
 	</form>
 
-	<LinkButton label="Go back to app" link={routes.home} />
+	<LinkButton label="Go back to app" link={routes.home} id="home"/>
 </div>

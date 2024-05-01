@@ -14,7 +14,7 @@ export class SignInPage {
 		this.emailInput = this.pageLocator.getByTestId('email');
 		this.passwordInput = this.pageLocator.getByTestId('password');
 		this.submitButton = this.pageLocator.getByTestId('submit');
-		this.signUpLink = this.pageLocator.getByTestId('login-navigation').getByTestId('link');
+		this.signUpLink = this.pageLocator.getByTestId('link-to-signup');
 	}
 
 	async fillForm(email: string, password: string) {

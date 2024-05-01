@@ -12,7 +12,7 @@
 			</div>
 		</div>
 
-		<div class="flex flex-col content-center px-2 hover:text-sky-500 cursor-pointer">
+		<div class="content-center px-2 hover:text-sky-500 cursor-pointer">
 			{#if session}
 				<a href={routes.account} data-testid="link">My Account</a>
 			{:else}

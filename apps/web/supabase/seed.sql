@@ -160,10 +160,25 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 
 
 --
+-- Data for Name: menus; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."menus" ("id", "name", "user_id", "created_at") OVERRIDING SYSTEM VALUE VALUES
+	(1, 'My Menu', '3bcf3c25-acb6-4aed-a7de-37957bc59678', '2024-05-01 03:58:17.929713+00');
+
+
+--
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
 SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 136, true);
+
+
+--
+-- Name: menus_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"public"."menus_id_seq"', 1, true);
 
 
 --

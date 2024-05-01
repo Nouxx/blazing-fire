@@ -8,7 +8,7 @@ export class AccountPage {
 	constructor(page: Page) {
 		this.page = page;
 		this.logoutButton = page.getByTestId('logout');
-		this.goBackToHomePageButton = page.getByTestId('link').nth(1);
+		this.goBackToHomePageButton = page.getByTestId('link-to-home');
 	}
 
 	async logout() {
