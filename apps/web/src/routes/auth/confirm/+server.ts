@@ -17,6 +17,6 @@ export const GET = async (event) => {
 			redirect(303, routes.signupSuccess);
 		}
 	}
-
-	redirect(303, '/error/signup');
+	// this is setting cookie to NULL
+	redirect(303, routes.signupError);
 };

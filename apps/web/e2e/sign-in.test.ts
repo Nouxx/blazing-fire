@@ -2,14 +2,16 @@ import { test, expect } from '@playwright/test';
 import { LandingPage } from './pages/landing.page';
 import { SignInPage } from './pages/auth/signin/signin-form.page';
 import { AccountPage } from './pages/account.page';
-import { AnyAuthErrorPage } from './pages/error/auth-error.page';
 import { HomePage } from './pages/home.page';
+import { NotSignedInErrorPage } from './pages/error/not-signed-in.page';
+import { AlreadySignedInErrorPage } from './pages/error/already-signed-in.page';
 
 test('A user can sign in', async ({ page, context }) => {
 	const landingPage = new LandingPage(page);
 	const signInPage = new SignInPage(page);
 	const accountPage = new AccountPage(page);
-	const authErrorPage = new AnyAuthErrorPage(page);
+	const alreadySignedInPage = new AlreadySignedInErrorPage(page);
+	const notSignedInPage = new NotSignedInErrorPage(page);
 	const secondTab = await context.newPage();
 	const accountPageForSecondTab = new AccountPage(secondTab);
 
@@ -18,7 +20,7 @@ test('A user can sign in', async ({ page, context }) => {
 		await expect(page).toHaveScreenshot('landing.png');
 		await landingPage.goToApp();
 		await expect(page).toHaveScreenshot('not-signed-in.png');
-		await authErrorPage.followLink();
+		await notSignedInPage.followLink();
 		await expect(page).toHaveScreenshot('sign-in.png');
 	});
 
@@ -37,14 +39,14 @@ test('A user can sign in', async ({ page, context }) => {
 	await test.step('Go to the Sign in page', async () => {
 		await page.goto('/auth/signin');
 		await expect(page).toHaveScreenshot('already-signed-in.png');
-		await authErrorPage.followLink();
+		await alreadySignedInPage.followLink();
 		await expect(page).toHaveScreenshot('my-account.png');
 	});
 
 	await test.step('Go to the Sign up page', async () => {
 		await page.goto('/auth/signup');
 		await expect(page).toHaveScreenshot('already-signed-in.png');
-		await authErrorPage.followLink();
+		await alreadySignedInPage.followLink();
 		await expect(page).toHaveScreenshot('my-account.png');
 	});
 
@@ -60,7 +62,7 @@ test('A user can sign in', async ({ page, context }) => {
 
 	await test.step('Go to homepage in the second tab', async () => {
 		await accountPageForSecondTab.goBackToHomePage();
-		await expect(page).toHaveScreenshot('not-signed-in.png');
+		await expect(secondTab).toHaveScreenshot('not-signed-in.png');
 	});
 
 	await test.step('Go to homepage and account from the first tab', async () => {
@@ -75,7 +77,7 @@ test('A user can sign in', async ({ page, context }) => {
 
 test(`A user can't acccess protected pages without cookies`, async ({ page, context }) => {
 	const landingPage = new LandingPage(page);
-	const notSignedInPage = new AnyAuthErrorPage(page);
+	const notSignedInPage = new NotSignedInErrorPage(page);
 	const signInPage = new SignInPage(page);
 	const homePage = new HomePage(page);
 

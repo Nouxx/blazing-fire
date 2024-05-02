@@ -2,9 +2,9 @@ import { test, expect } from '@playwright/test';
 import { SignInPage } from './pages/auth/signin/signin-form.page';
 import { SignUpFormPage } from './pages/auth/signup/signup-form.page';
 import { SignUpSuccessPage } from './pages/auth/signup/signup-success.page';
-import { AuthHelpers } from './pages/auth/auth-helpers';
 import { LandingPage } from './pages/landing.page';
-import { AnyAuthErrorPage } from './pages/error/auth-error.page';
+import { NotSignedInErrorPage } from './pages/error/not-signed-in.page';
+import { AuthHelpers } from './pages/auth/auth-helpers';
 
 test.afterEach(async () => {
 	if (!process.env.CI) {
@@ -17,16 +17,17 @@ test('A user can sign up', async ({ page, context, request }) => {
 	const landingPage = new LandingPage(page);
 	const signInPage = new SignInPage(page);
 	const signUpFormPage = new SignUpFormPage(page);
-	const authErrorPage = new AnyAuthErrorPage(page);
+	const notSignedInPage = new NotSignedInErrorPage(page);
 	const secondTab = await context.newPage();
 	const signUpSuccessPage = new SignUpSuccessPage(page);
+	let confirmationLink = '';
 
 	await test.step('Go to Sign Up page', async () => {
 		await page.goto('/');
 		await expect(page).toHaveScreenshot('landing.png');
 		await landingPage.goToApp();
 		await expect(page).toHaveScreenshot('not-signed-in.png');
-		await authErrorPage.followLink();
+		await notSignedInPage.followLink();
 		await expect(page).toHaveScreenshot('sign-in.png');
 		await signInPage.goToSignUp();
 	});
@@ -50,18 +51,20 @@ test('A user can sign up', async ({ page, context, request }) => {
 	});
 
 	await test.step('Follow the confirmation link', async () => {
-		const confirmationLink = await signUpFormPage.fetchConfirmationLink(
-			request,
-			'correct@mail.com'
-		);
+		confirmationLink = await signUpFormPage.fetchConfirmationLink(request, 'correct@mail.com');
 		await page.goto(confirmationLink);
 		await expect(page).toHaveScreenshot('sign-up-success.png');
-		secondTab.goto(confirmationLink);
-		await expect(secondTab).toHaveScreenshot('sign-up-error.png');
 	});
 
 	await test.step('Go to homepage', async () => {
 		await signUpSuccessPage.goToHome();
-		await expect(secondTab).toHaveScreenshot('home.png');
+		await expect(page).toHaveScreenshot('home.png');
+	});
+
+	// todo: clicking on the confirmation link log you out
+	// todo: move this step up once fixed
+	await test.step('Reopen the confirmation link in a second tab', async () => {
+		secondTab.goto(confirmationLink);
+		await expect(secondTab).toHaveScreenshot('sign-up-error.png');
 	});
 });

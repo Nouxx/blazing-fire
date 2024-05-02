@@ -9,6 +9,7 @@ export const routes = {
 	signupConfirm: '/auth/confirm',
 	notSignedIn: '/error/not-signed-in',
 	alreadySignedIn: '/error/already-signed-in',
+	signupError: '/error/signup',
 	menus: '/menus'
 } as const;
 

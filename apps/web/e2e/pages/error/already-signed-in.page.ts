@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 
-export class AlreadySignedInPage {
+export class AlreadySignedInErrorPage {
 	private readonly page: Page;
 	private readonly linkButton: Locator;
 

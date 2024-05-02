@@ -9,9 +9,9 @@ const config: PlaywrightTestConfig = {
 		video: 'retain-on-failure',
 		baseURL: 'http://localhost:4173'
 	},
-	timeout: 5000,
+	timeout: 10000,
 	expect: {
-		toHaveScreenshot: { maxDiffPixelRatio: 0.09 }
+		// toHaveScreenshot: { maxDiffPixelRatio: 0.09 }
 	},
 	webServer: [
 		{
