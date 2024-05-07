@@ -5,6 +5,7 @@ import { AccountPage } from './pages/account.page';
 import { HomePage } from './pages/home.page';
 import { NotSignedInErrorPage } from './pages/error/not-signed-in.page';
 import { AlreadySignedInErrorPage } from './pages/error/already-signed-in.page';
+import { testUsers } from './data/users';
 
 test('A user can sign in', async ({ page, context }) => {
 	const landingPage = new LandingPage(page);
@@ -24,14 +25,14 @@ test('A user can sign in', async ({ page, context }) => {
 		await expect(page).toHaveScreenshot('sign-in.png');
 	});
 
-	await test.step('Fill the form with wrong credentials', async () => {
-		await signInPage.fillForm('me@mail.com', 'passwordKo');
+	await test.step('Fill the form with an existing mail with a wrong password', async () => {
+		await signInPage.fillForm(testUsers.registered.mail, 'incorrect-password');
 		await signInPage.submitForm();
 		await expect(page).toHaveScreenshot('sign-in-invalid.png');
 	});
 
 	await test.step('Fill the form with correct credentials', async () => {
-		await signInPage.fillForm('me@mail.com', 'qwerty123');
+		await signInPage.fillForm(testUsers.registered.mail, testUsers.registered.password);
 		await signInPage.submitForm();
 		await expect(page).toHaveScreenshot('home-signed-in.png');
 	});
@@ -88,7 +89,7 @@ test(`A user can't acccess protected pages without cookies`, async ({ page, cont
 	});
 
 	await test.step('Sign in', async () => {
-		await signInPage.fillForm('me@mail.com', 'qwerty123');
+		await signInPage.fillForm(testUsers.registered.mail, testUsers.registered.password);
 		await signInPage.submitForm();
 		await expect(page).toHaveScreenshot('home-signed-in.png');
 	});

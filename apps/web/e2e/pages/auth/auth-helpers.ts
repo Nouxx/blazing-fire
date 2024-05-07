@@ -35,4 +35,9 @@ export class AuthHelpers {
 		}
 		return data;
 	}
+
+	async deleteMenusForUser(userId: string) {
+		await this.supabaseClient.from('menus').delete().eq('user_id', userId);
+		console.log(`All menus deleted of user ${userId}`);
+	}
 }

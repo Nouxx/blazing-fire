@@ -5,11 +5,12 @@ import { SignUpSuccessPage } from './pages/auth/signup/signup-success.page';
 import { LandingPage } from './pages/landing.page';
 import { NotSignedInErrorPage } from './pages/error/not-signed-in.page';
 import { AuthHelpers } from './pages/auth/auth-helpers';
+import { testUsers } from './data/users';
 
 test.afterEach(async () => {
 	if (!process.env.CI) {
 		const authHelpers = new AuthHelpers();
-		await authHelpers.deleteUserByEmail('correct@mail.com');
+		await authHelpers.deleteUserByEmail(testUsers.new.mail);
 	}
 });
 
@@ -45,13 +46,13 @@ test('A user can sign up', async ({ page, context, request }) => {
 	});
 
 	await test.step('Fill the form with correct credentials', async () => {
-		await signUpFormPage.fillForm('correct@mail.com', 'aProperPassword');
+		await signUpFormPage.fillForm(testUsers.new.mail, testUsers.new.password);
 		await signUpFormPage.submitForm();
 		await expect(page).toHaveScreenshot('sign-up-pending.png');
 	});
 
 	await test.step('Follow the confirmation link', async () => {
-		confirmationLink = await signUpFormPage.fetchConfirmationLink(request, 'correct@mail.com');
+		confirmationLink = await signUpFormPage.fetchConfirmationLink(request, testUsers.new.mail);
 		await page.goto(confirmationLink);
 		await expect(page).toHaveScreenshot('sign-up-success.png');
 	});

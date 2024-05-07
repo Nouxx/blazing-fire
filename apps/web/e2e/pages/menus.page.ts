@@ -3,10 +3,12 @@ import type { Locator, Page } from '@playwright/test';
 export class MenusPage {
 	private readonly page: Page;
 	private readonly _page: Locator;
+	private createMenuButton: Locator;
 
 	constructor(page: Page) {
 		this.page = page;
 		this._page = this.page.getByTestId('menu-page');
+		this.createMenuButton = this._page.getByTestId('new-menu');
 	}
 
 	/**
@@ -27,5 +29,13 @@ export class MenusPage {
 
 	async saveNthMenu(nth: number) {
 		await this.nthMenu(nth).getByTestId('save').click();
+	}
+
+	async createMenu() {
+		await this.createMenuButton.click();
+	}
+
+	async deleteMenu(nth: number) {
+		await this.nthMenu(nth).getByTestId('delete').click();
 	}
 }
