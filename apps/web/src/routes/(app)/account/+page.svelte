@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from '$lib/components/Button.svelte';
 	import LinkButton from '$lib/components/LinkButton.svelte';
 	import { routes } from '$lib/types/routes.js';
 	export let data;
@@ -11,10 +12,8 @@
 	<p class="text-sm my-3">{user?.email}</p>
 
 	<form method="post" action="?/signOut">
-		<button class="p-1 my-3 border-2 border-slate-200 shadow-md rounded" data-testid="logout"
-			>Logout</button
-		>
+		<Button label="Logout" id="logout" />
 	</form>
 
-	<LinkButton label="Go back to app" link={routes.home} id="home"/>
+	<LinkButton label="Go back to app" link={routes.home} id="home" />
 </div>

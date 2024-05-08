@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import type { ActionData } from './$types';
 	import { routes } from '$lib/types/routes';
+	import Button from '$lib/components/Button.svelte';
 
 	export let form: ActionData;
 
@@ -67,11 +68,11 @@
 		{#if form?.error}
 			<p class="text-sm my-1 text-red-600" data-testid="error">Invalid credentials</p>
 		{/if}
-		<button
-			class="p-1 my-3 border-2 border-slate-200 shadow-md rounded disabled:text-slate-200"
+		<Button
+			label="Sign in"
+			id="submit"
 			disabled={!validityState.email || !validityState.password}
-			data-testid="submit">Sign in</button
-		>
+		/>
 	</form>
 
 	<CallToAction

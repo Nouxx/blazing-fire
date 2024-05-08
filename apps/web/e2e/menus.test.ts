@@ -5,14 +5,22 @@ import { NotSignedInErrorPage } from './pages/error/not-signed-in.page';
 import { HomePage } from './pages/home.page';
 import { MenusPage } from './pages/menus.page';
 import { testUsers } from './data/users';
-import { AuthHelpers } from './pages/auth/auth-helpers';
+import { TestHelpers } from './data/helpers';
 import { ConfirmationModalPage } from './pages/shared/confirmation-modal.page';
 
-test.afterEach(async () => {
+const clearDataForTest = async () => {
 	if (!process.env.CI) {
-		const authHelpers = new AuthHelpers();
-		await authHelpers.deleteMenusForUser(testUsers.registered.id);
+		const helpers = new TestHelpers();
+		await helpers.deleteMenusForUser(testUsers.registered.mail);
 	}
+};
+
+test.beforeEach(async () => {
+	await clearDataForTest();
+});
+
+test.afterEach(async () => {
+	await clearDataForTest();
 });
 
 test('A user can rename a menu', async ({ page }) => {

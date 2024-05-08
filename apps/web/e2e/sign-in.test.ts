@@ -25,6 +25,11 @@ test('A user can sign in', async ({ page, context }) => {
 		await expect(page).toHaveScreenshot('sign-in.png');
 	});
 
+	await test.step('Try to click on the sign in button', async () => {
+		await expect(signInPage.submitButton).toBeDisabled();
+		await expect(page).toHaveScreenshot('sign-in.png');
+	});
+
 	await test.step('Fill the form with an existing mail with a wrong password', async () => {
 		await signInPage.fillForm(testUsers.registered.mail, 'incorrect-password');
 		await signInPage.submitForm();
