@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { type EmailOtpType } from '@supabase/supabase-js';
-import { routes } from '$lib/types/routes';
+import { routes } from '$lib/const/routes';
 
 export const GET = async (event) => {
 	const {

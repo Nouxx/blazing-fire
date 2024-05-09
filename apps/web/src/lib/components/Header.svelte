@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { routes } from '$lib/types/routes';
+	import { routes } from '$lib/const/routes';
 	import type { Session } from '@supabase/supabase-js';
 	export let session: Session | null;
 </script>

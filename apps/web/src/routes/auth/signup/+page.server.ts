@@ -3,7 +3,7 @@ import type { AuthError } from '@supabase/supabase-js';
 import type { AuthFormData } from '$lib/types/forms/auth';
 import { getStringFromFormValue } from '$lib/forms/form-input';
 import type { PageServerLoad } from './$types';
-import { routes } from '$lib/types/routes';
+import { routes } from '$lib/const/routes';
 import { redirectIfSession } from '$lib/server/auth';
 
 type SignUpError = {

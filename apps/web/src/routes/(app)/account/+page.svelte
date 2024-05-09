@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 	import LinkButton from '$lib/components/LinkButton.svelte';
-	import { routes } from '$lib/types/routes.js';
+	import { routes } from '$lib/const/routes.js';
 	export let data;
 	let { user } = data;
 </script>

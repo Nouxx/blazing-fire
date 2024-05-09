@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import type { Session } from '@supabase/supabase-js';
-import { routes } from '$lib/types/routes';
+import { routes } from '$lib/const/routes';
 
 export const redirectIfSession = (session: Session | null) => {
 	if (session) {

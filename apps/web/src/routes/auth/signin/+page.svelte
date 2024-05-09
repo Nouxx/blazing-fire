@@ -4,7 +4,7 @@
 	import type { GenericInputElement } from '$lib/types/input-event.js';
 	import { onMount } from 'svelte';
 	import type { ActionData } from './$types';
-	import { routes } from '$lib/types/routes';
+	import { routes } from '$lib/const/routes';
 	import Button from '$lib/components/Button.svelte';
 
 	export let form: ActionData;

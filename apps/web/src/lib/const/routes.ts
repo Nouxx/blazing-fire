@@ -16,5 +16,3 @@ export const routes = {
 export const apiRoutes = {
 	menus: 'api/menus'
 } as const
-
-export type Route = (typeof routes)[keyof typeof routes];

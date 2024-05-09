@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 	import CallToAction from '$lib/components/CallToAction.svelte';
-	import { routes } from '$lib/types/routes';
+	import { routes } from '$lib/const/routes';
 	export let form: ActionData;
 </script>
 
