@@ -65,4 +65,12 @@ test('A user can rename a menu', async ({ page }) => {
 		await confirmationModal.confirm();
 		await expect(page).toHaveScreenshot('one-menu-renamed.png');
 	});
+
+	await test.step('Rename the remaining menu with keypress', async () => {
+		await menusPage.triggerRenameModeForNthMenu(1);
+		await expect(page).toHaveScreenshot('renaming-first-menu-again.png'); // reference file name as const?
+		await menusPage.renameNthMenu(1, 'Double Renamed Menu');
+		await menusPage.saveNthMenuWithKeypress(1);
+		await expect(page).toHaveScreenshot('first-menu-saved-again.png');
+	});
 });

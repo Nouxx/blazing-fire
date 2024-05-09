@@ -31,6 +31,10 @@ export class MenusPage {
 		await this.nthMenu(nth).getByTestId('save').click();
 	}
 
+	async saveNthMenuWithKeypress(nth: number) {
+		await this.nthMenu(nth).getByTestId('name-input').press('Enter');
+	}
+
 	async createMenu() {
 		await this.createMenuButton.click();
 	}
