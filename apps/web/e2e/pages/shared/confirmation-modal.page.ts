@@ -18,6 +18,6 @@ export class ConfirmationModalPage {
 	}
 
 	async cancel() {
-        await this.cancelButton.click();
-    }
+		await this.cancelButton.click();
+	}
 }

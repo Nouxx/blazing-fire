@@ -12,7 +12,3 @@ export const routes = {
 	signupError: '/error/signup',
 	menus: '/menus'
 } as const;
-
-export const apiRoutes = {
-	menus: 'api/menus'
-} as const

@@ -11,7 +11,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "eslint .",
 		"format:check": "prettier --check . ",
-		"format": "prettier --write .",
+		"format:fix": "prettier --write .",
 		"test:e2e": "DEBUG=pw:webserver playwright test",
 		"test:unit": "vitest run",
 		"supa:start": "supabase start",
@@ -21,10 +21,10 @@
 		"db:update-seed": "cat supabase/init-local.sql >> supabase/seed.sql",
 		"db:reset": "supabase db reset --local",
 		"db:create-migration": "supabase db diff --local --use-migra",
-		"db:types": "supabase gen types typescript --local > src/lib/database/types.ts",
+		"db:types": "supabase gen types typescript --local > src/lib/database/generated-types.ts",
 		"tu": "pnpm test:unit",
 		"te": "pnpm test:e2e",
-		"fw": "pnpm format:write",
+		"ff": "pnpm format:fix",
 		"fc": "pnpm format:check"
 	},
 	"dependencies": {

@@ -27,7 +27,7 @@
 				type="button"
 				on:click={handleClose}
 				class="p-1 m-3 px-3 border-2 text-center border-slate-200 shadow-md rounded"
-                data-testid="close"
+				data-testid="close"
 			>
 				{closeLabel}
 			</button>
@@ -36,7 +36,7 @@
 				type="submit"
 				on:click={handleConfirm}
 				class="p-1 m-3 px-3 border-2 text-center border-red-800 bg-red-500 text-white shadow-md rounded"
-                data-testid="confirm"
+				data-testid="confirm"
 			>
 				{confirmLabel}
 			</button>

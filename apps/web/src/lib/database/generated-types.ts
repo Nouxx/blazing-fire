@@ -36,16 +36,19 @@ export type Database = {
     Tables: {
       menus: {
         Row: {
+          created_at: string | null
           id: number
           name: string
           user_id: string
         }
         Insert: {
+          created_at?: string | null
           id?: never
           name: string
           user_id: string
         }
         Update: {
+          created_at?: string | null
           id?: never
           name?: string
           user_id?: string

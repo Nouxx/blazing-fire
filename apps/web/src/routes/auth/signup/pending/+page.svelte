@@ -11,5 +11,5 @@
 		<span class="font-bold">({data.email})</span>
 		to verify your email address.
 	</p>
-	<LinkButton label="Sign in" link={routes.signin} id="signin"/>
+	<LinkButton label="Sign in" link={routes.signin} id="signin" />
 </div>

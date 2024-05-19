@@ -1,13 +1,11 @@
 <script lang="ts">
 	import type { Menu } from '$lib/types/menu';
-	import { apiRoutes } from '$lib/const/routes';
-	import type { ActionData } from '../$types';
 	import ConfirmationModal from '$lib/components/ConfirmationModal.svelte';
 
 	export let menu: Menu;
 
 	let isRenameModeEnabled = false;
-	let initialMenuName: string;
+	let initialMenuName: string; // todo: check the name
 	let isModalDisplayed = false;
 
 	function showModal() {
@@ -33,8 +31,6 @@
 <!-- button inside of a form must be typed with button to not trigger -->
 <!-- should I make this working without JS? in v2? -->
 
-<!-- todo: where to place that f*cking form so I don't have to style it? -->
-<!-- it's actually ok to do it -->
 <form
 	class="flex flex-row w-full p-3 my-3 border-2 border-slate-400 rounded"
 	data-testid="menu"

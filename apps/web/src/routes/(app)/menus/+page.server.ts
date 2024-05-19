@@ -1,22 +1,30 @@
-import type { Actions, PageServerLoad } from './$types';
-import { redirectIfNoSession } from '$lib/server/auth';
 import { error, fail } from '@sveltejs/kit';
+import { redirectIfNoSession } from '$lib/server/auth';
 import { getStringFromFormValue } from '$lib/forms/form-input';
+import { MenuService } from '$lib/server/services/menu.service';
+import { SupabaseMenuRepository } from '$lib/server/repositories/supabase/menus';
+
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ parent, locals }) => {
 	await parent();
+
 	const { session, user, supabase } = locals;
+
 	redirectIfNoSession(session);
+
 	if (!user) {
 		error(500, { message: 'no user', name: 'NoUserError' });
 	}
-	const { data, error: supabaseError } = await supabase
-		.from('menus') // todo: enum for table name?
-		.select('name, id')
-		.eq('user_id', user.id);
+
+	const menuRepository = new SupabaseMenuRepository(supabase);
+	const menuService = new MenuService(menuRepository);
+	const { data, error: supabaseError } = await menuService.listMenusForUser(user.id);
+
 	if (supabaseError) {
 		error(500, { message: supabaseError.message, name: 'DBError' });
 	}
+
 	return { menus: data };
 };
 
@@ -32,9 +40,9 @@ export const actions = {
 			error(500, { message: 'no user', name: 'NoUserError' });
 		}
 
-		const { error: pgError } = await supabase
-			.from('menus')
-			.insert({ name: 'My New Menu', user_id: user.id });
+		const supabaseRepo = new SupabaseMenuRepository(supabase);
+		const menuService = new MenuService(supabaseRepo);
+		const { error: pgError } = await menuService.createNewMenuForUser(user.id);
 
 		if (pgError) {
 			fail(500, { message: pgError.message });
@@ -55,12 +63,9 @@ export const actions = {
 			fail(400, { message: 'Missing inputs', name });
 		}
 
-		const { error: pgError } = await supabase
-			.from('menus')
-			.update({ name: name })
-			.eq('id', menuId)
-			.eq('user_id', user.id)
-			.select();
+		const supabaseRepo = new SupabaseMenuRepository(supabase);
+		const menuService = new MenuService(supabaseRepo);
+		const { error: pgError } = await menuService.renameMenu(name, menuId);
 
 		if (pgError) {
 			fail(500, { message: pgError.message, name });
@@ -78,11 +83,9 @@ export const actions = {
 		const formData = await request.formData();
 		const menuId = getStringFromFormValue(formData.get('id'));
 
-		const { error: pgError } = await supabase
-			.from('menus')
-			.delete()
-			.eq('id', menuId)
-			.eq('user_id', user.id);
+		const supabaseRepo = new SupabaseMenuRepository(supabase);
+		const menuService = new MenuService(supabaseRepo);
+		const { error: pgError } = await menuService.deleteMenu(menuId);
 
 		if (pgError) {
 			error(500, { message: pgError.message, name: 'DbError' });

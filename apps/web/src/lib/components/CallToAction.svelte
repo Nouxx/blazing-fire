@@ -9,5 +9,5 @@
 
 <div class="flex flex-col w-1/3 items-center" data-testid="login-navigation">
 	<LinkHeading {title} />
-	<LinkButton {link} {label} {id}/>
+	<LinkButton {link} {label} {id} />
 </div>

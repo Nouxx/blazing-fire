@@ -6,7 +6,7 @@
 /playwright-report
 /test-results
 
-# Supabse generated types
-src/lib/database/types.ts
+# Supabase generated types
+src/lib/database/generated-types.ts
 
 supabase/.**
