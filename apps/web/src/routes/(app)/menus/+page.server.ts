@@ -19,13 +19,13 @@ export const load: PageServerLoad = async ({ parent, locals }) => {
 
 	const menuRepository = new SupabaseMenuRepository(supabase);
 	const menuService = new MenuService(menuRepository);
-	const { data, error: supabaseError } = await menuService.listMenusForUser(user.id);
+	const response = await menuService.listMenusForUser(user.id);
 
-	if (supabaseError) {
-		error(500, { message: supabaseError.message, name: 'DBError' });
+	if (response.error) {
+		error(500, response.error);
 	}
 
-	return { menus: data };
+	return { menus: response.data ?? [] };
 };
 
 export const actions = {
@@ -42,10 +42,10 @@ export const actions = {
 
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
 		const menuService = new MenuService(supabaseRepo);
-		const { error: pgError } = await menuService.createNewMenuForUser(user.id);
+		const response = await menuService.createNewMenuForUser(user.id);
 
-		if (pgError) {
-			fail(500, { message: pgError.message });
+		if (response.error) {
+			fail(500, { message: response.error.message });
 		}
 	},
 	renameMenu: async ({ locals, request }) => {
@@ -65,10 +65,10 @@ export const actions = {
 
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
 		const menuService = new MenuService(supabaseRepo);
-		const { error: pgError } = await menuService.renameMenu(name, menuId);
+		const response = await menuService.renameMenu(name, menuId);
 
-		if (pgError) {
-			fail(500, { message: pgError.message, name });
+		if (response.error) {
+			fail(500, { message: response.error.message, name });
 		}
 
 		return { name, success: true };
@@ -85,10 +85,10 @@ export const actions = {
 
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
 		const menuService = new MenuService(supabaseRepo);
-		const { error: pgError } = await menuService.deleteMenu(menuId);
+		const response = await menuService.deleteMenu(menuId);
 
-		if (pgError) {
-			error(500, { message: pgError.message, name: 'DbError' });
+		if (response.error) {
+			error(500, response.error.message);
 		}
 	}
 } satisfies Actions;
