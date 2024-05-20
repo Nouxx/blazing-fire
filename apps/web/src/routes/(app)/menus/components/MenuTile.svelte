@@ -4,10 +4,11 @@
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import MenuName from './MenuName.svelte';
+	import MenuRenameAction from './MenuRenameAction.svelte';
 	import type { ActionData } from '../$types';
 
 	export let menu: Menu;
-	export let form: ActionData;
+	export let form: ActionData; // todo: understand about action data form type
 
 	let isRenameModeEnabled = false;
 	let initialMenuName: string; // todo: check the name
@@ -21,11 +22,6 @@
 		isModalDisplayed = false;
 	}
 
-	function enableRenameMode() {
-		initialMenuName = menu.name;
-		isRenameModeEnabled = true;
-	}
-
 	function getDeleteMessage(menuName: string) {
 		return `Are you sure you want to delete the menu "${menuName}"?`;
 	}
@@ -33,6 +29,10 @@
 	onMount(() => {
 		initialMenuName = menu.name;
 	});
+
+	function handleRename(event) {
+		isRenameModeEnabled = event.detail;
+	}
 
 	let isHovered = false;
 </script>
@@ -48,22 +48,15 @@
 		isHovered = false;
 	}}
 >
-	<div class="flex flex-1">
-		<MenuName {menu} {form} {isHovered} />
+	<div class="flex flex-1 w-full">
+		<MenuName bind:menu editionMode={isRenameModeEnabled} />
 	</div>
-	{#if isRenameModeEnabled}
-		<button type="submit" class="flex" data-testid="save"> Save </button>
-	{:else}
-		<button type="button" class="flex mx-2" on:click={showModal} data-testid="delete">
-			Delete
-		</button>
-		<!-- <button type="button" class="flex" on:click={enableRenameMode} data-testid="rename">
-			Rename
-		</button> -->
-	{/if}
 
-	<input type="hidden" name="id" value={menu.id} />
-	<input type="hidden" name="initialName" value={initialMenuName} />
+	<MenuRenameAction bind:menu {isHovered} {form} on:renameEnabled={handleRename} />
+
+	<button type="button" class="italic mx-2" on:click={showModal} data-testid="delete">
+		Delete
+	</button>
 </div>
 
 <form method="post" action="?/deleteMenu" use:enhance>

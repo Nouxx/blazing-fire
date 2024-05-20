@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	const CLOSE_EVENT_NAME = 'close';
+	const CLOSE_EVENT = 'close';
 	const CONFIRM_EVENT = 'confirm';
 
 	export let message: string;
@@ -11,7 +11,7 @@
 	const dispatch = createEventDispatcher();
 
 	function handleClose() {
-		dispatch(CLOSE_EVENT_NAME);
+		dispatch(CLOSE_EVENT);
 	}
 
 	function handleConfirm() {

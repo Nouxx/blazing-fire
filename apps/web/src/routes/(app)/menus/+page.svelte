@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 	import type { ActionData } from './$types.js';
-	import Menu from './components/Menu.svelte';
+	import MenuTile from './components/MenuTile.svelte';
 
 	export let form: ActionData;
 	export let data;
@@ -16,7 +16,7 @@
 
 	{#if data.menus.length > 0}
 		{#each data.menus as menu}
-			<Menu {menu} {form}/>
+			<MenuTile {menu} {form}/>
 		{/each}
 	{/if}
 
