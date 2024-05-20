@@ -59,8 +59,8 @@ export const actions = {
 		const name = getStringFromFormValue(formData.get('name'));
 		const menuId = getStringFromFormValue(formData.get('id'));
 
-		if (!name || !null) {
-			fail(400, { message: 'Missing inputs', name });
+		if (!name || !menuId) {
+			return fail(400, { error: { message: 'Missing inputs' }, name });
 		}
 
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
@@ -68,7 +68,7 @@ export const actions = {
 		const response = await menuService.renameMenu(name, menuId);
 
 		if (response.error) {
-			fail(500, { message: response.error.message, name });
+			return fail(500, { error: response.error, name });
 		}
 
 		return { name, success: true };
