@@ -45,10 +45,10 @@ export const actions = {
 		const response = await menuService.createNewMenuForUser(user.id);
 
 		if (response.error) {
-			fail(500, { message: response.error.message });
+			return fail(500, { message: response.error.message });
 		}
 	},
-	renameMenu: async ({ locals, request }) => {
+	editMenus: async ({ locals, request }) => {
 		const { session, user, supabase } = locals;
 
 		if (!session || !user) {
@@ -56,25 +56,29 @@ export const actions = {
 		}
 
 		const formData = await request.formData();
-		const name = getStringFromFormValue(formData.get('name'));
-		const menuId = getStringFromFormValue(formData.get('id'));
+		console.log('formData', formData.get('obj0'));
+		const obj0 = formData.get('obj0');
+		console.log('obj0.name', JSON.parse(getStringFromFormValue(obj0)).name);
+		// const name = getStringFromFormValue(formData.get('name'));
+		// const menuId = getStringFromFormValue(formData.get('id'));
 
-		if (!name || !menuId) {
-			return fail(400, { error: { message: 'Missing inputs' }, name });
-		}
+		// if (!name || !menuId) {
+		// 	return fail(400, { error: { message: 'Missing inputs' }, name });
+		// }
 
-		const supabaseRepo = new SupabaseMenuRepository(supabase);
-		const menuService = new MenuService(supabaseRepo);
-		const response = await menuService.renameMenu(name, menuId);
+		// const supabaseRepo = new SupabaseMenuRepository(supabase);
+		// const menuService = new MenuService(supabaseRepo);
+		// const response = await menuService.renameMenu(name, menuId);
 
-		if (response.error) {
-			return fail(500, { error: response.error, name });
-		}
+		// if (response.error) {
+		// 	return fail(500, { error: response.error, name });
+		// }
 
-		return { name, success: true };
+		// return { name, success: true };
 	},
 	deleteMenu: async ({ locals, request }) => {
 		const { session, user, supabase } = locals;
+		console.log('deleteMenu')
 
 		if (!session || !user) {
 			error(401);
@@ -82,10 +86,16 @@ export const actions = {
 
 		const formData = await request.formData();
 		const menuId = getStringFromFormValue(formData.get('id'));
+
+		if (!menuId) {
+			console.log('MISSSSA');
+			return fail(400, { error: 'Missing menu id' });
+		}
 
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
 		const menuService = new MenuService(supabaseRepo);
 		const response = await menuService.deleteMenu(menuId);
+		console.log('RESPONSE', response);
 
 		if (response.error) {
 			error(500, response.error.message);
