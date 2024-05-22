@@ -13,6 +13,14 @@
 	let isDeletionModalDisplayed = false;
 	let menuToDelete: Menu;
 
+	let menusComponents: MenuTile[] = [];
+
+	function saveMenus() {
+		for (const menuComponent of menusComponents) {
+			menuComponent.saveMenu();
+		}
+	}
+
 	function toggleEditionMode(value?: boolean): void {
 		if (value !== undefined) {
 			editionMode = value;
@@ -39,6 +47,16 @@
 			toggleEditionMode(false);
 		}
 	}
+
+	// todo:
+	// - set a menusSaveStore to track the save actions for all menus
+	// - the menu actions (save & edit) listens to that store and knows when all menus are saved
+	// - if all save ok, edit mode off
+	// - if at least one error, edition mode stays on
+	// when cancel is clicked, all menus goes back to their name from the DB
+	// when edit is mode is just triggered, the save button is disabled because all names are the same
+	// the menuSaveStore contains all that information
+	// when the edition mode is disabled, the saveStore is wiped OUT!
 </script>
 
 <div class="flex flex-col items-center mx-5" data-testid="menu-page">
@@ -49,21 +67,21 @@
 	{/if}
 
 	{#if data.menus.length > 0}
-		{#each data.menus as menu}
-			<MenuTile {menu} {editionMode} on:delete={handleDelete} />
+		{#each data.menus as menu, index}
+			<MenuTile
+				{menu}
+				{index}
+				{editionMode}
+				on:delete={handleDelete}
+				bind:this={menusComponents[index]}
+			/>
 		{/each}
 	{/if}
 
 	<div data-testid="actions" class="flex flex-row">
 		{#if editionMode}
-			<form method="post" action="?/editMenus">
-				<!-- disguting  -->
-				{#each data.menus as menu, index}
-					<input type="hidden" name={'obj' + index} value={JSON.stringify(menu)} />
-				{/each}
-				<Button type="submit" label="Save" id="save" />
-				<Button label="Cancel" id="cancel" on:click={() => toggleEditionMode(false)} />
-			</form>
+			<Button type="submit" label="Save" id="save" on:click={saveMenus} />
+			<Button label="Cancel" id="cancel" on:click={() => toggleEditionMode(false)} />
 		{:else if data.menus.length > 0}
 			<Button label="Edit" id="edit" on:click={() => toggleEditionMode(true)} />
 		{/if}

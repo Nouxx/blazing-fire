@@ -20,7 +20,8 @@ export class SupabaseMenuRepository implements MenuRepository {
 		const response = await this.supabase
 			.from(this.tableName)
 			.select('name, id')
-			.eq(this.userIdColumn, userId);
+			.eq(this.userIdColumn, userId)
+			.order('id', { ascending: false });
 		return Supabase.handleResponse<Menu[]>(response);
 	}
 
