@@ -4,54 +4,54 @@
 	import MenuName from './MenuName.svelte';
 
 	import type { Menu } from '$lib/types/menu';
-
-	const DELETE_EVENT = 'delete';
+	import Button from '$lib/components/Button.svelte';
+	import MenuActionsFeedback from './MenuActionsFeedback.svelte';
+	import MenuDeleteAction from './MenuDeleteAction.svelte';
 
 	export let menu: Menu;
-	export let index: number;
 	export let editionMode: boolean;
 
 	let formElement: HTMLFormElement;
-	let saveSuccessfull: boolean | null = null;
+	let saveSuccessful: boolean | null = null;
 
 	let isSaving = false;
 
 	let nameInDB = menu.name; // todo: rename
 	let isNameDifferentFromDB = false;
 
-	const dispatch = createEventDispatcher();
-
-	function dispatchDelete() {
-		dispatch(DELETE_EVENT, menu);
+	function setIsSaving(value: boolean) {
+		isSaving = value;
 	}
 
 	function setSaveSuccess() {
-		saveSuccessfull = true;
+		saveSuccessful = true;
 		nameInDB = menu.name;
-		// update saveStore
 		isSaving = false;
 	}
 
 	function setSaveFailed() {
-		saveSuccessfull = false;
-		// update store
+		saveSuccessful = false;
 		isSaving = false;
 	}
 
 	$: {
 		isNameDifferentFromDB = menu.name !== nameInDB;
-		// update store
 	}
 
-	export async function saveMenu() {
-		// console.log(`Menu #${index} notified!`);
-		isSaving = true;
+	$: {
+		if (editionMode === true) {
+			saveSuccessful = null;
+		}
+	}
+
+	export function saveMenu() {
+		setIsSaving(true);
 		formElement.requestSubmit();
 	}
 </script>
 
 <div
-	class="flex flex-row w-full p-3 my-3 border-2 border-slate-400 rounded hover:bg-slate-200"
+	class="flex flex-row w-full p-3 my-3 h-16 border-2 border-slate-400 rounded hover:bg-slate-100"
 	data-testid="menu"
 >
 	<div class="flex flex-1 w-full">
@@ -59,23 +59,16 @@
 	</div>
 
 	{#if editionMode}
-		<div class="flex flex-col justify-center italic text-xs">
-			{#if isSaving}
-				<p>Loading...</p>
-			{/if}
-
-			{#if saveSuccessfull === true}
-				<p>Saved</p>
-			{/if}
-
-			{#if saveSuccessfull === false}
-				<p class="text-red-600">Whoops</p>
-			{/if}
+		<MenuActionsFeedback status={saveSuccessful} />
+		<div data-testid="actions" class="[&>*]:ml-2">
+			<Button
+				label={isSaving ? 'Loading...' : 'Save'}
+				id="save"
+				on:click={saveMenu}
+				disabled={!isNameDifferentFromDB || isSaving}
+			/>
+			<MenuDeleteAction {menu} disabled={isSaving} />
 		</div>
-
-		<button type="button" class="italic mx-2" on:click={dispatchDelete} data-testid="delete">
-			Delete
-		</button>
 	{/if}
 </div>
 
@@ -85,14 +78,11 @@
 	method="post"
 	use:enhance={() => {
 		return async ({ result, update }) => {
-			// todo: use function above
 			if (result.type === 'success') {
-				saveSuccessfull = true;
-				nameInDB = menu.name;
+				setSaveSuccess();
 			} else {
-				saveSuccessfull = false;
+				setSaveFailed();
 			}
-			isSaving = false;
 			update();
 		};
 	}}

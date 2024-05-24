@@ -47,6 +47,8 @@ export const actions = {
 		if (response.error) {
 			return fail(500, { message: response.error.message });
 		}
+
+		return response.data;
 	},
 	renameMenu: async ({ locals, request }) => {
 		const { session, user, supabase } = locals;
@@ -64,11 +66,13 @@ export const actions = {
 			return fail(400, { error: { message: 'Missing inputs' }, name });
 		}
 
-		if (menuId === "33") {
+		// todo: remove
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+
+		// todo: remove
+		if (menuId === '40') {
 			return fail(400, { error: { message: 'NTM' }, name });
 		}
-
-		await new Promise((resolve) => setTimeout(resolve, 2000));
 
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
 		const menuService = new MenuService(supabaseRepo);
@@ -78,11 +82,11 @@ export const actions = {
 			return fail(500, { error: response.error, name });
 		}
 
+		// todo: return menu object (renamed)
 		return { name, success: true };
 	},
 	deleteMenu: async ({ locals, request }) => {
 		const { session, user, supabase } = locals;
-		console.log('deleteMenu');
 
 		if (!session || !user) {
 			error(401);
@@ -98,10 +102,11 @@ export const actions = {
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
 		const menuService = new MenuService(supabaseRepo);
 		const response = await menuService.deleteMenu(menuId);
-		console.log('RESPONSE', response);
 
 		if (response.error) {
 			error(500, response.error.message);
 		}
+		// todo: return deleted menu oject
+		console.log('resp', response);
 	}
 } satisfies Actions;

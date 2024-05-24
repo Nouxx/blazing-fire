@@ -13,13 +13,13 @@
 	}
 </script>
 
-<div class="flex flex-col w-full">
+<div class="flex flex-col w-full justify-center">
 	{#if editionMode}
 		<input
 			type="text"
 			name="name"
 			bind:value={menu.name}
-			class="outline-none w-full bg-inherit"
+			class="outline-none bg-inherit"
 			class:underline={editionMode}
 			class:underline-offset-4={editionMode}
 			data-testid="name-input"

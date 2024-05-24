@@ -21,14 +21,19 @@ export class SupabaseMenuRepository implements MenuRepository {
 			.from(this.tableName)
 			.select('name, id')
 			.eq(this.userIdColumn, userId)
-			.order('id', { ascending: false });
+			.order('id', { ascending: true });
 		return Supabase.handleResponse<Menu[]>(response);
 	}
 
 	public async createMenuForUser(userId: string, menuName: string) {
 		const response = await this.supabase
 			.from(this.tableName)
-			.insert({ name: menuName, [this.userIdColumn]: userId });
+			.insert({ name: menuName, [this.userIdColumn]: userId })
+			.select('name, id');
+		if (response.data) {
+			const newResponse = { ...response, data: response.data[0] };
+			return Supabase.handleResponse(newResponse);
+		}
 		return Supabase.handleResponse(response);
 	}
 
