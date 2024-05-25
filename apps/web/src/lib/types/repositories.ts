@@ -1,4 +1,3 @@
-export type RepositoryResponse<T = null> = {
-	data: T | null;
-	error: App.Error | null;
-};
+export type RepositoryResponse<T> =
+	| { data: T; error: null }
+	| { data: null; error: App.Error };

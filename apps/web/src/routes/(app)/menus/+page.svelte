@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import type { ActionData } from './$types.js';
+	import MenuCreateAction from './components/MenuCreateAction.svelte';
 	import MenuTile from './components/MenuTile.svelte';
 
 	export let form: ActionData; // todo: understand about action data form type
@@ -57,18 +58,6 @@
 
 	<!-- todo: CreateMenuAction.svelte -->
 	{#if !editionMode}
-		<form
-			method="POST"
-			action="?/createMenu"
-			use:enhance={() => {
-				return async ({ update }) => {
-					// todo: handle error
-					// todo: handle loading
-					update();
-				};
-			}}
-		>
-			<Button type="submit" label="+ Menu" id="new-menu" />
-		</form>
+		<MenuCreateAction />
 	{/if}
 </div>

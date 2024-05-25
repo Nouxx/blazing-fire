@@ -36,10 +36,6 @@ export const actions = {
 			error(401);
 		}
 
-		if (!user) {
-			error(500, { message: 'no user', name: 'NoUserError' });
-		}
-
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
 		const menuService = new MenuService(supabaseRepo);
 		const response = await menuService.createNewMenuForUser(user.id);
@@ -68,11 +64,10 @@ export const actions = {
 
 		// todo: remove
 		await new Promise((resolve) => setTimeout(resolve, 1000));
-
-		// todo: remove
 		if (menuId === '40') {
 			return fail(400, { error: { message: 'NTM' }, name });
 		}
+		// todo
 
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
 		const menuService = new MenuService(supabaseRepo);
@@ -82,8 +77,7 @@ export const actions = {
 			return fail(500, { error: response.error, name });
 		}
 
-		// todo: return menu object (renamed)
-		return { name, success: true };
+		return response.data;
 	},
 	deleteMenu: async ({ locals, request }) => {
 		const { session, user, supabase } = locals;
@@ -106,7 +100,7 @@ export const actions = {
 		if (response.error) {
 			error(500, response.error.message);
 		}
-		// todo: return deleted menu oject
-		console.log('resp', response);
+
+		return response.data;
 	}
 } satisfies Actions;

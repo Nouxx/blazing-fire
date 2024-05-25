@@ -1,18 +1,14 @@
 import { createServerClient } from '@supabase/ssr';
 
-import type { PostgrestError } from '@supabase/supabase-js';
+import type { PostgrestError, PostgrestSingleResponse } from '@supabase/supabase-js';
 import type { RequestEvent } from '@sveltejs/kit';
 import type { Database } from '$lib/database/generated-types';
+import type { RepositoryResponse } from '$lib/types/repositories';
 
 const supabaseCookiesOptions = {
 	path: '/',
 	secure: true
 } as const;
-
-export type SupabaseResponse<T> = {
-	data: T | null;
-	error: PostgrestError | null;
-};
 
 export class Supabase {
 	public static createClient(event: RequestEvent, url: string, anon_key: string) {
@@ -31,18 +27,23 @@ export class Supabase {
 		});
 	}
 
-	public static toAppError(error: PostgrestError): App.Error {
+	protected static toAppError(error: PostgrestError): App.Error {
 		return {
 			message: error.message,
 			code: error.code
 		};
 	}
 
-	public static handleResponse<T = null>(response: SupabaseResponse<T>) {
+	/**
+	 * convert supabase Postgrest response to RepositoryReponse
+	 * @param response
+	 * @returns
+	 */
+	public static handleResponse<T>(response: PostgrestSingleResponse<T>): RepositoryResponse<T> {
 		const { data, error } = response;
 		if (error) {
-			return { data: null, error: Supabase.toAppError(error) };
+			return { data, error: Supabase.toAppError(error) };
 		}
-		return { data, error: null };
+		return { data, error };
 	}
 }
