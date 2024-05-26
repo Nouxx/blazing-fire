@@ -1,11 +1,8 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
-	import type { ActionData } from './$types.js';
 	import MenuCreateAction from './components/MenuCreateAction.svelte';
 	import MenuTile from './components/MenuTile.svelte';
 
-	export let form: ActionData; // todo: understand about action data form type
 	export let data;
 
 	let editionMode = false;
@@ -23,27 +20,16 @@
 			toggleEditionMode(false);
 		}
 	}
-
-	// keep 4 later
-	// const submitFunction: SubmitFunction = () => {
-	// 	return async ({ result }) => {
-	// 		if (result.type === 'success' && result.data?.id) {
-	// 			result.data; // typed
-	// 		}
-	// 	};
-	// };
 </script>
 
 <div class="flex flex-col items-center mx-5" data-testid="menu-page">
 	<div class="flex flex-row w-full my-6 items-center">
 		<h1 class="flex flex-1 text-3xl font-bold">Menus</h1>
-		<div>
-			{#if editionMode}
-				<Button label="Back" id="toggle-edit" on:click={() => toggleEditionMode(false)} />
-			{:else}
-				<Button label="Edit" id="toggle-edit" on:click={() => toggleEditionMode(true)} />
-			{/if}
-		</div>
+		<Button
+			label={editionMode ? 'Back' : 'Edit'}
+			id="toggle-edit"
+			on:click={() => toggleEditionMode()}
+		/>
 	</div>
 
 	{#if data.menus.length === 0}
@@ -56,7 +42,6 @@
 		{/each}
 	{/if}
 
-	<!-- todo: CreateMenuAction.svelte -->
 	{#if !editionMode}
 		<MenuCreateAction />
 	{/if}

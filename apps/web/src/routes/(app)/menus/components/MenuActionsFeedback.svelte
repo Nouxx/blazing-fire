@@ -1,15 +1,12 @@
 <script lang="ts">
-	export let status: boolean | null;
-
-	export let ignoreSuccess = false;
+	export let display = false;
+	export let status: boolean;
 </script>
 
-{#if status !== null}
+{#if display}
 	<div class="flex flex-col justify-center italic text-s mx-2">
 		{#if status}
-			{#if !ignoreSuccess}
-				<p class="text-green-600">All good!</p>
-			{/if}
+			<p class="text-green-600">All good!</p>
 		{:else}
 			<p class="text-red-600">Whoops..</p>
 		{/if}

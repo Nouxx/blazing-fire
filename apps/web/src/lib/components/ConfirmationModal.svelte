@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import Button from './Button.svelte';
 
 	const CLOSE_EVENT = 'close';
 	const CONFIRM_EVENT = 'confirm';
@@ -7,6 +8,8 @@
 	export let message: string;
 	export let closeLabel: string;
 	export let confirmLabel: string;
+	export let disabled = false;
+	export let error: string | undefined = undefined;
 
 	const dispatch = createEventDispatcher();
 
@@ -20,26 +23,23 @@
 </script>
 
 <div class="flex flex-col justify-center modal" data-testid="confirmation-modal">
-	<dialog class="flex flex-col p-5 border-2 border-slate-200 shadow-md rounded">
-		<h1 class="text-sm my-3">{message}</h1>
-		<div class="flex flex-row justify-center">
-			<button
-				type="button"
-				on:click={handleClose}
-				class="p-1 m-3 px-3 border-2 text-center border-slate-200 shadow-md rounded"
-				data-testid="close"
-			>
-				{closeLabel}
-			</button>
-
-			<button
+	<dialog
+		class="flex flex-col items-center p-5 border-2 border-slate-200 shadow-md rounded [&>*]:my-3"
+	>
+		<h1 class="text-m">{message}</h1>
+		{#if error}
+			<p class="text-sm italic text-red-600">{error}</p>
+		{/if}
+		<div class="flex flex-row justify-center mt-2 [&>*]:mx-2">
+			<Button label={closeLabel} type="button" on:click={handleClose} {disabled} id="close" />
+			<Button
+				label={confirmLabel}
+				style="danger"
 				type="submit"
+				{disabled}
 				on:click={handleConfirm}
-				class="p-1 m-3 px-3 border-2 text-center border-red-800 bg-red-500 text-white shadow-md rounded"
-				data-testid="confirm"
-			>
-				{confirmLabel}
-			</button>
+				id="confirm"
+			/>
 		</div>
 	</dialog>
 </div>

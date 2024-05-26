@@ -12,7 +12,8 @@
 	export let editionMode: boolean;
 
 	let formElement: HTMLFormElement;
-	let saveSuccessful: boolean | null = null;
+	let isSubmitted = false;
+	let saveSuccessful = false;
 
 	let isSaving = false;
 
@@ -40,7 +41,7 @@
 
 	$: {
 		if (editionMode === true) {
-			saveSuccessful = null;
+			isSubmitted = false;
 		}
 	}
 

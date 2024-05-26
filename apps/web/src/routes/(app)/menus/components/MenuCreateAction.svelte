@@ -1,32 +1,29 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
-	import type { SubmitFunction } from '../$types';
 	import MenuActionsFeedback from './MenuActionsFeedback.svelte';
 
-	let formElement: HTMLFormElement;
-	let isLoading: boolean;
-	let actionStatus: boolean | null = null;
+	import type { SubmitFunction } from '../$types';
 
-	function submitForm() {
-		isLoading = true;
-		formElement.submitForm();
-	}
+	let isLoading = false;
+	let isSubmitted = false;
+	let isSubmissionOk = false;
 
 	const submitFunction: SubmitFunction = () => {
+		isLoading = true;
 		return async ({ result, update }) => {
-			if (result.type === 'success') {
-				actionStatus = true;
-			} else {
-				actionStatus = false;
-			}
+			isSubmissionOk = result.type === 'success';
 			isLoading = false;
+			isSubmitted = true;
 			update();
 		};
 	};
 </script>
 
-<form bind:this={formElement} method="POST" action="?/createMenu" use:enhance={submitFunction}>
-	<Button type="submit" label="+ Menu" id="new-menu" on:click={submitForm} />
-	<MenuActionsFeedback status={actionStatus} ignoreSuccess={true} />
+<form action="?/createMenu" method="POST" use:enhance={submitFunction}>
+	<Button type="submit" label="New Menu" id="new-menu" disabled={isLoading} />
 </form>
+
+<div class="mt-2">
+	<MenuActionsFeedback display={isSubmitted && !isSubmissionOk} status={false} />
+</div>
