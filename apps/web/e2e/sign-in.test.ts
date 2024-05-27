@@ -37,7 +37,7 @@ test('A user can sign in', async ({ page, context }) => {
 	});
 
 	await test.step('Fill the form with correct credentials', async () => {
-		await signInPage.fillForm(testUsers.registered.mail, testUsers.registered.password);
+		await signInPage.fillForm(testUsers.registered.mail, testUsers.registered.password); // idea: pass testUsers object instead
 		await signInPage.submitForm();
 		await expect(page).toHaveScreenshot('home-signed-in.png');
 	});

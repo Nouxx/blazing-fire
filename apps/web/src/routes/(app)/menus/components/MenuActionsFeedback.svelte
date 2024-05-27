@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let display = false;
+	export let display: boolean;
 	export let status: boolean;
 </script>
 

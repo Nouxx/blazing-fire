@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import { enhance } from '$app/forms';
 	import MenuName from './MenuName.svelte';
 
@@ -10,6 +9,8 @@
 
 	export let menu: Menu;
 	export let editionMode: boolean;
+
+	// todo: refactor
 
 	let formElement: HTMLFormElement;
 	let isSubmitted = false;
@@ -27,11 +28,13 @@
 	function setSaveSuccess() {
 		saveSuccessful = true;
 		nameInDB = menu.name;
+		isSubmitted = true;
 		isSaving = false;
 	}
 
 	function setSaveFailed() {
 		saveSuccessful = false;
+		isSubmitted = true;
 		isSaving = false;
 	}
 
@@ -60,7 +63,7 @@
 	</div>
 
 	{#if editionMode}
-		<MenuActionsFeedback status={saveSuccessful} />
+		<MenuActionsFeedback status={saveSuccessful} display={isSubmitted} />
 		<div data-testid="actions" class="[&>*]:ml-2">
 			<Button
 				label={isSaving ? 'Loading...' : 'Save'}

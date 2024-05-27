@@ -12,7 +12,7 @@
 	<p class="text-sm my-3">{user?.email}</p>
 
 	<form method="post" action="?/signOut">
-		<Button label="Logout" id="logout" />
+		<Button type="submit" label="Logout" id="logout" />
 	</form>
 
 	<LinkButton label="Go back to app" link={routes.home} id="home" />

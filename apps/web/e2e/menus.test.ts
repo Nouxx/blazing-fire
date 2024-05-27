@@ -15,15 +15,93 @@ const clearDataForTest = async () => {
 	}
 };
 
-test.beforeEach(async () => {
+let landingPage: LandingPage;
+let authErrorPage: NotSignedInErrorPage;
+let signInPage: SignInPage;
+let homePage: HomePage;
+let menusPage: MenusPage;
+
+test.beforeEach(async ({ page }) => {
 	await clearDataForTest();
+
+	landingPage = new LandingPage(page);
+	authErrorPage = new NotSignedInErrorPage(page);
+	signInPage = new SignInPage(page);
+	homePage = new HomePage(page);
+	menusPage = new MenusPage(page);
+
+	await test.step('Sign in and go to the Menu page', async () => {
+		await page.goto('/');
+		await landingPage.goToApp();
+		await authErrorPage.followLink();
+		await signInPage.fillForm(testUsers.registered.mail, testUsers.registered.password);
+		await signInPage.submitForm();
+		await homePage.goToMenuPage();
+	});
+
+	await test.step('Hit the Create Menu button', async () => {
+		await menusPage.createMenu();
+	});
 });
 
 test.afterEach(async () => {
 	await clearDataForTest();
 });
 
-test('A user can rename a menu', async ({ page }) => {
+test('Create menus', async ({ page }) => {
+	await test.step('Hit the Create Menu button', async () => {
+		await menusPage.createMenu();
+		await expect(page).toHaveScreenshot('two-menus.png');
+	});
+
+	await test.step('Hit the Create Menu button again', async () => {
+		await menusPage.createMenu();
+		await expect(page).toHaveScreenshot('three-menus.png');
+	});
+});
+
+test('Error when creating a new menu', async ({ page }) => {
+	await test.step('Mock the createMenu form action', async () => {
+		await page.route('*/**/createMenu', async (route) => {
+			const json = { type: 'failure', status: 500, data: '[{"message":1},"Mock Error"]' };
+			await route.fulfill({ json });
+		});
+	});
+
+	await test.step('Hit the Create Menu button', async () => {
+		await menusPage.createMenu();
+		await expect(page).toHaveScreenshot('create-menu-error.png');
+	});
+});
+
+test('Rename menus', async ({ page }) => {
+	await test.step('Toggle edition mode (on)', async () => {
+		await menusPage.toggleEditionMode();
+		await expect(page).toHaveScreenshot('one-menu-edition-on.png');
+	});
+
+	await test.step('Rename the first menu', async () => {
+		await menusPage.renameNthMenu(1, 'My renamed menu');
+		await expect(page).toHaveScreenshot('one-renaming-menu-edition-on.png');
+	});
+
+	await test.step('Save first menu', async () => {
+		await menusPage.saveNthMenu(1);
+		await expect(page).toHaveScreenshot('one-saved-ok-menu.png');
+	});
+
+	await test.step('Toggle edition mode (off)', async () => {
+		await menusPage.toggleEditionMode();
+		await expect(page).toHaveScreenshot('one-renamed-menu-edition-off.png');
+	});
+
+	await test.step('Toggle edition mode (on)', async () => {
+		await menusPage.toggleEditionMode();
+		await expect(page).toHaveScreenshot('one-renamed-menu-edition-on.png');
+	});
+});
+
+test.skip('A user can rename a menu', async ({ page }) => {
 	const landingPage = new LandingPage(page);
 	const authErrorPage = new NotSignedInErrorPage(page);
 	const signInPage = new SignInPage(page);
@@ -47,7 +125,7 @@ test('A user can rename a menu', async ({ page }) => {
 	});
 
 	await test.step('Rename the first menu', async () => {
-		await menusPage.triggerRenameModeForNthMenu(1);
+		// await menusPage.triggerRenameModeForNthMenu(1);
 		await expect(page).toHaveScreenshot('renaming-first-menu.png');
 		await menusPage.renameNthMenu(1, 'Renamed Menu');
 		await menusPage.saveNthMenu(1);
@@ -67,10 +145,10 @@ test('A user can rename a menu', async ({ page }) => {
 	});
 
 	await test.step('Rename the remaining menu with keypress', async () => {
-		await menusPage.triggerRenameModeForNthMenu(1);
+		// await menusPage.triggerRenameModeForNthMenu(1);
 		await expect(page).toHaveScreenshot('renaming-first-menu-again.png'); // reference file name as const?
 		await menusPage.renameNthMenu(1, 'Double Renamed Menu');
-		await menusPage.saveNthMenuWithKeypress(1);
+		// await menusPage.saveNthMenuWithKeypress(1);
 		await expect(page).toHaveScreenshot('first-menu-saved-again.png');
 	});
 });

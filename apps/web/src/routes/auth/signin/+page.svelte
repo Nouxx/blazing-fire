@@ -69,6 +69,7 @@
 			<p class="text-sm my-1 text-red-600" data-testid="error">Invalid credentials</p>
 		{/if}
 		<Button
+			type="submit"
 			label="Sign in"
 			id="submit"
 			disabled={!validityState.email || !validityState.password}

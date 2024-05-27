@@ -54,20 +54,12 @@ export const actions = {
 		}
 
 		const formData = await request.formData();
-
 		const name = getStringFromFormValue(formData.get('name'));
 		const menuId = getStringFromFormValue(formData.get('id'));
 
 		if (!name || !menuId) {
 			return fail(400, { error: { message: 'Missing inputs' }, name });
 		}
-
-		// todo: remove
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-		if (menuId === '40') {
-			return fail(400, { error: { message: 'NTM' }, name });
-		}
-		// todo
 
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
 		const menuService = new MenuService(supabaseRepo);
