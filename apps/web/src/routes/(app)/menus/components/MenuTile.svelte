@@ -11,15 +11,27 @@
 	export let editionMode: boolean;
 
 	// todo: refactor
+	// todo: disable toggle edit when saving
 
 	let formElement: HTMLFormElement;
-	let isSubmitted = false;
-	let saveSuccessful = false;
 
-	let isSaving = false;
+	let isSubmitted: boolean;
+	let saveSuccessful: boolean;
+	let isSaving: boolean;
 
 	let nameInDB = menu.name; // todo: rename
-	let isNameDifferentFromDB = false;
+	let isNameDifferentFromDB: boolean;
+
+	function initState(caller: any) {
+		console.log('initState called by ' + caller);
+		isSubmitted = false;
+		saveSuccessful = false;
+		isSaving = false;
+		menu.name = nameInDB;
+		isNameDifferentFromDB = false;
+	}
+
+	initState('script');
 
 	function setIsSaving(value: boolean) {
 		isSaving = value;
@@ -38,15 +50,13 @@
 		isSaving = false;
 	}
 
-	$: {
-		isNameDifferentFromDB = menu.name !== nameInDB;
+	function onChange(...args) {
+		initState(args);
 	}
 
-	$: {
-		if (editionMode === true) {
-			isSubmitted = false;
-		}
-	}
+	$: isNameDifferentFromDB = menu.name !== nameInDB;
+
+	$: onChange(editionMode);
 
 	export function saveMenu() {
 		setIsSaving(true);
