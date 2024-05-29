@@ -1,12 +1,15 @@
 import { test, expect } from '@playwright/test';
+
 import { LandingPage } from './pages/landing.page';
 import { SignInPage } from './pages/auth/signin/signin-form.page';
 import { NotSignedInErrorPage } from './pages/error/not-signed-in.page';
 import { HomePage } from './pages/home.page';
 import { MenusPage } from './pages/menus.page';
+import { ConfirmationModalPage } from './pages/shared/confirmation-modal.page';
+
 import { testUsers } from './data/users';
 import { TestHelpers } from './data/helpers';
-import { ConfirmationModalPage } from './pages/shared/confirmation-modal.page';
+
 import { SnapshotHandler } from './utils/snapshot-handler';
 
 const clearDataForTest = async () => {
@@ -21,6 +24,7 @@ let authErrorPage: NotSignedInErrorPage;
 let signInPage: SignInPage;
 let homePage: HomePage;
 let menusPage: MenusPage;
+let confirmationModalPage: ConfirmationModalPage;
 
 test.beforeEach(async ({ page }) => {
 	await clearDataForTest();
@@ -30,6 +34,7 @@ test.beforeEach(async ({ page }) => {
 	signInPage = new SignInPage(page);
 	homePage = new HomePage(page);
 	menusPage = new MenusPage(page);
+	confirmationModalPage = new ConfirmationModalPage(page);
 
 	await test.step('Sign in and go to the Menu page', async () => {
 		await page.goto('/');
@@ -52,26 +57,24 @@ test.afterEach(async () => {
 test('Create menus', async ({ page }) => {
 	const TEST_ID = 'create-menus';
 	const sh = new SnapshotHandler(TEST_ID);
-	const SNAP_TWO_MENUS = sh.getFileName('Two menus displayed with edition mode off');
-	const SNAP_THREE_MENUS = sh.getFileName('Three menus displayed with edition mode off');
+	const SNAP_TWO_MENUS = 'Two menus displayed with edition mode off';
+	const SNAP_THREE_MENUS = 'Three menus displayed with edition mode off';
 
 	await test.step('Create a 2nd menu', async () => {
 		await menusPage.createMenu();
-		await expect(page).toHaveScreenshot(SNAP_TWO_MENUS);
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_TWO_MENUS));
 	});
 
 	await test.step('Create a 3rd menu', async () => {
 		await menusPage.createMenu();
-		await expect(page).toHaveScreenshot(SNAP_THREE_MENUS);
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_THREE_MENUS));
 	});
 });
 
 test('Error when creating a new menu', async ({ page }) => {
 	const TEST_ID = 'create-menus-error';
 	const sh = new SnapshotHandler(TEST_ID);
-	const SNAP_CREATE_MENU_ERROR = sh.getFileName(
-		'One menu displayed with error after creating another one'
-	);
+	const SNAP_CREATE_MENU_ERROR = 'One menu displayed with error after creating another one';
 
 	await test.step('Mock the createMenu form action', async () => {
 		await page.route('*/**/createMenu', async (route) => {
@@ -82,11 +85,11 @@ test('Error when creating a new menu', async ({ page }) => {
 
 	await test.step('Create a second menu', async () => {
 		await menusPage.createMenu();
-		await expect(page).toHaveScreenshot(SNAP_CREATE_MENU_ERROR);
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_CREATE_MENU_ERROR));
 	});
 });
 
-test('Successful rename menus', async ({ page }) => {
+test('Rename menus', async ({ page }) => {
 	const TEST_ID = 'rename-menus';
 	const sh = new SnapshotHandler(TEST_ID);
 	const SNAP_ONE_MENU = 'One menu displayed with edition mode on';
@@ -186,54 +189,44 @@ test('Error when renaming a new menu', async ({ page }) => {
 	});
 });
 
-test.skip('A user can rename a menu', async ({ page }) => {
-	const landingPage = new LandingPage(page);
-	const authErrorPage = new NotSignedInErrorPage(page);
-	const signInPage = new SignInPage(page);
-	const homePage = new HomePage(page);
-	const menusPage = new MenusPage(page);
-	const confirmationModal = new ConfirmationModalPage(page);
+test('Delete menus', async ({ page }) => {
+	const TEST_ID = 'delete-menus';
+	const sh = new SnapshotHandler(TEST_ID);
+	const SNAP_TWO_MENUS = 'Two menus displayed with edition mode off';
+	const SNAP_TWO_MENUS_EDITION_ON = 'Two menus displayed with edition mode on';
+	const SNAP_MODAL_TWO_MENUS = 'Confirmation modal displayed when deleting the 2nd menu';
+	const SNAP_ONE_MENU = 'One menu displayed with edition mode on';
+	const SNAP_MODAL_LAST_MENUS = 'Confirmation modal displayed when deleting the last menu';
+	const SNAP_NO_MENU = 'No menu page';
 
-	await test.step('Sign in and go to the Menu page', async () => {
-		await page.goto('/');
-		await landingPage.goToApp();
-		await authErrorPage.followLink();
-		await signInPage.fillForm(testUsers.registered.mail, testUsers.registered.password); // idea: pass testUsers object instead
-		await signInPage.submitForm();
-		await homePage.goToMenuPage();
-		await expect(page).toHaveScreenshot('no-menu.png');
-	});
-
-	await test.step('Create a new menu', async () => {
+	await test.step('Create a 2nd menu', async () => {
 		await menusPage.createMenu();
-		await expect(page).toHaveScreenshot('one-menu.png');
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_TWO_MENUS));
 	});
 
-	await test.step('Rename the first menu', async () => {
-		// await menusPage.triggerRenameModeForNthMenu(1);
-		await expect(page).toHaveScreenshot('renaming-first-menu.png');
-		await menusPage.renameNthMenu(1, 'Renamed Menu');
-		await menusPage.saveNthMenu(1);
-		await expect(page).toHaveScreenshot('first-menu-saved.png');
+	await test.step('Toggle edition mode (on)', async () => {
+		await menusPage.toggleEditionMode();
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_TWO_MENUS_EDITION_ON));
 	});
 
-	await test.step('Create another menu', async () => {
-		await menusPage.createMenu();
-		await expect(page).toHaveScreenshot('two-menus.png');
+	await test.step('Delete the 2nd menu', async () => {
+		await menusPage.deleteNthMenu(2);
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_MODAL_TWO_MENUS));
+		await confirmationModalPage.confirm();
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_ONE_MENU));
 	});
 
-	await test.step('Remove the second menu', async () => {
-		await menusPage.deleteMenu(2);
-		await expect(page).toHaveScreenshot('confirm-deletion.png');
-		await confirmationModal.confirm();
-		await expect(page).toHaveScreenshot('one-menu-renamed.png');
+	await test.step('Cancel the deletion of the last menu', async () => {
+		await menusPage.deleteNthMenu(1);
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_MODAL_LAST_MENUS));
+		await confirmationModalPage.cancel();
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_ONE_MENU));
 	});
 
-	await test.step('Rename the remaining menu with keypress', async () => {
-		// await menusPage.triggerRenameModeForNthMenu(1);
-		await expect(page).toHaveScreenshot('renaming-first-menu-again.png'); // reference file name as const?
-		await menusPage.renameNthMenu(1, 'Double Renamed Menu');
-		// await menusPage.saveNthMenuWithKeypress(1);
-		await expect(page).toHaveScreenshot('first-menu-saved-again.png');
+	await test.step('Delete the last menu', async () => {
+		await menusPage.deleteNthMenu(1);
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_MODAL_LAST_MENUS));
+		await confirmationModalPage.confirm();
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_NO_MENU));
 	});
 });

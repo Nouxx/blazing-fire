@@ -14,8 +14,8 @@ export class MenusPage {
 	}
 
 	/**
-	 * return a locator for the N-th menu
-	 * @param nth human index (starting 1)
+	 * return a locator for the n-th menu
+	 * @param nth human index (starting at 1)
 	 */
 	private nthMenu(nth: number): Locator {
 		return this._page.getByTestId('menu').nth(nth - 1);
@@ -37,7 +37,7 @@ export class MenusPage {
 		await this.createMenuButton.click();
 	}
 
-	async deleteMenu(nth: number) {
+	async deleteNthMenu(nth: number) {
 		await this.nthMenu(nth).getByTestId('delete').click();
 	}
 }

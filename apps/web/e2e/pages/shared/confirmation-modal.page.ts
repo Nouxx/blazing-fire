@@ -10,7 +10,7 @@ export class ConfirmationModalPage {
 		this.page = page;
 		this._page = this.page.getByTestId('confirmation-modal');
 		this.confirmButton = this._page.getByTestId('confirm');
-		this.cancelButton = this._page.getByTestId('cancel');
+		this.cancelButton = this._page.getByTestId('close');
 	}
 
 	async confirm() {
