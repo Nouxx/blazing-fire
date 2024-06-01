@@ -19,7 +19,7 @@ type InbucketMailboxItem = {
 	'posix-millis': number;
 };
 
-export class TestHelpers {
+export class SupabaseTestHelpers {
 	private readonly supabaseClient: SupabaseClient;
 	private readonly inbucketUrl = 'http://127.0.0.1:54324';
 
@@ -33,6 +33,10 @@ export class TestHelpers {
 
 	async deleteUserByEmail(mail: string) {
 		const userId = await this.findUserIdByMail(mail);
+		if (!userId) {
+			console.log(`No user found for mail "${mail}", skipping.`);
+			return;
+		}
 		await this.deleteUserById(userId);
 		console.log(`User "${mail}" deleted.`);
 	}
@@ -43,6 +47,9 @@ export class TestHelpers {
 		});
 		if (error) {
 			throw `Error fetching user id for email ${mail}, ${JSON.stringify(error)}`;
+		}
+		if (!data[0]) {
+			return null;
 		}
 		return data[0].id;
 	}

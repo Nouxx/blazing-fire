@@ -8,13 +8,13 @@ import { MenusPage } from './pages/menus.page';
 import { ConfirmationModalPage } from './pages/shared/confirmation-modal.page';
 
 import { testUsers } from './data/users';
-import { TestHelpers } from './data/helpers';
+import { SupabaseTestHelpers } from './utils/supabase-helpers';
 
 import { SnapshotHandler } from './utils/snapshot-handler';
 
 const clearDataForTest = async () => {
 	if (!process.env.CI) {
-		const helpers = new TestHelpers();
+		const helpers = new SupabaseTestHelpers();
 		await helpers.deleteMenusForUser(testUsers.registered.mail);
 	}
 };
@@ -228,5 +228,42 @@ test('Delete menus', async ({ page }) => {
 		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_MODAL_LAST_MENUS));
 		await confirmationModalPage.confirm();
 		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_NO_MENU));
+	});
+});
+
+test('Error when deleting a new menu', async ({ page }) => {
+	const TEST_ID = 'delete-menus-error';
+	const sh = new SnapshotHandler(TEST_ID);
+	const SNAP_ONE_MENU = 'The menu with edition mode on';
+	const SNAP_ONE_MENU_ERROR = 'The menu after the error on deletion';
+	const SNAP_ONE_MENU_EDITION_OFF = 'The menu with edition mode off';
+
+	await test.step('Mock the deleteMenu form action', async () => {
+		await page.route('*/**/deleteMenu', async (route) => {
+			const json = { type: 'failure', status: 500, data: '[{"message":1},"Mock Error"]' };
+			await route.fulfill({ json });
+		});
+	});
+
+	await test.step('Toggle edition mode (on)', async () => {
+		await menusPage.toggleEditionMode();
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_ONE_MENU));
+	});
+
+	await test.step('Delete the first menu', async () => {
+		await menusPage.deleteNthMenu(1);
+		await confirmationModalPage.confirm();
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_ONE_MENU_ERROR));
+		await confirmationModalPage.cancel();
+	});
+
+	await test.step('Toggle edition mode (off)', async () => {
+		await menusPage.toggleEditionMode();
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_ONE_MENU_EDITION_OFF));
+	});
+
+	await test.step('Toggle edition mode (on)', async () => {
+		await menusPage.toggleEditionMode();
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_ONE_MENU));
 	});
 });

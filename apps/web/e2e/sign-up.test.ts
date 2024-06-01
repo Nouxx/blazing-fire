@@ -1,13 +1,38 @@
 import { test, expect } from '@playwright/test';
+
 import { SignInPage } from './pages/auth/signin/signin-form.page';
 import { SignUpFormPage } from './pages/auth/signup/signup-form.page';
 import { SignUpSuccessPage } from './pages/auth/signup/signup-success.page';
 import { LandingPage } from './pages/landing.page';
 import { NotSignedInErrorPage } from './pages/error/not-signed-in.page';
-import { TestHelpers } from './data/helpers';
+
 import { testUsers } from './data/users';
 
-const helpers = new TestHelpers();
+import { SupabaseTestHelpers } from './utils/supabase-helpers';
+import { SnapshotHandler } from './utils/snapshot-handler';
+
+let helpers: SupabaseTestHelpers;
+
+let landingPage: LandingPage;
+let signInPage: SignInPage;
+let notSignedInPage: NotSignedInErrorPage;
+let signUpFormPage: SignUpFormPage;
+
+test.beforeEach(async ({ page }) => {
+	helpers = new SupabaseTestHelpers();
+
+	landingPage = new LandingPage(page);
+	signInPage = new SignInPage(page);
+	signUpFormPage = new SignUpFormPage(page);
+	notSignedInPage = new NotSignedInErrorPage(page);
+
+	await test.step('Go to the Sign Up page', async () => {
+		await page.goto('/');
+		await landingPage.goToApp();
+		await notSignedInPage.followLink();
+		await signInPage.goToSignUp();
+	});
+});
 
 test.afterEach(async () => {
 	if (!process.env.CI) {
@@ -15,58 +40,61 @@ test.afterEach(async () => {
 	}
 });
 
-test('A user can sign up', async ({ page, context, request }) => {
-	const landingPage = new LandingPage(page);
-	const signInPage = new SignInPage(page);
-	const signUpFormPage = new SignUpFormPage(page);
-	const notSignedInPage = new NotSignedInErrorPage(page);
-	const secondTab = await context.newPage();
-	const signUpSuccessPage = new SignUpSuccessPage(page);
-	let confirmationLink = '';
-
-	await test.step('Go to Sign Up page', async () => {
-		await page.goto('/');
-		await expect(page).toHaveScreenshot('landing.png');
-		await landingPage.goToApp();
-		await expect(page).toHaveScreenshot('not-signed-in.png');
-		await notSignedInPage.followLink();
-		await expect(page).toHaveScreenshot('sign-in.png');
-		await signInPage.goToSignUp();
-	});
+test('Sign up form errors', async ({ page }) => {
+	const TEST_ID = 'sign-up-errors';
+	const sh = new SnapshotHandler(TEST_ID);
+	const SNAP_WEAK_PASSWORD_ERROR = 'An error when the submitted password is weak';
+	const SNAP_INVALID_PASSWORD_ERROR = 'An error when the submitted email is invalid';
 
 	await test.step('Fill the form with a weak password', async () => {
 		await signUpFormPage.fillForm('correct@mail.com', 'a');
 		await signUpFormPage.submitForm();
-		await expect(page).toHaveScreenshot('weak-password.png');
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_WEAK_PASSWORD_ERROR));
 	});
 
 	await test.step('Fill the form with a invalid email', async () => {
-		await signUpFormPage.fillForm('incorrect-mail', 'aaaaaaa');
+		await signUpFormPage.fillForm('incorrect-mail', 'aProperPassword');
 		await signUpFormPage.submitForm();
-		await expect(page).toHaveScreenshot('invalid-email.png');
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_INVALID_PASSWORD_ERROR));
 	});
+});
+
+test('Sign up success', async ({ page, request, context }) => {
+	const TEST_ID = 'sign-up';
+	const sh = new SnapshotHandler(TEST_ID);
+	const SNAP_PENDING = 'The sign up pending page';
+	const SNAP_SUCCESS = 'The successful signed up page';
+	const SNAP_HOME = 'The home page';
+	const SNAP_ERROR = 'The sign up error page';
+	// const SNAP_PENDING = 'The sign up pending page';
+	// sh.register('SNAP_PENDING', 'The sign up pending page').register(...)
+// expect (sh.get('SNAP_PENDING))
+
+	const secondTab = await context.newPage();
+	const signUpSuccessPage = new SignUpSuccessPage(page);
+	let confirmationLink = '';
 
 	await test.step('Fill the form with correct credentials', async () => {
 		await signUpFormPage.fillForm(testUsers.new.mail, testUsers.new.password);
 		await signUpFormPage.submitForm();
-		await expect(page).toHaveScreenshot('sign-up-pending.png');
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_PENDING));
 	});
 
 	await test.step('Follow the confirmation link', async () => {
 		confirmationLink = await helpers.fetchConfirmationLink(request, testUsers.new.mail);
 		await page.goto(confirmationLink);
-		await expect(page).toHaveScreenshot('sign-up-success.png');
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_SUCCESS));
 	});
 
 	await test.step('Go to homepage', async () => {
 		await signUpSuccessPage.goToHome();
-		await expect(page).toHaveScreenshot('home.png');
+		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_HOME));
 	});
 
-	// todo: clicking on the confirmation link log you out
+	// todo: clicking on the confirmation link twice log you out
 	// todo: move this step up once fixed
 	await test.step('Reopen the confirmation link in a second tab', async () => {
 		secondTab.goto(confirmationLink);
-		await expect(secondTab).toHaveScreenshot('sign-up-error.png');
+		await expect(secondTab).toHaveScreenshot(sh.getFileName(SNAP_ERROR));
 	});
 });
