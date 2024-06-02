@@ -137,7 +137,7 @@ test('Rename a menu without saving', async ({ page }) => {
 		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_ONE_MENU));
 	});
 
-	await test.step('Rename the first menu', async () => {
+	await test.step('Rename the first menu without saving it', async () => {
 		await menusPage.renameNthMenu(1, 'My renamed menu that will not be saved');
 		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_ONE_MENU_RENAMING));
 	});

@@ -14,34 +14,39 @@
 	let isSubmitted: boolean;
 	let saveSuccessful: boolean;
 	let isLoading: boolean;
+	let nameInDB: string;
+	$: isNameDifferentFromDB = menu.name !== nameInDB;
 
-	let nameInDB = menu.name; // todo: rename
-	let isNameDifferentFromDB: boolean;
-
-	function initState(caller: any) {
-		console.log('initState called by ' + caller);
+	function initState() {
 		isSubmitted = false;
 		saveSuccessful = false;
 		isLoading = false;
-		menu.name = nameInDB;
+		setRefName(menu.name);
+	}
+
+	function setRefName(name: string) {
+		nameInDB = name;
+		menu.name = name;
 		isNameDifferentFromDB = false;
 	}
 
-	initState('script');
+	initState();
 
-	function onChange(edition: boolean) {
-		initState('change on edition');
+	$: if (editionMode === true) {
+		initState();
 	}
 
-	$: isNameDifferentFromDB = menu.name !== nameInDB;
-
-	$: onChange(editionMode);
+	$: if (editionMode === false) {
+		if (isNameDifferentFromDB) {
+			setRefName(nameInDB);
+		}
+	}
 
 	function handleRenameSuccess(event: CustomEvent<Menu>) {
 		isSubmitted = true;
 		saveSuccessful = true;
-		const newMenuName = event.detail.name;
-		nameInDB = newMenuName;
+		const newName = event.detail.name;
+		setRefName(newName);
 	}
 
 	function handleRenameError() {
@@ -64,8 +69,8 @@
 			<MenuRenameAction
 				{menu}
 				disabled={!isNameDifferentFromDB}
-				on:saveSuccess={handleRenameSuccess}
-				on:saveError={handleRenameError}
+				on:success={handleRenameSuccess}
+				on:error={handleRenameError}
 			/>
 			<MenuDeleteAction {menu} disabled={isLoading} />
 		</div>

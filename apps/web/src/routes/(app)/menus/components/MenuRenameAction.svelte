@@ -11,17 +11,13 @@
 
 	let isLoading: boolean;
 
-	const SAVE_SUCCESS_EVENT = 'saveSuccess';
-	const SAVE_ERROR_EVENT = 'saveError';
+	const SAVE_SUCCESS_EVENT = 'success';
+	const SAVE_ERROR_EVENT = 'error';
 
 	const dispatch = createEventDispatcher<{
 		[SAVE_SUCCESS_EVENT]: Menu;
 		[SAVE_ERROR_EVENT]: null;
 	}>();
-
-	function setIsSaving(value: boolean) {
-		isLoading = value;
-	}
 
 	function setSaveSuccess() {
 		dispatch(SAVE_SUCCESS_EVENT, menu);
@@ -29,12 +25,12 @@
 	}
 
 	function setSaveFailed() {
-        dispatch(SAVE_ERROR_EVENT);
+		dispatch(SAVE_ERROR_EVENT);
 		isLoading = false;
 	}
 
 	const submitFunction: SubmitFunction = () => {
-		setIsSaving(true);
+		isLoading = true;
 		return async ({ result, update }) => {
 			if (result.type === 'success') {
 				setSaveSuccess();
