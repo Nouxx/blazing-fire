@@ -1,23 +1,19 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import MenuName from './MenuName.svelte';
 
-	import type { Menu } from '$lib/types/menu';
-	import Button from '$lib/components/Button.svelte';
 	import MenuActionsFeedback from './MenuActionsFeedback.svelte';
 	import MenuDeleteAction from './MenuDeleteAction.svelte';
+	import MenuRenameAction from './MenuRenameAction.svelte';
+
+	import type { Menu } from '$lib/types/menu';
 
 	export let menu: Menu;
 	export let editionMode: boolean;
-
-	// todo: refactor
 	// todo: disable toggle edit when saving
-
-	let formElement: HTMLFormElement;
 
 	let isSubmitted: boolean;
 	let saveSuccessful: boolean;
-	let isSaving: boolean;
+	let isLoading: boolean;
 
 	let nameInDB = menu.name; // todo: rename
 	let isNameDifferentFromDB: boolean;
@@ -26,41 +22,31 @@
 		console.log('initState called by ' + caller);
 		isSubmitted = false;
 		saveSuccessful = false;
-		isSaving = false;
+		isLoading = false;
 		menu.name = nameInDB;
 		isNameDifferentFromDB = false;
 	}
 
 	initState('script');
 
-	function setIsSaving(value: boolean) {
-		isSaving = value;
-	}
-
-	function setSaveSuccess() {
-		saveSuccessful = true;
-		nameInDB = menu.name;
-		isSubmitted = true;
-		isSaving = false;
-	}
-
-	function setSaveFailed() {
-		saveSuccessful = false;
-		isSubmitted = true;
-		isSaving = false;
-	}
-
-	function onChange(...args) {
-		initState(args);
+	function onChange(edition: boolean) {
+		initState('change on edition');
 	}
 
 	$: isNameDifferentFromDB = menu.name !== nameInDB;
 
 	$: onChange(editionMode);
 
-	export function saveMenu() {
-		setIsSaving(true);
-		formElement.requestSubmit();
+	function handleRenameSuccess(event: CustomEvent<Menu>) {
+		isSubmitted = true;
+		saveSuccessful = true;
+		const newMenuName = event.detail.name;
+		nameInDB = newMenuName;
+	}
+
+	function handleRenameError() {
+		isSubmitted = true;
+		saveSuccessful = false;
 	}
 </script>
 
@@ -74,33 +60,14 @@
 
 	{#if editionMode}
 		<MenuActionsFeedback status={saveSuccessful} display={isSubmitted} />
-		<div data-testid="actions" class="[&>*]:ml-2">
-			<Button
-				label={isSaving ? 'Loading...' : 'Save'}
-				id="save"
-				on:click={saveMenu}
-				disabled={!isNameDifferentFromDB || isSaving}
+		<div data-testid="actions" class="flex flex-row [&>*]:ml-2">
+			<MenuRenameAction
+				{menu}
+				disabled={!isNameDifferentFromDB}
+				on:saveSuccess={handleRenameSuccess}
+				on:saveError={handleRenameError}
 			/>
-			<MenuDeleteAction {menu} disabled={isSaving} />
+			<MenuDeleteAction {menu} disabled={isLoading} />
 		</div>
 	{/if}
 </div>
-
-<form
-	bind:this={formElement}
-	action="?/renameMenu"
-	method="post"
-	use:enhance={() => {
-		return async ({ result, update }) => {
-			if (result.type === 'success') {
-				setSaveSuccess();
-			} else {
-				setSaveFailed();
-			}
-			update();
-		};
-	}}
->
-	<input type="hidden" name="id" value={menu.id} />
-	<input type="hidden" name="name" value={menu.name} />
-</form>

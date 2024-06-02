@@ -66,9 +66,6 @@ test('Sign up success', async ({ page, request, context }) => {
 	const SNAP_SUCCESS = 'The successful signed up page';
 	const SNAP_HOME = 'The home page';
 	const SNAP_ERROR = 'The sign up error page';
-	// const SNAP_PENDING = 'The sign up pending page';
-	// sh.register('SNAP_PENDING', 'The sign up pending page').register(...)
-// expect (sh.get('SNAP_PENDING))
 
 	const secondTab = await context.newPage();
 	const signUpSuccessPage = new SignUpSuccessPage(page);
