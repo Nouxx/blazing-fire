@@ -14,6 +14,7 @@
 	let isSubmitted: boolean;
 	let saveSuccessful: boolean;
 	let isLoading: boolean;
+	/** the value currently stored in the data source (DB) */
 	let nameInDB: string;
 	$: isNameDifferentFromDB = menu.name !== nameInDB;
 
@@ -45,6 +46,7 @@
 	function handleRenameSuccess(event: CustomEvent<Menu>) {
 		isSubmitted = true;
 		saveSuccessful = true;
+		isLoading = false;
 		const newName = event.detail.name;
 		setRefName(newName);
 	}
@@ -52,6 +54,11 @@
 	function handleRenameError() {
 		isSubmitted = true;
 		saveSuccessful = false;
+		isLoading = false;
+	}
+
+	function handleSave() {
+		isLoading = true;
 	}
 </script>
 
@@ -71,6 +78,7 @@
 				disabled={!isNameDifferentFromDB}
 				on:success={handleRenameSuccess}
 				on:error={handleRenameError}
+				on:save={handleSave}
 			/>
 			<MenuDeleteAction {menu} disabled={isLoading} />
 		</div>
