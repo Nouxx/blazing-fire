@@ -35,6 +35,7 @@ pnpm install
 ```bash
 pnpm add <package> --filter <workspace>
 pnpm remove <package> --filter <workspace>
+pnpm update <package> --latest | <package>@v2 --filter <workspace>
 ```
 
 ### Run npm script
