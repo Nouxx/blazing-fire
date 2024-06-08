@@ -36,7 +36,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.17.1
+          node-version: 18.20.3
 
       - name: Install Vercel CLI
         run: npm install --global vercel@32.5.0
