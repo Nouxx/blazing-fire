@@ -5,18 +5,19 @@
 
 	export let data;
 
-	let editionMode = false;
+	let isEditionOn = false;
+	$: thereIsNoMenu = data.menus.length === 0;
 
 	function toggleEditionMode(value?: boolean): void {
 		if (value !== undefined) {
-			editionMode = value;
+			isEditionOn = value;
 			return;
 		}
-		editionMode = !editionMode;
+		isEditionOn = !isEditionOn;
 	}
 
 	$: {
-		if (data.menus.length === 0) {
+		if (thereIsNoMenu) {
 			toggleEditionMode(false);
 		}
 	}
@@ -26,23 +27,21 @@
 	<div class="flex flex-row w-full my-6 items-center">
 		<h1 class="flex flex-1 text-3xl font-bold">Menus</h1>
 		<Button
-			label={editionMode ? 'Back' : 'Edit'}
+			label={isEditionOn ? 'Back' : 'Edit'}
 			id="toggle-edit"
 			on:click={() => toggleEditionMode()}
 		/>
 	</div>
 
-	{#if data.menus.length === 0}
+	{#if thereIsNoMenu}
 		<p class="mb-2">You don't have any menu yet.</p>
-	{/if}
-
-	{#if data.menus.length > 0}
+	{:else}
 		{#each data.menus as menu (menu.id)}
-			<MenuTile {menu} {editionMode} />
+			<MenuTile {menu} editionMode={isEditionOn} />
 		{/each}
 	{/if}
 
-	{#if !editionMode}
+	{#if !isEditionOn}
 		<MenuCreateAction />
 	{/if}
 </div>
