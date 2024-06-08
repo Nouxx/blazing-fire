@@ -1,6 +1,5 @@
 <script lang="ts">
 	import MenuName from './MenuName.svelte';
-
 	import MenuActionsFeedback from './MenuActionsFeedback.svelte';
 	import MenuDeleteAction from './MenuDeleteAction.svelte';
 	import MenuRenameAction from './MenuRenameAction.svelte';
@@ -9,24 +8,24 @@
 
 	export let menu: Menu;
 	export let editionMode: boolean;
-	// todo: disable toggle edit when saving
 
 	let isSubmitted: boolean;
 	let saveSuccessful: boolean;
 	let isLoading: boolean;
 	/** the value currently stored in the data source (DB) */
-	let nameInDB: string;
-	$: isNameDifferentFromDB = menu.name !== nameInDB;
+	let storedName: string;
+
+	$: isNameDifferentFromDB = menu.name !== storedName;
 
 	function initState() {
 		isSubmitted = false;
 		saveSuccessful = false;
 		isLoading = false;
-		setRefName(menu.name);
+		setStoredName(menu.name);
 	}
 
-	function setRefName(name: string) {
-		nameInDB = name;
+	function setStoredName(name: string) {
+		storedName = name;
 		menu.name = name;
 		isNameDifferentFromDB = false;
 	}
@@ -39,7 +38,7 @@
 
 	$: if (editionMode === false) {
 		if (isNameDifferentFromDB) {
-			setRefName(nameInDB);
+			setStoredName(storedName);
 		}
 	}
 
@@ -47,8 +46,7 @@
 		isSubmitted = true;
 		saveSuccessful = true;
 		isLoading = false;
-		const newName = event.detail.name;
-		setRefName(newName);
+		setStoredName(event.detail.name);
 	}
 
 	function handleRenameError() {
