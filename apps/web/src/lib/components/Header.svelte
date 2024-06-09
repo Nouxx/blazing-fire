@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { routes } from '$lib/types/routes';
+	import { routes } from '$lib/const/routes';
 	import type { Session } from '@supabase/supabase-js';
 	export let session: Session | null;
 </script>
@@ -12,7 +12,7 @@
 			</div>
 		</div>
 
-		<div class="flex flex-col content-center px-2 hover:text-sky-500 cursor-pointer">
+		<div class="content-center px-2 hover:text-sky-500 cursor-pointer">
 			{#if session}
 				<a href={routes.account} data-testid="link">My Account</a>
 			{:else}

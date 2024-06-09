@@ -6,7 +6,7 @@ export class LandingPage {
 
 	constructor(page: Page) {
 		this.page = page;
-		this.goToAppButton = this.page.getByTestId('link');
+		this.goToAppButton = this.page.getByTestId('link-to-home');
 	}
 
 	async goToApp() {

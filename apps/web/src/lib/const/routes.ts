@@ -8,7 +8,7 @@ export const routes = {
 	signupPending: '/auth/signup/pending',
 	signupConfirm: '/auth/confirm',
 	notSignedIn: '/error/not-signed-in',
-	alreadySignedIn: '/error/already-signed-in'
+	alreadySignedIn: '/error/already-signed-in',
+	signupError: '/error/signup',
+	menus: '/menus'
 } as const;
-
-export type Route = (typeof routes)[keyof typeof routes];

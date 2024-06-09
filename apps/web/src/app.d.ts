@@ -1,11 +1,12 @@
 import { SupabaseClient, Session, User } from '@supabase/supabase-js';
-import { Database } from '$lib/database/types';
+import { Database } from '$lib/database/generated-types';
 
 declare global {
 	namespace App {
 		interface Error {
-			name: string;
 			message: string;
+			name?: string;
+			code?: string; // todo: enum
 		}
 		interface Locals {
 			supabase: SupabaseClient<Database>;
@@ -15,6 +16,9 @@ declare global {
 		interface PageData {
 			session: Session | null;
 			user: User | null;
+			menus?: {
+				name: string;
+			}[];
 		}
 	}
 }

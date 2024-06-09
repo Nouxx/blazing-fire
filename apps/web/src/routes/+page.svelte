@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Environment from '$lib/components/Environment.svelte';
-	import { routes } from '$lib/types/routes';
+	import LinkButton from '$lib/components/LinkButton.svelte';
+	import { routes } from '$lib/const/routes';
 </script>
 
 <div class="flex flex-col items-center mx-5">
@@ -20,9 +21,5 @@
 		Suspendisse potenti. Integer consequat luctus metus, et hendrerit quam bibendum non. Nunc
 		porttitor sagittis diam, ut pretium lorem convallis eget.
 	</p>
-	<a
-		href={routes.home}
-		class="p-1 my-3 border-2 border-slate-200 shadow-md rounded"
-		data-testid="link">Go to app</a
-	>
+	<LinkButton link={routes.home} label="Go to app" id="home" />
 </div>

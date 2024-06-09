@@ -1,6 +1,6 @@
 import { error, type Actions, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { routes } from '$lib/types/routes';
+import { routes } from '$lib/const/routes';
 import { redirectIfNoSession } from '$lib/server/auth';
 
 export const load: PageServerLoad = async ({ parent, locals }) => {

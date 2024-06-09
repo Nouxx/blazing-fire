@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 	import CallToAction from '$lib/components/CallToAction.svelte';
-	import { routes } from '$lib/types/routes';
+	import { routes } from '$lib/const/routes';
 	export let form: ActionData;
 </script>
 
@@ -33,5 +33,10 @@
 		<p class="text-sm my-1 text-red-600">{form.error.message}</p>
 	{/if}
 
-	<CallToAction title="Have an account already?" label="Go to Sign In" link={routes.signin} />
+	<CallToAction
+		title="Have an account already?"
+		label="Go to Sign In"
+		link={routes.signin}
+		id="signin"
+	/>
 </div>

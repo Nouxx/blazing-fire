@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
-import { type EmailOtpType } from '@supabase/supabase-js';
-import { routes } from '$lib/types/routes';
+import type { EmailOtpType } from '@supabase/supabase-js';
+import { routes } from '$lib/const/routes';
 
 export const GET = async (event) => {
 	const {
@@ -18,5 +18,5 @@ export const GET = async (event) => {
 		}
 	}
 
-	redirect(303, '/error/signup');
+	redirect(303, routes.signupError);
 };

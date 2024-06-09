@@ -3,7 +3,7 @@ import type { AuthError } from '@supabase/supabase-js';
 import type { PageServerLoad } from './$types';
 import { getStringFromFormValue } from '$lib/forms/form-input';
 import type { AuthFormData } from '$lib/types/forms/auth';
-import { routes } from '$lib/types/routes';
+import { routes } from '$lib/const/routes';
 import { redirectIfSession } from '$lib/server/auth';
 
 function extractFromFormData(formData: FormData): AuthFormData {
