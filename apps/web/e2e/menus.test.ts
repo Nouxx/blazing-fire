@@ -9,7 +9,6 @@ import { ConfirmationModalPage } from './pages/shared/confirmation-modal.page';
 
 import { testUsers } from './data/users';
 import { SupabaseTestHelpers } from './utils/supabase-helpers';
-
 import { SnapshotHandler } from './utils/snapshot-handler';
 
 const clearDataForTest = async () => {

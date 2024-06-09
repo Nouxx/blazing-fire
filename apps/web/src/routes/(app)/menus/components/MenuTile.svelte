@@ -20,8 +20,8 @@
 	function initState() {
 		isSubmitted = false;
 		saveSuccessful = false;
-		isLoading = false;
 		setStoredName(menu.name);
+		isLoading = false;
 	}
 
 	function setStoredName(name: string) {
@@ -45,8 +45,8 @@
 	function handleRenameSuccess(event: CustomEvent<Menu>) {
 		isSubmitted = true;
 		saveSuccessful = true;
-		isLoading = false;
 		setStoredName(event.detail.name);
+		isLoading = false;
 	}
 
 	function handleRenameError() {

@@ -7,7 +7,7 @@
 	export let id: string;
 </script>
 
-<div class="flex flex-col w-1/3 items-center" data-testid="login-navigation">
+<div class="flex flex-col w-1/3 items-center">
 	<LinkHeading {title} />
 	<LinkButton {link} {label} {id} />
 </div>

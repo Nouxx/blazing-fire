@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { type EmailOtpType } from '@supabase/supabase-js';
+import type { EmailOtpType } from '@supabase/supabase-js';
 import { routes } from '$lib/const/routes';
 
 export const GET = async (event) => {
@@ -17,6 +17,6 @@ export const GET = async (event) => {
 			redirect(303, routes.signupSuccess);
 		}
 	}
-	// this is setting cookie to NULL
+
 	redirect(303, routes.signupError);
 };
