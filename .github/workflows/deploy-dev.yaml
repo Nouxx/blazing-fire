@@ -1,27 +1,24 @@
-name: Vercel Staging Deployment
+name: Deploy Deployment Environment
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  PUBLIC_ENVIRONMENT: staging
-
+  VERCEL_ALIAS: blazing-fire-dev
+  SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_DEV_PROJECT_ID }}
+  SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_DEV_ACCESS_TOKEN }}
+  SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DEV_DB_PASSWORD }}
 on:
   push:
-    tags:
-      - '*'
+    branches: 'main'
+  workflow_dispatch: # to remove
 
 jobs:
-  deploy-preview:
-    name: Deploy Staging Environment
+  deploy-dev:
+    name: Deploy Dev Environment
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Set 'VERCEL_ALIAS'
-        run: |
-          tag_with_dashes=$(echo "${{ github.ref_name }}" | sed 's/\./-/g')
-          echo "VERCEL_ALIAS=blazing-fire-staging-$tag_with_dashes" >> $GITHUB_ENV
 
       - uses: pnpm/action-setup@v2
         with:
@@ -30,16 +27,24 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.17.1
+          node-version: 18.20.3
 
       - name: Install Vercel CLI
-        run: npm install --global vercel@32.5.0
+        run: npm install --global vercel@34.2.6
 
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: 1.150.0
+
+      - name: Link Supabase project
+        run: supabase link --project-ref $SUPABASE_PROJECT_ID
 
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Push migration (if any)
+        run: supabase db push
 
       - name: Deploy Project Artifacts to Vercel
         id: deployment

@@ -33,7 +33,7 @@ jobs:
         if: github.event.pull_request.state == 'closed'
         run: vercel alias remove blazing-fire-preview-pr-${{ github.event.pull_request.number }} --yes --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Remove all unaliased Vercel deployments
+      - name: Remove all Vercel deployments with no alias
         run: |
           set +e
 
