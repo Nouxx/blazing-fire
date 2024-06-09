@@ -33,6 +33,9 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@34.2.6
 
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Install Supabase CLI
         uses: supabase/setup-cli@v1
         with:
