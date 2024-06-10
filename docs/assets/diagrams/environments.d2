@@ -1,0 +1,58 @@
+direction: right
+
+supa-prod: Supabase Production \n Project {
+  icon: https://seeklogo.com/images/S/supabase-logo-DCC676FFE2-seeklogo.com.png
+  shape: image
+  height: 75
+}
+supa-dev: Supabase Development \n Project {
+  icon: https://seeklogo.com/images/S/supabase-logo-DCC676FFE2-seeklogo.com.png
+  shape: image
+  height: 75
+}
+
+preview-env: {
+  label: Vercel Preview Env \n pr-xxx.vercel.app
+  icon: https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png
+  shape: image
+  height: 75
+}
+
+dev-env: {
+  label: Vercel Preview Env \n dev.vercel.app
+  icon: https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png
+  shape: image
+  height: 75
+}
+
+prod-env: {
+  label: Vercel Production Env \n blazing-fire.app
+  icon: https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png
+  shape: image
+  height: 75
+}
+
+pr: {
+  label: push to any branch
+  icon: https://icons.terrastruct.com/dev%2Fgithub.svg
+  shape: image
+  height: 75
+}
+
+push-main: {
+  label: push to main
+  icon: https://icons.terrastruct.com/dev%2Fgithub.svg
+  shape: image
+  height: 75
+}
+
+tag: {
+  label: tag pushed to main
+  icon: https://icons.terrastruct.com/dev%2Fgithub.svg
+  shape: image
+  height: 75
+}
+
+pr -> preview-env -> supa-dev
+push-main -> dev-env -> supa-dev
+tag -> prod-env -> supa-prod
