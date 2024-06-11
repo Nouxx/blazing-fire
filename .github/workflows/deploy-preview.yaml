@@ -1,4 +1,4 @@
-name: Vercel Preview Deployment
+name: Deploy Vercel Preview Environment
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
