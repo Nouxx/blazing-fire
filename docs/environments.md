@@ -1,6 +1,6 @@
 # Environments
 
-![environments overview](./assets/img/environments.svg)
+![environments overview](./assets/img/generated/environments.svg)
 
 ## Preview & Development
 

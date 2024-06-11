@@ -1,22 +1,22 @@
 # Architecture
 
-![architecture overview](./assets/img/app-architecture.svg)
+![architecture overview](./assets/img/generated/app-architecture.svg)
 
-The app boils down to 2 things:
+The app consists of two main components:
 
-- the Web Tier: a SvelteKit web server that handle incoming traffic.
-- the Back Tier: a Supabase instance that the web server communicates with.
+- Web Tier: A SvelteKit web server that handles incoming traffic.
+- Back Tier: A Supabase instance that the web server communicates with.
 
 ## Web Tier
 
-The SvelteKit provides a web server hosted on Vercel.
+The SvelteKit application provides a web server hosted on Vercel.
 
-Request to Supabase are only done on the server (i.e. never on the client).
+Requests to Supabase are made only from the server (i.e., never from the client).
 
-Connection to Supabase is configured with environment variables.
+Connection to Supabase is configured via environment variables.
 
 ## Back Tier
 
-Supabase is responsible for the **database** and the **authentication**.
+Supabase manages the **database** and **authentication**.
 
-There are two projects (one for production, one for developement) hosted by Supabase.
+There are two projects hosted on Supabase: one for production and one for development.

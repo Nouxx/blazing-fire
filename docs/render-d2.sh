@@ -3,7 +3,7 @@
 # finds all .d2 files and render them as .svg
 
 D2_DIRECTORY="./assets/diagrams"
-GENERATED_ASSETS_DIRECTORY="./assets/img"
+GENERATED_ASSETS_DIRECTORY="./assets/img/generated"
 D2_FLAGS="--sketch"
 
 echo "render of .d2 diagrams starting ..."
