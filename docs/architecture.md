@@ -2,10 +2,10 @@
 
 ![architecture overview](./assets/img/generated/app-architecture.svg)
 
-The app consists of two main components:
+The app boils down to two main components:
 
-- Web Tier: A SvelteKit web server that handles incoming traffic.
-- Back Tier: A Supabase instance that the web server communicates with.
+- **Web Tier:** A SvelteKit web server that handles incoming traffic.
+- **Back Tier**: A Supabase instance that the web server communicates with.
 
 ## Web Tier
 

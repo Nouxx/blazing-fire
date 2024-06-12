@@ -46,3 +46,23 @@ pnpm test:e2e -u # for --update-snapshots
 The application is deployed within [Vercel](https://vercel.com).
 
 Refer to the [workflow documentation](../../README.md) for more information.
+
+## Update Supabase project
+
+Pre requisite: have the supabase project linked.
+
+```bash
+pnpm supabase link --project-ref <project-ref>
+```
+
+Check migration status on the remote project
+
+```bash
+pnpm supabase migrations list
+```
+
+Push local migrations to remote
+
+```bash
+supabase db push
+```

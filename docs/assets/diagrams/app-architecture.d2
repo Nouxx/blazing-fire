@@ -7,17 +7,20 @@ user: {
   height: 50
 }
 
-vercel: {
+vercel: vercel {
   web: web server {
     icon: assets/img/svelte-logo.svg
+    height: 100
   }
 }
 
-supabase: {
+supabase: supabase project {
   back: backend {
     icon: assets/img/supabase-logo.svg
+    height: 100
   }
 }
 
 user -> vercel
-vercel.web -> supabase.back: HTTPS
+vercel.web -> supabase: HTTPS
+supabase -> vercel.web: HTTPS
