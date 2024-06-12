@@ -1,0 +1,26 @@
+direction: right
+
+user: {
+  label: Visitor
+  icon: assets/img/user-icon.svg
+  shape: image
+  height: 50
+}
+
+vercel: vercel {
+  web: web server {
+    icon: assets/img/svelte-logo.svg
+    height: 100
+  }
+}
+
+supabase: supabase project {
+  back: backend {
+    icon: assets/img/supabase-logo.svg
+    height: 100
+  }
+}
+
+user -> vercel
+vercel.web -> supabase: HTTPS
+supabase -> vercel.web: HTTPS

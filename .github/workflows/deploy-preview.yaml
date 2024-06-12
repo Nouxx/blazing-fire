@@ -1,9 +1,8 @@
-name: Vercel Preview Deployment
+name: Deploy Vercel Preview Environment
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  PUBLIC_ENVIRONMENT: preview
 
 on:
   pull_request:

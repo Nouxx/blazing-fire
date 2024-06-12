@@ -1,0 +1,58 @@
+direction: right
+
+supa-prod: Supabase Production \n Project {
+  icon: assets/img/supabase-logo.svg
+  shape: image
+  height: 75
+}
+supa-dev: Supabase Development \n Project {
+  icon: assets/img/supabase-logo.svg
+  shape: image
+  height: 75
+}
+
+preview-env: {
+  label: Vercel Preview Env \n pr-xxx.vercel.app
+  icon: assets/img/vercel-logo.svg
+  shape: image
+  height: 75
+}
+
+dev-env: {
+  label: Vercel Preview Env \n dev.vercel.app
+  icon: assets/img/vercel-logo.svg
+  shape: image
+  height: 75
+}
+
+prod-env: {
+  label: Vercel Production Env \n blazing-fire.app
+  icon: assets/img/vercel-logo.svg
+  shape: image
+  height: 75
+}
+
+pr: {
+  label: push to any branch
+  icon: assets/img/github-logo.svg
+  shape: image
+  height: 75
+}
+
+push-main: {
+  label: push to main
+  icon: assets/img/github-logo.svg
+  shape: image
+  height: 75
+}
+
+tag: {
+  label: tag pushed to main
+  icon: assets/img/github-logo.svg
+  shape: image
+  height: 75
+}
+
+pr -> preview-env -> supa-dev
+push-main -> dev-env -> supa-dev
+tag -> prod-env -> supa-prod
