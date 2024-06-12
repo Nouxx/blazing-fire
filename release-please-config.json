@@ -1,7 +1,19 @@
 {
   "packages": {
     ".": {
-      "release-type": "simple"
+      "release-type": "simple",
+      "changelog-sections": [
+        { "type": "feat", "section": "Features" },
+        { "type": "fix", "section": "Bug Fixes" },
+        { "type": "chore", "section": "Chores" },
+        { "type": "ci", "section": "Continuous Integration" },
+        { "type": "perf", "section": "Performance Improvements" },
+        { "type": "docs", "section": "Documentation" },
+        { "type": "style", "section": "Styles" },
+        { "type": "refactor", "section": "Code Refactoring" },
+        { "type": "test", "section": "Tests" },
+        { "type": "build", "section": "Build System" }
+      ]
     }
   },
   "extra-files": [
