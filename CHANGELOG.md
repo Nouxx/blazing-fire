@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/Nouxx/blazing-fire/compare/0.1.0...0.1.1) (2024-06-14)
+
+
+### Bug Fixes
+
+* **menus:** add row level security ([#15](https://github.com/Nouxx/blazing-fire/issues/15)) ([903dad9](https://github.com/Nouxx/blazing-fire/commit/903dad996723eb73e60bd0ac6d14d9a7de563bb0))
+
 ## [0.1.0](https://github.com/Nouxx/blazing-fire/compare/v0.0.1...0.1.0) (2024-06-12)
 
 
