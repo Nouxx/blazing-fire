@@ -1,0 +1,13 @@
+name: blazing-fire
+# https://raw.githubusercontent.com/supabase/supabase/master/docker/docker-compose.yml
+
+services:
+  e2e-test-runner:
+    # todo: add profile
+    image: mcr.microsoft.com/playwright:v1.44.1-jammy
+    ipc: host
+    command:
+      - /bin/sh
+      - -c
+      - |
+        tail -f /dev/null
