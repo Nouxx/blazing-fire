@@ -101,7 +101,11 @@ describe('_handleError', () => {
 	});
 	test('should return an invalid email error', () => {
 		// Given
-		const fakeError = createFakeError(422, 'dummy message', 'AuthApiError');
+		const fakeError = createFakeError(
+			422,
+			'Unable to validate email address: invalid format',
+			'AuthApiError'
+		);
 		// When
 		const result = _handleError(fakeError, fakeEmail);
 		// Then

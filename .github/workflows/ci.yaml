@@ -53,39 +53,36 @@ jobs:
       - name: Run Vitest Unit Tests
         run: pnpm run test:unit
 
-      - name: Install Playwright dependencies
-        run: pnpm playwright install --with-deps
-        working-directory: apps/web
-
-      - name: Set up supabase
-        working-directory: apps/web
+      - name: Setup tests
         run: |
-          pnpm db:update-seed
-          pnpm supa:start
+          cp .env.example .env
+          docker compose --profile test up --detach --wait
+          cd apps/web
+          pnpm supabase db reset --db-url postgresql://postgres:your-super-secret-and-long-postgres-password@localhost:5432/postgres
 
-      - name: Run Playwright Integration Tests
-        id: integration-tests
+      - name: Run test
+        id: e2e-tests
         continue-on-error: true
-        run: CI=true pnpm turbo run test:e2e
-        env:
-          PUBLIC_ENVIRONMENT: local
-          SUPABASE_URL: http://127.0.0.1:54321
-          SUPABASE_ANON_KEY: dummy
-          SUPABASE_SERVICE_ROLE_KEY: dummy
+        run: docker compose run --rm --env CI=true test
 
       - name: Authenticate to Google Cloud
-        if: steps.integration-tests.outcome == 'failure'
-        uses: google-github-actions/auth@v1
+        if: steps.e2e-tests.outcome == 'failure'
+        uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCLOUD_WORKLOAD_ID_PROVIDER }}
           service_account: ${{ secrets.GCLOUD_SERVICE_ACCOUNT }}
 
+      - name: Set 'TEST_REPORT_URL'
+        if: steps.e2e-tests.outcome == 'failure'
+        run: echo "TEST_REPORT_URL=https://storage.googleapis.com/${{ env.GCLOUD_BUCKET_NAME }}/pr-${{ github.event.number }}/playwright-report/index.html" >> $GITHUB_ENV
+
       - name: Upload Playwright report
-        if: steps.integration-tests.outcome == 'failure'
+        if: steps.e2e-tests.outcome == 'failure'
         id: upload-report
-        uses: google-github-actions/upload-cloud-storage@v1
+        uses: google-github-actions/upload-cloud-storage@v2
         with:
-          path: 'apps/web/playwright-report'
+          path: 'apps/web'
+          glob: 'playwright-**/**'
           destination: '${{ env.GCLOUD_BUCKET_NAME }}/pr-${{ github.event.number }}'
           process_gcloudignore: false
           parent: false
@@ -95,12 +92,12 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           pr_number: ${{ github.event.number }}
-          mode: ${{ steps.integration-tests.outcome == 'failure' && 'upsert' || 'delete' }}
+          mode: ${{ steps.e2e-tests.outcome == 'failure' && 'upsert' || 'delete' }}
           comment_tag: test-report
           message: |
             :dizzy_face: **Playwright tests suite has failed!**
-            :performing_arts: Report is available [here](https://storage.googleapis.com/${{ env.GCLOUD_BUCKET_NAME}}/pr-${{ github.event.number }}/index.html).
+            :performing_arts: Report is available [here](${{ env.TEST_REPORT_URL }}).
 
-      - name: Fail if integration tests failed
-        if: steps.integration-tests.outcome == 'failure'
+      - name: Fail if E2E tests failed
+        if: steps.e2e-tests.outcome == 'failure'
         run: exit 1

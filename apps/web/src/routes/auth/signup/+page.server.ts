@@ -20,11 +20,12 @@ function invalidPassword(error: AuthError) {
 }
 
 function invalidEmail(error: AuthError) {
-	return error.status === 422 && error.name === 'AuthApiError';
+	const regex = /\b(email|invalid)\b/g;
+	return error.message.match(regex);
 }
 
 function weakPassword(error: AuthError) {
-	return error.status === 422 && error.name === 'AuthWeakPasswordError';
+	return error.name === 'AuthWeakPasswordError';
 }
 
 function formError(

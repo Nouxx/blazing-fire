@@ -19,7 +19,13 @@ let notSignedInPage: NotSignedInErrorPage;
 let signUpFormPage: SignUpFormPage;
 
 test.beforeEach(async ({ page }) => {
-	helpers = new SupabaseTestHelpers();
+	// todo: use beforeAll?
+	const url = process.env.SUPABASE_URL;
+	const roleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+	if (!url || !roleKey) {
+		throw `Supabase Test Helper can't be instanciated, provided options: ${JSON.stringify({ url, roleKey })}`;
+	}
+	helpers = new SupabaseTestHelpers(url, roleKey);
 
 	landingPage = new LandingPage(page);
 	signInPage = new SignInPage(page);
@@ -35,9 +41,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.afterEach(async () => {
-	if (!process.env.CI) {
-		await helpers.deleteUserByEmail(testUsers.new.mail);
-	}
+	await helpers.deleteUserByEmail(testUsers.new.mail);
 });
 
 test('Sign up form errors', async ({ page }) => {
@@ -88,7 +92,7 @@ test('Sign up success', async ({ page, request, context }) => {
 		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_HOME));
 	});
 
-	// todo: clicking on the confirmation link twice log you out
+	// bug: clicking on the confirmation link twice log you out
 	// todo: move this step up once fixed
 	await test.step('Reopen the confirmation link in a second tab', async () => {
 		secondTab.goto(confirmationLink);

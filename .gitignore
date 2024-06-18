@@ -5,8 +5,8 @@ node_modules
 
 # testing
 coverage
-playwright
 playwright-report
+playwright-test-results
 test-results
 
 # misc
@@ -17,3 +17,6 @@ test-results
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+.env*
+!.env.example

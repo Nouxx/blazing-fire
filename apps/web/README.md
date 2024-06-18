@@ -64,5 +64,18 @@ pnpm supabase migrations list
 Push local migrations to remote
 
 ```bash
-supabase db push
+pnpm supabase db push
+```
+
+## Reset local DB
+
+Resetting the local DB will wipe out everything and restore it data from the `seed.sql` file.
+
+```bash
+docker compose --profile dev down
+docker volume rm blazing-fire_db-data
+```
+
+```bash
+pnpm supabase db reset --db-url postgresql://postgres:your-super-secret-and-long-postgres-password@localhost:5432/postgres
 ```

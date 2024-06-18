@@ -4,7 +4,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format:write": "turbo run format && prettier --write .",
+    "format:fix": "turbo run format:fix && prettier --write .",
     "format:check": "turbo run format:check && prettier --check .",
     "test:unit": "turbo run test:unit",
     "test:e2e": "turbo run test:e2e",
@@ -12,7 +12,7 @@
     "reset": "pnpm run nuke && pnpm install",
     "tu": "pnpm test:unit",
     "te": "pnpm test:e2e",
-    "fw": "pnpm format:write",
+    "ff": "pnpm format:fix",
     "fc": "pnpm format:check"
   },
   "devDependencies": {
@@ -22,5 +22,5 @@
     "prettier-plugin-svelte": "^2.10.1",
     "turbo": "^1.13.0"
   },
-  "packageManager": "pnpm@8.9.2"
+  "packageManager": "pnpm@9.4.0"
 }

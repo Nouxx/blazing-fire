@@ -1,6 +1,5 @@
 import { APIRequestContext } from '@playwright/test';
 import { SupabaseClient, createClient } from '@supabase/supabase-js';
-import dotenv from 'dotenv';
 
 /**
  * reference: https://github.com/inbucket/inbucket/wiki/REST-GET-message
@@ -21,14 +20,10 @@ type InbucketMailboxItem = {
 
 export class SupabaseTestHelpers {
 	private readonly supabaseClient: SupabaseClient;
-	private readonly inbucketUrl = 'http://127.0.0.1:54324';
+	private readonly inbucketUrl = 'http://inbucket:9000';
 
-	constructor() {
-		dotenv.config();
-		this.supabaseClient = createClient(
-			process.env.SUPABASE_URL ?? '',
-			process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
-		);
+	constructor(supabaseUrl: string, supabaseKey: string) {
+		this.supabaseClient = createClient(supabaseUrl, supabaseKey);
 	}
 
 	async deleteUserByEmail(mail: string) {
@@ -65,7 +60,7 @@ export class SupabaseTestHelpers {
 	async deleteMenusForUser(mail: string) {
 		const userId = await this.findUserIdByMail(mail);
 		await this.supabaseClient.from('menus').delete().eq('user_id', userId);
-		console.log(`All menus deleted of user ${mail}`);
+		console.log(`All menus deleted for user ${mail}`);
 	}
 
 	/**

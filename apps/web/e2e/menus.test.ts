@@ -12,10 +12,16 @@ import { SupabaseTestHelpers } from './utils/supabase-helpers';
 import { SnapshotHandler } from './utils/snapshot-handler';
 
 const clearDataForTest = async () => {
-	if (!process.env.CI) {
-		const helpers = new SupabaseTestHelpers();
-		await helpers.deleteMenusForUser(testUsers.registered.mail);
+	// todo: use beforeAll?
+	const url = process.env.SUPABASE_URL;
+	const roleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+	if (!url || !roleKey) {
+		throw new Error(
+			`Supabase Test Helper can't be instanciated, provided options:${JSON.stringify({ url, roleKey })}`
+		);
 	}
+	const helpers = new SupabaseTestHelpers(url, roleKey);
+	await helpers.deleteMenusForUser(testUsers.registered.mail);
 };
 
 let landingPage: LandingPage;
