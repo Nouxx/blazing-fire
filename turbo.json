@@ -5,7 +5,7 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".svelte-kit/**", ".vercel/**"],
-      "env": ["SUPABASE_ANON_KEY", "SUPABASE_URL", "PUBLIC_ENVIRONMENT"]
+      "env": ["SUPABASE_ANON_KEY", "SUPABASE_URL", "PUBLIC_ENVIRONMENT", "VERCEL_DEPLOY"]
     },
     "lint": {
       "env": ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"]
@@ -14,7 +14,7 @@
     "format": {},
     "test:unit": {},
     "test:e2e": {
-      "env": ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"]
+      "env": ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "VERCEL_DEPLOY"]
     },
     "dev": {
       "cache": false,

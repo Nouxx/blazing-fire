@@ -1,0 +1,40 @@
+FROM node:18
+LABEL version=v0.1.1
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable
+
+WORKDIR /app
+
+COPY package.json .
+COPY pnpm-lock.yaml .
+COPY pnpm-workspace.yaml .
+COPY turbo.json .
+COPY .npmrc .
+
+COPY /apps/web/src apps/web/src
+COPY /apps/web/static apps/web/static
+COPY /apps/web/package.json apps/web/package.json
+COPY /apps/web/.npmrc apps/web/.npmrc
+COPY /apps/web/postcss.config.js apps/web/postcss.config.js
+COPY /apps/web/svelte.config.js apps/web/svelte.config.js
+COPY /apps/web/tailwind.config.js apps/web/tailwind.config.js
+COPY /apps/web/tsconfig.json apps/web/tsconfig.json
+COPY /apps/web/vite.config.ts apps/web/vite.config.ts
+# temporary
+
+COPY /apps/web/.env apps/web/.env
+
+RUN pnpm install --prod --frozen-lockfile
+
+WORKDIR /apps/web
+
+# RUN pnpm vite build
+
+# ENTRYPOINT [ "node", "build" ]
+
+# temp
+ENTRYPOINT ["tail"]
+CMD ["-f","/dev/null"] 
