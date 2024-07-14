@@ -8,7 +8,7 @@ import { NotSignedInErrorPage } from './pages/error/not-signed-in.page';
 
 import { testUsers } from './data/users';
 
-import { SupabaseTestHelpers } from './utils/supabase-helpers';
+import { createSupabaseHelpers, SupabaseTestHelpers } from './utils/supabase-helpers';
 import { SnapshotHandler } from './utils/snapshot-handler';
 
 let helpers: SupabaseTestHelpers;
@@ -19,13 +19,7 @@ let notSignedInPage: NotSignedInErrorPage;
 let signUpFormPage: SignUpFormPage;
 
 test.beforeEach(async ({ page }) => {
-	// todo: use beforeAll?
-	const url = process.env.SUPABASE_URL;
-	const roleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-	if (!url || !roleKey) {
-		throw `Supabase Test Helper can't be instanciated, provided options: ${JSON.stringify({ url, roleKey })}`;
-	}
-	helpers = new SupabaseTestHelpers(url, roleKey);
+	helpers = createSupabaseHelpers();
 
 	landingPage = new LandingPage(page);
 	signInPage = new SignInPage(page);

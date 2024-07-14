@@ -86,3 +86,26 @@ export class SupabaseTestHelpers {
 		return linkRegExpMatch[0];
 	}
 }
+
+export function createSupabaseHelpers() {
+	const url = process.env.SUPABASE_URL ?? '';
+	const roleKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
+
+	const missingVariables: string[] = [];
+
+	if (url === '') {
+		missingVariables.push('URL');
+	}
+
+	if (roleKey === '') {
+		missingVariables.push('Role Key');
+	}
+
+	if (missingVariables.length > 0) {
+		throw new Error(
+			`Supabase Test Helper can't be instanciated, missing: ${missingVariables.join(', ')}`
+		);
+	}
+
+	return new SupabaseTestHelpers(url, roleKey);
+}

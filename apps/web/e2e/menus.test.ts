@@ -8,19 +8,12 @@ import { MenusPage } from './pages/menus.page';
 import { ConfirmationModalPage } from './pages/shared/confirmation-modal.page';
 
 import { testUsers } from './data/users';
-import { SupabaseTestHelpers } from './utils/supabase-helpers';
+
+import { createSupabaseHelpers } from './utils/supabase-helpers';
 import { SnapshotHandler } from './utils/snapshot-handler';
 
 const clearDataForTest = async () => {
-	// todo: use beforeAll?
-	const url = process.env.SUPABASE_URL;
-	const roleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-	if (!url || !roleKey) {
-		throw new Error(
-			`Supabase Test Helper can't be instanciated, provided options:${JSON.stringify({ url, roleKey })}`
-		);
-	}
-	const helpers = new SupabaseTestHelpers(url, roleKey);
+	const helpers = createSupabaseHelpers();
 	await helpers.deleteMenusForUser(testUsers.registered.mail);
 };
 
