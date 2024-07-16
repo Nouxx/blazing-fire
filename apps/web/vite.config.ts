@@ -7,5 +7,9 @@ export default defineConfig({
 		environment: 'jsdom',
 		include: ['src/**/*.{test,spec}.ts'],
 		mockReset: true
+	},
+	server: {
+		port: 3000,
+		strictPort: true
 	}
 });

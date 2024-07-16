@@ -6,14 +6,14 @@ services:
     build:
       dockerfile: apps/web/Dockerfile
       context: .
+      target: prod
     ports:
-      - '5173:5173'
+      - '3000:3000'
     volumes:
       - ./apps/web/src:/app/apps/web/src
     environment:
       SUPABASE_URL: http://kong:8000
       SUPABASE_ANON_KEY: ${ANON_KEY}
-      SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
       PUBLIC_ENVIRONMENT: ${ENVIRONMENT}
       DISABLE_SECURE_COOKIES: true
 

@@ -1,6 +1,6 @@
 import type { Handle } from '@sveltejs/kit';
 import type { AuthError, SupabaseClient, User } from '@supabase/supabase-js';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { redirectIfNoSession } from '$lib/server/auth';
 import { Supabase } from '$lib/server/supabase';
 
@@ -60,7 +60,7 @@ export const getSessionForUser = async (supabase: SupabaseClient, user: User | n
 };
 
 export const handle: Handle = async ({ event, resolve }) => {
-	event.locals.supabase = Supabase.createClient(event, SUPABASE_URL, SUPABASE_ANON_KEY);
+	event.locals.supabase = Supabase.createClient(event, env.SUPABASE_URL, env.SUPABASE_ANON_KEY);
 
 	// prevent the cookies API to be triggered after the response is sent
 	const user = await getUser(event.locals.supabase);

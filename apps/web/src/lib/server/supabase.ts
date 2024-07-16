@@ -1,5 +1,5 @@
 import { createServerClient } from '@supabase/ssr';
-import { DISABLE_SECURE_COOKIES } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 import type { PostgrestError, PostgrestSingleResponse } from '@supabase/supabase-js';
 import type { RequestEvent } from '@sveltejs/kit';
@@ -8,7 +8,7 @@ import type { RepositoryResponse } from '$lib/types/repositories';
 
 const supabaseCookiesOptions = {
 	path: '/',
-	secure: DISABLE_SECURE_COOKIES != 'true'
+	secure: env.DISABLE_SECURE_COOKIES != 'true'
 } as const;
 
 export class Supabase {

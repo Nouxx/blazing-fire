@@ -13,7 +13,7 @@ const config: PlaywrightTestConfig = {
 	use: {
 		trace: 'retain-on-failure',
 		video: 'retain-on-failure',
-		baseURL: 'http://web:5173'
+		baseURL: 'http://web:3000'
 	},
 	timeout: CI ? 30 * 1000 : 10 * 1000,
 	testDir: 'e2e',

@@ -9,7 +9,9 @@ ENV PATH="$PNPM_HOME:$PATH"
 
 RUN corepack enable
 
-FROM base AS dev
+EXPOSE 3000
+
+FROM base AS builder
 
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
@@ -20,10 +22,20 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=apps/web/.npmrc,target=apps/web/.npmrc \
     pnpm install --frozen-lockfile
 
-COPY . .
-
 WORKDIR /app/apps/web
 
-EXPOSE 5173
+FROM builder AS dev
 
 CMD pnpm dev --host
+
+FROM builder AS prod
+
+# todo: optimize
+COPY apps/web .
+
+RUN pnpm build
+
+# todo: runtime
+ENV ORIGIN=http://web:3000
+
+CMD node build
