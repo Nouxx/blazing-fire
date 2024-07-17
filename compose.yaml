@@ -12,16 +12,11 @@ services:
     volumes:
       - ./apps/web/src:/app/apps/web/src
     environment:
-      ORIGIN: http://localhost:3000 # does not work for test
-      # ORIGIN: http://web:3000 # does not work for manual
+      ORIGIN: http://localhost:3000
       SUPABASE_URL: http://kong:8000
       SUPABASE_ANON_KEY: ${ANON_KEY}
       PUBLIC_ENVIRONMENT: ${ENVIRONMENT}
       DISABLE_SECURE_COOKIES: true # maybe useless now? (since localhost)
-
-      # idea 1: disable CSFR protection: https://stackoverflow.com/a/73801539/6553097
-      # idea 2: cheat with the domain and services names http://web:3000 (mapped to localhost) and http://prod.web:80 (2 containers)
-      # idea 3: use driver: host to the test service and always access the web service via locahost:3000
 
   studio:
     container_name: supabase-studio

@@ -53,10 +53,18 @@ jobs:
       - name: Run Vitest Unit Tests
         run: pnpm run test:unit
 
-      - name: Setup tests
+      - name: Setup .env
         run: |
           cp .env.example .env
-          docker compose up --detach --wait
+
+      - name: Pull docker images
+        run: docker compose pull --ignore-buildable test
+
+      - name: Up the docker compose
+        run: docker compose up --detach --wait --build
+
+      - name: Setup the DB
+        run: |
           cd apps/web
           pnpm supabase db reset --db-url postgresql://postgres:your-super-secret-and-long-postgres-password@localhost:5432/postgres
 
