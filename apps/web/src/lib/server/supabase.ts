@@ -8,7 +8,7 @@ import type { RepositoryResponse } from '$lib/types/repositories';
 
 const supabaseCookiesOptions = {
 	path: '/',
-	secure: env.DISABLE_SECURE_COOKIES != 'true'
+	secure: true
 } as const;
 
 export class Supabase {
