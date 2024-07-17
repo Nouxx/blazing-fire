@@ -8,8 +8,9 @@ const config: PlaywrightTestConfig = {
 	outputDir: 'playwright-test-results',
 	reporter: [['html', { open: 'never' }]],
 	maxFailures: CI ? 0 : 1,
-	workers: CI ? 1 : undefined,
-	retries: CI ? 3 : 0,
+	workers: CI ? 1 : '100%',
+	forbidOnly: !!CI,
+	retries: 0,
 	use: {
 		trace: 'retain-on-failure',
 		video: 'retain-on-failure',
