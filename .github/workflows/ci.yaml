@@ -58,7 +58,7 @@ jobs:
           cp .env.example .env
 
       - name: Pull docker images
-        run: docker compose pull --ignore-buildable test
+        run: docker compose --profile test pull
 
       - name: Up the docker compose
         run: docker compose up --detach --wait --build
