@@ -56,7 +56,7 @@ jobs:
       - name: Setup tests
         run: |
           cp .env.example .env
-          docker compose --profile test up --detach --wait
+          docker compose up --detach --wait
           cd apps/web
           pnpm supabase db reset --db-url postgresql://postgres:your-super-secret-and-long-postgres-password@localhost:5432/postgres
 

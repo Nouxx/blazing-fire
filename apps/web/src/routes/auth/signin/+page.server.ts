@@ -36,7 +36,6 @@ export const load: PageServerLoad = async ({ parent, locals }) => {
 
 export const actions: Actions = {
 	signInWithPassword: async ({ request, locals: { supabase } }) => {
-		console.log('DEBUG /signInWithPassword');
 		const formData = await request.formData();
 
 		const { email, password } = extractFromFormData(formData);
@@ -47,14 +46,6 @@ export const actions: Actions = {
 		});
 
 		if (error) {
-			console.log('DEBUG /signInWithPassword - error');
-			console.log({
-				msg: error.message,
-				name: error.name,
-				cause: error.cause,
-				stk: error.stack,
-				stat: error.status
-			});
 			if (isWrongCredentialsError(error)) {
 				return signInFormError('Invalid credentials', email);
 			}

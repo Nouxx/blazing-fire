@@ -26,6 +26,9 @@ WORKDIR /app/apps/web
 
 FROM builder AS dev
 
+# todo: optimize
+COPY apps/web .
+
 CMD pnpm dev --host
 
 FROM builder AS prod
@@ -34,8 +37,5 @@ FROM builder AS prod
 COPY apps/web .
 
 RUN pnpm build
-
-# todo: runtime
-ENV ORIGIN=http://web:3000
 
 CMD node build

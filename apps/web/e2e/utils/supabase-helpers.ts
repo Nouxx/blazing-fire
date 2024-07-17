@@ -20,7 +20,7 @@ type InbucketMailboxItem = {
 
 export class SupabaseTestHelpers {
 	private readonly supabaseClient: SupabaseClient;
-	private readonly inbucketUrl = 'http://inbucket:9000';
+	private readonly inbucketUrl = 'http://localhost:9000';
 
 	constructor(supabaseUrl: string, supabaseKey: string) {
 		this.supabaseClient = createClient(supabaseUrl, supabaseKey);
@@ -41,7 +41,7 @@ export class SupabaseTestHelpers {
 			email: mail
 		});
 		if (error) {
-			throw `Error fetching user id for email ${mail}, ${JSON.stringify(error)}`;
+			throw new Error(`Error fetching user id for email ${mail}`);
 		}
 		if (!data[0]) {
 			return null;
@@ -52,7 +52,7 @@ export class SupabaseTestHelpers {
 	private async deleteUserById(userId: string) {
 		const { data, error } = await this.supabaseClient.auth.admin.deleteUser(userId);
 		if (error) {
-			throw `Error deleting the user ${userId}, ${error}`;
+			throw new Error(`Error deleting the user ${userId}, ${error}`);
 		}
 		return data;
 	}
@@ -81,7 +81,7 @@ export class SupabaseTestHelpers {
 		const mail: InbucketMail = await fetchMailResponse.json();
 		const linkRegExpMatch = mail.body.text.match(/(http.*)(?= \))/g);
 		if (linkRegExpMatch === null) {
-			throw 'No confirmation link matched';
+			throw new Error('No confirmation link matched');
 		}
 		return linkRegExpMatch[0];
 	}
