@@ -1,5 +1,4 @@
 import { createServerClient } from '@supabase/ssr';
-import { env } from '$env/dynamic/private';
 
 import type { PostgrestError, PostgrestSingleResponse } from '@supabase/supabase-js';
 import type { RequestEvent } from '@sveltejs/kit';
