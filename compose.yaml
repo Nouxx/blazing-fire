@@ -15,6 +15,16 @@ services:
       SUPABASE_ANON_KEY: ${ANON_KEY}
       PUBLIC_ENVIRONMENT: ${ENVIRONMENT}
 
+  installer:
+    container_name: dev-installer
+    profiles: [install]
+    build:
+      dockerfile: docker/installer.Dockerfile
+      context: .
+    volumes:
+      - .:/app:rw
+    command: pnpm install
+
   web-dev:
     container_name: blazing-fire-web-dev
     profiles: [dev]
