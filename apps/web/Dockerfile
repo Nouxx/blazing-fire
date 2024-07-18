@@ -13,6 +13,7 @@ EXPOSE 3000
 
 FROM base AS builder
 
+# todo: --prod for install
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
     --mount=type=bind,source=pnpm-workspace.yaml,target=pnpm-workspace.yaml \
@@ -25,9 +26,6 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 WORKDIR /app/apps/web
 
 FROM builder AS dev
-
-# todo: optimize
-COPY apps/web .
 
 CMD pnpm dev --host
 

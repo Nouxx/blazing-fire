@@ -9,10 +9,24 @@ services:
       target: prod
     ports:
       - '3000:3000'
-    volumes:
-      - ./apps/web/src:/app/apps/web/src
     environment:
       ORIGIN: http://localhost:3000
+      SUPABASE_URL: http://kong:8000
+      SUPABASE_ANON_KEY: ${ANON_KEY}
+      PUBLIC_ENVIRONMENT: ${ENVIRONMENT}
+
+  web-dev:
+    container_name: blazing-fire-web-dev
+    profiles: [dev]
+    build:
+      dockerfile: apps/web/Dockerfile
+      context: .
+      target: dev
+    ports:
+      - '3001:3000'
+    volumes:
+      - .:/app
+    environment:
       SUPABASE_URL: http://kong:8000
       SUPABASE_ANON_KEY: ${ANON_KEY}
       PUBLIC_ENVIRONMENT: ${ENVIRONMENT}
