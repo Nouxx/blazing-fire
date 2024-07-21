@@ -1,24 +1,28 @@
 {
-  "globalEnv": ["CI"],
-  "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "globalEnv": ["VERCEL_DEPLOY", "CI", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"],
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".svelte-kit/**", ".vercel/**"],
-      "env": ["SUPABASE_ANON_KEY", "SUPABASE_URL", "PUBLIC_ENVIRONMENT", "VERCEL_DEPLOY"]
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**"]
     },
     "lint": {
-      "env": ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"]
+      "dependsOn": ["^lint"]
     },
-    "format:check": {},
-    "format:fix": {},
     "test:unit": {},
-    "test:e2e": {
-      "env": ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "VERCEL_DEPLOY"]
-    },
+    "format:fix": {},
+    "format:check": {},
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "interactive": true
+    },
+    "db:reset": {
+      "cache": false,
+      "persistent": true,
+      "env": ["POSTGRES_HOST", "POSTGRES_DB", "POSTGRES_PASSWORD"]
     }
-  }
+  },
+  "ui": "tui",
+  "$schema": "https://turbo.build/schema.json"
 }

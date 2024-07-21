@@ -5,7 +5,7 @@
 ### Install project dependencies
 
 ```bash
-pnpm install
+docker compose run --rm dev npm install
 ```
 
 ## Add new dependency

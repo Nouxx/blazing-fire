@@ -15,31 +15,25 @@ services:
       SUPABASE_ANON_KEY: ${ANON_KEY}
       PUBLIC_ENVIRONMENT: ${ENVIRONMENT}
 
-  installer:
-    container_name: dev-installer
-    profiles: [install]
+  dev:
+    container_name: blazing-fire-dev
+    profiles: [dev]
     build:
       dockerfile: docker/installer.Dockerfile
       context: .
     volumes:
       - .:/app:rw
-    command: pnpm install
-
-  web-dev:
-    container_name: blazing-fire-web-dev
-    profiles: [dev]
-    build:
-      dockerfile: apps/web/Dockerfile
-      context: .
-      target: dev
     ports:
       - '3001:3000'
-    volumes:
-      - .:/app
     environment:
       SUPABASE_URL: http://kong:8000
       SUPABASE_ANON_KEY: ${ANON_KEY}
       PUBLIC_ENVIRONMENT: ${ENVIRONMENT}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    stdin_open: true
+    tty: true
 
   studio:
     container_name: supabase-studio
@@ -251,6 +245,10 @@ services:
       - ./apps/web/supabase/db/roles.sql:/docker-entrypoint-initdb.d/init-scripts/99-roles.sql:Z
       - ./apps/web/supabase/db/jwt.sql:/docker-entrypoint-initdb.d/init-scripts/99-jwt.sql:Z
       - ./apps/web/supabase/db/logs.sql:/docker-entrypoint-initdb.d/migrations/99-logs.sql:Z
+      - ./apps/web/scripts/db-dump.sh:/scripts/db-dump.sh:ro
+      - ./apps/web/supabase/seed.sql:/supabase/seed.sql:rw
+      - ./apps/web/supabase/pg_dump.sh:/supabase/pg_dump.sh:ro
+      - ./apps/web/supabase/dev-fixtures.sql:/supabase/dev-fixtures.sql:ro
       - db-data:/var/lib/postgresql/data:Z
       - db-config:/etc/postgresql-custom
 

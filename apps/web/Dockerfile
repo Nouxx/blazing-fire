@@ -4,36 +4,29 @@ FROM node:${NODE_VERSION} AS base
 
 WORKDIR /app
 
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-
-RUN corepack enable
-
 EXPOSE 3000
 
 FROM base AS builder
 
 # todo: --prod for install
 RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
-    --mount=type=bind,source=pnpm-workspace.yaml,target=pnpm-workspace.yaml \
+    --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=bind,source=turbo.json,target=turbo.json \
     --mount=type=bind,source=.npmrc,target=.npmrc \
     --mount=type=bind,source=apps/web/package.json,target=apps/web/package.json \
-    --mount=type=bind,source=apps/web/.npmrc,target=apps/web/.npmrc \
-    pnpm install --frozen-lockfile
+    npm clean-install
 
 WORKDIR /app/apps/web
 
 FROM builder AS dev
 
-CMD pnpm dev --host
+CMD npm run dev --host
 
 FROM builder AS prod
 
 # todo: optimize
 COPY apps/web .
 
-RUN pnpm build
+RUN npm run build
 
 CMD node build

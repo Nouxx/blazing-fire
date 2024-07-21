@@ -1,6 +1,9 @@
+--
+-- Custom SQL fixtures required for local environment
+--
 
 --
--- Custom: Create functions required for e2e tests
+-- Function required for e2e tests
 --
 
 CREATE OR REPLACE FUNCTION get_user_id_by_email(email TEXT)
