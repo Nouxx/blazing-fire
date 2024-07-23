@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
-# this script is supposed to be run inside the dev docker container
-# docker compose run --rm dev npm run db:reset
+PGHOST=localhost
+PGPORT=5432
+PGUSER=postgres
+PGPASSWORD=your-super-secret-and-long-postgres-password
+PGDATABASE=postgres
 
-PGHOST=$POSTGRES_HOST 
-PGUSER="postgres"
-PGPASSWORD=$POSTGRES_PASSWORD
-PGDATABASE=$POSTGRES_DB
+echo "Resetting database: '$PGDATABASE', host: '$PGHOST:$PGPORT' with user: '$PGUSER'"
 
-echo "Resetting database: '$PGDATABASE', host: '$PGHOST' with user: '$PGUSER'"
-
-npx supabase db reset --db-url postgresql://$PGUSER:$PGPASSWORD@$PGHOST/$PGDATABASE
+npx supabase db reset --db-url postgresql://$PGUSER:$PGPASSWORD@$PGHOST:$PGPORT/$PGDATABASE

@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
 
-SEED_FILE_PATH=../supabase/seed.sql
-PG_DUMP_FILE_PATH=../supabase/pg_dump.sh
-DEV_FIXTURES_FILE_PATH=../supabase/dev-fixtures.sql
+PGHOST=localhost
+PGPORT=5432
+PGUSER=postgres
+PGPASSWORD=your-super-secret-and-long-postgres-password
+PGDATABASE=postgres
 
-echo -n "Dumping database..."
+SEED_FILE_PATH=supabase/seed.sql
+DEV_FIXTURES_FILE_PATH=supabase/dev-fixtures.sql
 
-$PG_DUMP_FILE_PATH > $SEED_FILE_PATH
-
-echo " ok"
+npx supabase db dump \
+    --db-url postgresql://$PGUSER:$PGPASSWORD@$PGHOST:$PGPORT/$PGDATABASE \
+    --file $SEED_FILE_PATH \
+    --data-only \
+    --schema auth,public \
+    --exclude auth.audit_log_entries
 
 echo -n Appending dev fixtures...
 

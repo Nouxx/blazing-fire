@@ -142,7 +142,6 @@ SELECT pg_catalog.setval('"public"."menus_id_seq"', 1, false);
 --
 
 RESET ALL;
-
 --
 -- Custom SQL fixtures required for local environment
 --

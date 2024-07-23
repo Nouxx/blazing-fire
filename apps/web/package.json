@@ -12,8 +12,8 @@
 		"test:e2e": "playwright test",
 		"test:unit": "vitest run",
 		"db:reset": "scripts/db-reset.sh",
-		"db:create-migration": "supabase db diff --local --use-migra",
-		"db:types": "supabase gen types typescript --local > src/lib/database/generated-types.ts"
+		"db:types": "scripts/db-types.sh",
+		"db:dump": "scripts/db-dump.sh"
 	},
 	"dependencies": {
 		"@supabase/ssr": "^0.1.0",

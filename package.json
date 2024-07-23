@@ -14,7 +14,7 @@
     "tu": "npm run test:unit",
     "ff": "npm run format:fix",
     "fc": "npm run format:check",
-    "db:reset": "turbo run db:reset --filter web",
+    "db:reset": "turbo run db:reset --filter web"
   },
   "devDependencies": {
     "eslint": "^8.57.0",

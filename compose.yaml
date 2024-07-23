@@ -23,6 +23,8 @@ services:
       context: .
     volumes:
       - .:/app:rw
+      - /app/node_modules
+      - /app/apps/web/node_modules
     ports:
       - '3001:3000'
     environment:
@@ -34,6 +36,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     stdin_open: true
     tty: true
+    # todo: 
+    # https://stackoverflow.com/questions/57628844/sharing-the-node-modules-folder-between-the-container-and-the-host
 
   studio:
     container_name: supabase-studio
