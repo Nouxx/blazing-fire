@@ -13,7 +13,8 @@
 		"test:unit": "vitest run",
 		"db:reset": "scripts/db-reset.sh",
 		"db:types": "scripts/db-types.sh",
-		"db:dump": "scripts/db-dump.sh"
+		"db:dump": "scripts/db-dump.sh",
+		"db:migra": "scripts/db-migra.sh"
 	},
 	"dependencies": {
 		"@supabase/ssr": "^0.1.0",
@@ -37,7 +38,7 @@
 		"postcss": "^8.4.31",
 		"prettier": "~3.2.5",
 		"prettier-plugin-svelte": "^3.2.2",
-		"supabase": "^1.150.0",
+		"supabase": "1.183.5",
 		"svelte": "^4.0.5",
 		"svelte-check": "^3.4.3",
 		"tailwindcss": "^3.3.5",
