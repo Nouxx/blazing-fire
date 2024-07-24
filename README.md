@@ -42,7 +42,8 @@ docker compose up -d # --profile dev
 ```
 
 ```bash
-docker compose up dev
+docker compose up dev # or
+docker compose run --rm -P dev
 ```
 
 Web app will be accessible at localhost:3001
