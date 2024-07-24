@@ -18,10 +18,6 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 WORKDIR /app/apps/web
 
-FROM builder AS dev
-
-CMD npm run dev --host
-
 FROM builder AS prod
 
 # todo: optimize

@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 
 PGHOST=localhost
-PGPORT=5432
+PGPORT=$POSTGRES_PORT
 PGUSER=postgres
-PGPASSWORD=your-super-secret-and-long-postgres-password
-PGDATABASE=postgres
+PGPASSWORD=$POSTGRES_PASSWORD
+PGDATABASE=$POSTGRES_DB
 
 SEED_FILE_PATH=supabase/seed.sql
 DEV_FIXTURES_FILE_PATH=supabase/dev-fixtures.sql
+
+echo "Dumping database: '$PGDATABASE', host: '$PGHOST:$PGPORT' with user: '$PGUSER'"
+
 
 npx supabase db dump \
     --db-url postgresql://$PGUSER:$PGPASSWORD@$PGHOST:$PGPORT/$PGDATABASE \

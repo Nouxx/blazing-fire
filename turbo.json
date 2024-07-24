@@ -15,12 +15,21 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "interactive": true
+      "interactive": true,
+      "env": ["SUPABASE_URL", "SUPABASE_ANON_KEY", "PUBLIC_ENVIRONMENT"]
     },
     "db:reset": {
       "cache": false,
       "persistent": true,
-      "env": ["POSTGRES_HOST", "POSTGRES_DB", "POSTGRES_PASSWORD"]
+      "env": ["POSTGRES_HOST", "POSTGRES_PORT", "POSTGRES_DB", "POSTGRES_PASSWORD"]
+    },
+    "db:dump": {
+      "cache": false,
+      "env": ["POSTGRES_HOST", "POSTGRES_PORT", "POSTGRES_DB", "POSTGRES_PASSWORD"]
+    },
+    "db:types": {
+      "cache": false,
+      "env": ["POSTGRES_HOST", "POSTGRES_PORT", "POSTGRES_DB", "POSTGRES_PASSWORD"]
     }
   },
   "ui": "tui",

@@ -31,13 +31,10 @@ services:
       SUPABASE_URL: http://kong:8000
       SUPABASE_ANON_KEY: ${ANON_KEY}
       PUBLIC_ENVIRONMENT: ${ENVIRONMENT}
-      POSTGRES_HOST: ${POSTGRES_HOST}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     stdin_open: true
     tty: true
-    # todo: 
-    # https://stackoverflow.com/questions/57628844/sharing-the-node-modules-folder-between-the-container-and-the-host
+    command: npm run dev
+    # nice to have: turbo ui in docker compose up (works with docker compose run)
 
   studio:
     container_name: supabase-studio

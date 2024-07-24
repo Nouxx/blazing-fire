@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 PGHOST=localhost
-PGPORT=5432
+PGPORT=$POSTGRES_PORT
 PGUSER=postgres
-PGPASSWORD=your-super-secret-and-long-postgres-password
-PGDATABASE=postgres
+PGPASSWORD=$POSTGRES_PASSWORD
+PGDATABASE=$POSTGRES_DB
 
 echo "Resetting database: '$PGDATABASE', host: '$PGHOST:$PGPORT' with user: '$PGUSER'"
 

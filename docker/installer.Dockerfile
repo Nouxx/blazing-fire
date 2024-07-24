@@ -18,4 +18,4 @@ COPY ../apps/web/package.json .
 
 WORKDIR /app
 
-RUN npm clean-install
+RUN npm clean-install --no-audit
