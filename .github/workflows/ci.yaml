@@ -32,26 +32,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.9.2
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.17.1
+          node-version: 18.20.3
 
       - name: Install project dependencies
-        run: pnpm install
+        run: npm install
 
       - name: Run Prettier check
-        run: pnpm run format:check
+        run: npm run format:check
 
       - name: Run ESLint check
-        run: pnpm run lint
+        run: npm run lint
 
       - name: Run Vitest Unit Tests
-        run: pnpm run test:unit
+        run: npm run test:unit
 
       - name: Setup .env
         run: |
@@ -60,13 +56,12 @@ jobs:
       - name: Pull docker images
         run: docker compose --profile test pull
 
-      - name: Up the docker compose
+      - name: Up the apps
         run: docker compose up --detach --wait --build
 
       - name: Setup the DB
         run: |
-          cd apps/web
-          pnpm supabase db reset --db-url postgresql://postgres:your-super-secret-and-long-postgres-password@localhost:5432/postgres
+          npm run db:reset
 
       - name: Run test
         id: e2e-tests
