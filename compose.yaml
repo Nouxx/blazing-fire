@@ -17,9 +17,9 @@ services:
 
   dev:
     container_name: blazing-fire-dev
-    profiles: [dev]
+    profiles: [run]
     build:
-      dockerfile: docker/installer.Dockerfile
+      dockerfile: docker/base.Dockerfile
       context: .
     volumes:
       - .:/app:rw

@@ -42,7 +42,6 @@ docker compose up -d # --profile dev
 ```
 
 ```bash
-docker compose up dev # or
 docker compose run --rm -P dev
 ```
 
@@ -61,28 +60,29 @@ docker compose up dev -d
 
 Made with Playwright and heavily relying on [visual snapshot comparaison](https://playwright.dev/docs/test-snapshots).
 
+Tests are run against a production build app that is run in localhost:3000
+
+If there's any change in the app source code, this production build needs to be re-buit.
+
+```bash
+docker compose build web
+docker compose up web -d
+```
+
+To run the test
+
 ```bash
 docker compose run --rm test
 docker compose run --rm test npx playwright test -u # update snapshots
 ```
 
-Tests are run against the "production" service instead of the dev env.
-If changes are made to the application, it needs to be rebuilt.
-
-```bash
-docker compose build web
-docker compose up -d web
-```
-
-To check the report, use the playwright command in the `web` folder.
-
-```bash
-npx playwright show-report # in apps/web
-```
+If tests fails, a report will be available at localhost:9323, this behaviour is configured with playwright.
 
 ### DB
 
 Run these commands from the Host.
+
+They are using sh scripts to leverage the environment variables from `.env` file also used in the docker composition.
 
 ```bash
 npm run db:dump # dump the current state of the DB to a static file

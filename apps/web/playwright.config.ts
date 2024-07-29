@@ -6,13 +6,13 @@ const CI = process.env.CI;
 
 const config: PlaywrightTestConfig = {
 	outputDir: 'playwright-test-results',
-	reporter: [['html', { open: 'never' }]],
+	reporter: [['html', { open: CI ? 'never' : 'on-failure' }]],
 	maxFailures: CI ? 0 : 1,
 	workers: CI ? 1 : '100%',
 	forbidOnly: !!CI,
 	retries: 0,
 	use: {
-		trace: 'retain-on-failure',
+		trace: 'on',
 		video: 'retain-on-failure',
 		baseURL: 'http://localhost:3000'
 	},

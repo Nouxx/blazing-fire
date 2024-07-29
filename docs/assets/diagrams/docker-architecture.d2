@@ -1,0 +1,23 @@
+direction: up
+
+host: {
+  icon.near: top-left
+}
+
+host.node_modules: {
+  style.multiple: true
+}
+
+host.docker: {
+  icon: assets/img/docker-logo.svg
+}
+
+host.docker.node_modules: {
+  style.multiple: true
+}
+
+host.docker.volumes: {
+  style.multiple: true
+}
+
+host.docker.volumes <-> host.docker.node_modules
