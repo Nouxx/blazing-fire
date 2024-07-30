@@ -28,7 +28,7 @@ function isInvalidClaimError(error: AuthError | null): error is AuthError {
 	);
 }
 
-export const getUser = async (supabase: SupabaseClient) => {
+const getUser = async (supabase: SupabaseClient) => {
 	const { data, error } = await supabase.auth.getUser();
 	if (isInvalidClaimError(error)) {
 		return null;
@@ -43,7 +43,7 @@ export const getUser = async (supabase: SupabaseClient) => {
 	return data.user;
 };
 
-export const getSession = async (supabase: SupabaseClient) => {
+const getSession = async (supabase: SupabaseClient) => {
 	const { data, error } = await supabase.auth.getSession();
 	if (error) {
 		console.error('getSession', error);
@@ -52,15 +52,32 @@ export const getSession = async (supabase: SupabaseClient) => {
 	return data.session;
 };
 
-export const getSessionForUser = async (supabase: SupabaseClient, user: User | null) => {
+async function getSessionForUser(supabase: SupabaseClient, user: User | null) {
 	if (!user) {
 		return null;
 	}
 	return await getSession(supabase);
-};
+}
+
+function sanitizeSupabaseInputs(url: string | undefined, anonKey: string | undefined) {
+	if (!url || url === '') {
+		throw new Error(`SUPABASE_URL has not been provided`);
+	}
+	if (!anonKey || anonKey === '') {
+		throw new Error(`SUPABASE_ANON_KEY has not been provided`);
+	}
+	return {
+		supabaseUrl: url,
+		supabaseAnonKey: anonKey
+	};
+}
 
 export const handle: Handle = async ({ event, resolve }) => {
-	event.locals.supabase = Supabase.createClient(event, env.SUPABASE_URL, env.SUPABASE_ANON_KEY);
+	const { supabaseUrl, supabaseAnonKey } = sanitizeSupabaseInputs(
+		env.SUPABASE_URL,
+		env.SUPABASE_ANON_KEY
+	);
+	event.locals.supabase = Supabase.createClient(event, supabaseUrl, supabaseAnonKey);
 
 	// prevent the cookies API to be triggered after the response is sent
 	const user = await getUser(event.locals.supabase);

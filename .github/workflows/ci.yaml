@@ -37,33 +37,31 @@ jobs:
         with:
           node-version: 18.20.3
 
-      - name: Install project dependencies
-        run: npm install
-
-      - name: Run Prettier check
-        run: npm run format:check
-
-      - name: Run ESLint check
-        run: npm run lint
-
-      - name: Run Vitest Unit Tests
-        run: npm run test:unit
-
       - name: Setup .env
         run: |
           cp .env.example .env
 
+      - name: Setup the DB (restore data and generate types)
+        run: |
+          npm run db:reset
+          npm run db:types
+
       - name: Pull docker images
         run: docker compose --profile test pull
 
-      - name: Up the apps
+      - name: Up the services
         run: docker compose up --detach --wait --build
 
-      - name: Setup the DB
-        run: |
-          npm run db:reset
+      - name: Run Prettier check
+        run: docker compose run --rm dev npm run format:check
 
-      - name: Run test
+      - name: Run ESLint check
+        run: docker compose run --rm dev npm run lint
+
+      - name: Run Vitest Unit Tests
+        run: docker compose run --rm dev npm run test:unit
+
+      - name: Run E2E Tests
         id: e2e-tests
         continue-on-error: true
         run: docker compose run --rm --env CI=true test
