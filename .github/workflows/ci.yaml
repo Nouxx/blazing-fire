@@ -16,7 +16,7 @@ on:
       - ready_for_review
 
 env:
-  CI: true
+  COMPOSE_PROFILES: test,run
   GCLOUD_BUCKET_NAME: blazing-fire-playwright-reports
 
 jobs:
@@ -45,10 +45,12 @@ jobs:
           cp .env.example .env
 
       - name: Pull docker images
-        run: docker compose --profile test pull
+        run: |
+          docker compose pull
+          docker compose build
 
       - name: Up the services
-        run: docker compose up --detach --wait --build
+        run: docker compose up --detach --wait
 
       - name: Setup the DB (restore data and generate types)
         run: |
