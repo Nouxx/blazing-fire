@@ -44,7 +44,7 @@ jobs:
         run: |
           cp .env.example .env
 
-      - name: Pull docker images
+      - name: Pull & build Docker images
         run: |
           docker compose pull
           docker compose build
