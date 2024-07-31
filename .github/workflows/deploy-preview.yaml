@@ -29,10 +29,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.9.2
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
