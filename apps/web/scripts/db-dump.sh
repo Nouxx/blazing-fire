@@ -11,7 +11,6 @@ DEV_FIXTURES_FILE_PATH=supabase/dev-fixtures.sql
 
 echo "Dumping database: '$PGDATABASE', host: '$PGHOST:$PGPORT' with user: '$PGUSER'"
 
-
 npx supabase db dump \
     --db-url postgresql://$PGUSER:$PGPASSWORD@$PGHOST:$PGPORT/$PGDATABASE \
     --file $SEED_FILE_PATH \

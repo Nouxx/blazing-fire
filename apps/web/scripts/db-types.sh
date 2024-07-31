@@ -10,3 +10,5 @@ echo "Generating types for database: '$PGDATABASE', host: '$PGHOST' with user: '
 npx supabase gen types \
     --db-url postgresql://$PGUSER:$PGPASSWORD@$PGHOST/$PGDATABASE \
     --lang=typescript > src/lib/database/generated-types.ts
+
+# todo: format sh files
