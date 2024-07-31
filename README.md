@@ -43,6 +43,8 @@ docker compose build
 
 ### Run the dev env
 
+Run all the services (supabase, db...)
+
 ```bash
 docker compose --profile dev up -d
 ```
