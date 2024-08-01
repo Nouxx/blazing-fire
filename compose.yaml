@@ -248,7 +248,6 @@ services:
       - ./apps/web/supabase/db/logs.sql:/docker-entrypoint-initdb.d/migrations/99-logs.sql:Z
       - ./apps/web/scripts/db-dump.sh:/scripts/db-dump.sh:ro
       - ./apps/web/supabase/seed.sql:/supabase/seed.sql:rw
-      - ./apps/web/supabase/pg_dump.sh:/supabase/pg_dump.sh:ro
       - ./apps/web/supabase/dev-fixtures.sql:/supabase/dev-fixtures.sql:ro
       - db-data:/var/lib/postgresql/data:Z
       - db-config:/etc/postgresql-custom
