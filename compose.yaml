@@ -34,7 +34,6 @@ services:
     stdin_open: true
     tty: true
     command: npm run dev
-    # nice to have: turbo ui in docker compose up (works with docker compose run)
 
   studio:
     container_name: supabase-studio
