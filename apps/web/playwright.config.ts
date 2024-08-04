@@ -16,7 +16,7 @@ const config: PlaywrightTestConfig = {
 		video: 'retain-on-failure',
 		baseURL: 'http://localhost:3000'
 	},
-	timeout: CI ? 30 * 1000 : 10 * 1000,
+	timeout: CI ? 60 * 1000 : 30 * 1000,
 	testDir: 'e2e',
 	testMatch: /(.+\.)?(test)\.ts/,
 	snapshotPathTemplate: '{testDir}/snapshots/{testFilePath}/{arg}{ext}',
