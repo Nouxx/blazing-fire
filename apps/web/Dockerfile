@@ -49,5 +49,3 @@ WORKDIR /app/apps/web
 EXPOSE 3000
 
 CMD node build
-
-# todo: format does not work
