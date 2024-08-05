@@ -51,7 +51,7 @@ test('A user can sign in', async ({ page, context }) => {
 		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_SIGN_IN));
 	});
 
-	await test.step('Submit the form with an correct mail with a wrong password', async () => {
+	await test.step('Submit the form with a correct mail and a wrong password', async () => {
 		await signInPage.fillForm(testUsers.registered.mail, 'incorrect-password');
 		await signInPage.submitForm();
 		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_SIGN_IN_INVALID));

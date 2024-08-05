@@ -1,2 +1,6 @@
+build
+
+src/lib/database/generated-types.ts
+
 .env*
 !.env.example

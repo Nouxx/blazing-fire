@@ -1,0 +1,38 @@
+direction: down
+
+host: {
+  icon.near: top-left
+  install-cmd-host: npm install {
+    style: {
+      stroke-width: 0
+      fill: transparent
+    }
+  }
+  install-cmd-docker: docker compose build dev {
+    style: {
+      stroke-width: 0
+      fill: transparent
+    }
+  }
+  node_modules: {
+    style.multiple: true
+  }
+}
+
+host.docker: {
+  icon: assets/img/docker-logo.svg
+  icon.near: top-left
+  label.near: top-right
+  node_modules: {
+    style.multiple: true
+  }
+  volumes: {
+    style.multiple: true
+  }
+}
+
+host.install-cmd-host -> host.node_modules: generates
+
+host.install-cmd-docker -> host.docker.node_modules: generates
+
+host.docker.node_modules <-> host.docker.volumes

@@ -1,5 +1,6 @@
 .DS_Store
 .svelte-kit
+.turbo
 node_modules
 /build
 /package

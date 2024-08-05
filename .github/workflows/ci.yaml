@@ -16,7 +16,7 @@ on:
       - ready_for_review
 
 env:
-  CI: true
+  COMPOSE_PROFILES: test,run
   GCLOUD_BUCKET_NAME: blazing-fire-playwright-reports
 
 jobs:
@@ -32,60 +32,63 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.9.2
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.17.1
+          node-version: 18.20.3
 
-      - name: Install project dependencies
-        run: pnpm install
+      - name: Install node dependencies (on the host)
+        run: npm clean-install --no-audit
+
+      - name: Setup .env
+        run: |
+          cp .env.example .env
+
+      - name: Pull & build Docker images
+        run: |
+          docker compose pull
+          docker compose build
+
+      - name: Up the services
+        run: docker compose up --detach --wait
+
+      - name: Setup the DB (restore data and generate types)
+        run: |
+          npm run db:reset
+          npm run db:types
 
       - name: Run Prettier check
-        run: pnpm run format:check
+        run: docker compose run --rm dev npm run format:check
 
       - name: Run ESLint check
-        run: pnpm run lint
+        run: docker compose run --rm dev npm run lint
 
       - name: Run Vitest Unit Tests
-        run: pnpm run test:unit
+        run: docker compose run --rm dev npm run test:unit
 
-      - name: Install Playwright dependencies
-        run: pnpm playwright install --with-deps
-        working-directory: apps/web
-
-      - name: Set up supabase
-        working-directory: apps/web
-        run: |
-          pnpm db:update-seed
-          pnpm supa:start
-
-      - name: Run Playwright Integration Tests
-        id: integration-tests
+      - name: Run E2E Tests
+        id: e2e-tests
         continue-on-error: true
-        run: CI=true pnpm turbo run test:e2e
-        env:
-          PUBLIC_ENVIRONMENT: local
-          SUPABASE_URL: http://127.0.0.1:54321
-          SUPABASE_ANON_KEY: dummy
-          SUPABASE_SERVICE_ROLE_KEY: dummy
+        run: docker compose run --rm --env CI=true test
 
       - name: Authenticate to Google Cloud
-        if: steps.integration-tests.outcome == 'failure'
-        uses: google-github-actions/auth@v1
+        if: steps.e2e-tests.outcome == 'failure'
+        uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCLOUD_WORKLOAD_ID_PROVIDER }}
           service_account: ${{ secrets.GCLOUD_SERVICE_ACCOUNT }}
 
+      - name: Set 'TEST_REPORT_URL'
+        if: steps.e2e-tests.outcome == 'failure'
+        run: echo "TEST_REPORT_URL=https://storage.googleapis.com/${{ env.GCLOUD_BUCKET_NAME }}/pr-${{ github.event.number }}/playwright-report/index.html" >> $GITHUB_ENV
+
       - name: Upload Playwright report
-        if: steps.integration-tests.outcome == 'failure'
+        if: steps.e2e-tests.outcome == 'failure'
         id: upload-report
-        uses: google-github-actions/upload-cloud-storage@v1
+        uses: google-github-actions/upload-cloud-storage@v2
         with:
-          path: 'apps/web/playwright-report'
+          path: 'apps/web'
+          glob: 'playwright-**/**'
           destination: '${{ env.GCLOUD_BUCKET_NAME }}/pr-${{ github.event.number }}'
           process_gcloudignore: false
           parent: false
@@ -95,12 +98,12 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           pr_number: ${{ github.event.number }}
-          mode: ${{ steps.integration-tests.outcome == 'failure' && 'upsert' || 'delete' }}
+          mode: ${{ steps.e2e-tests.outcome == 'failure' && 'upsert' || 'delete' }}
           comment_tag: test-report
           message: |
             :dizzy_face: **Playwright tests suite has failed!**
-            :performing_arts: Report is available [here](https://storage.googleapis.com/${{ env.GCLOUD_BUCKET_NAME}}/pr-${{ github.event.number }}/index.html).
+            :performing_arts: Report is available [here](${{ env.TEST_REPORT_URL }}).
 
-      - name: Fail if integration tests failed
-        if: steps.integration-tests.outcome == 'failure'
+      - name: Fail if E2E tests failed
+        if: steps.e2e-tests.outcome == 'failure'
         run: exit 1

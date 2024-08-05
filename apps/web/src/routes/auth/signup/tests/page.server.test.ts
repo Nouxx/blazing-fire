@@ -5,9 +5,10 @@ import {
 	createFakeSignInFormData,
 	createFakeActionFormRequest
 } from '$lib/tests/action-form-helpers';
-import type { ActionFormInput } from '$lib/tests/action-form-helpers';
 import { createFakeAuthSupabaseClient } from '$lib/tests/supabase-helpers';
 import { createFakeLocalsWithSupabase } from '$lib/tests/locals-helpers';
+import type { RequestEvent } from '@sveltejs/kit';
+import type { RouteParams } from '../$types';
 
 describe('actions.signUp', () => {
 	test('should throw a redirect when sign up is successful', async () => {
@@ -29,7 +30,7 @@ describe('actions.signUp', () => {
 			request: fakeRequest,
 			url: fakeUrl,
 			locals: fakeLocals
-		} as ActionFormInput;
+		} as RequestEvent<RouteParams, '/auth/signup'>;
 
 		// When
 		const result = async () => actions.signUp(fakeActionForm);
@@ -59,7 +60,7 @@ describe('actions.signUp', () => {
 			request: fakeRequest,
 			url: fakeUrl,
 			locals: fakeLocals
-		} as ActionFormInput;
+		} as RequestEvent<RouteParams, '/auth/signup'>;
 
 		// When
 		const result = await actions.signUp(fakeActionForm);
@@ -101,7 +102,11 @@ describe('_handleError', () => {
 	});
 	test('should return an invalid email error', () => {
 		// Given
-		const fakeError = createFakeError(422, 'dummy message', 'AuthApiError');
+		const fakeError = createFakeError(
+			422,
+			'Unable to validate email address: invalid format',
+			'AuthApiError'
+		);
 		// When
 		const result = _handleError(fakeError, fakeEmail);
 		// Then

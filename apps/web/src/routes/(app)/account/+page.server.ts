@@ -12,7 +12,7 @@ export const load: PageServerLoad = async ({ parent, locals }) => {
 
 export const actions: Actions = {
 	signOut: async ({ locals: { supabase } }) => {
-		const { error: _error } = await supabase.auth.signOut();
+		const { error: _error } = await supabase.auth.signOut({ scope: 'local' });
 
 		if (_error) {
 			error(500, { name: 'Something went wrong logging you out.', message: 'LogOutError' });

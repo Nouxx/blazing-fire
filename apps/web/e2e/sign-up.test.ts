@@ -8,7 +8,7 @@ import { NotSignedInErrorPage } from './pages/error/not-signed-in.page';
 
 import { testUsers } from './data/users';
 
-import { SupabaseTestHelpers } from './utils/supabase-helpers';
+import { createSupabaseHelpers, SupabaseTestHelpers } from './utils/supabase-helpers';
 import { SnapshotHandler } from './utils/snapshot-handler';
 
 let helpers: SupabaseTestHelpers;
@@ -19,7 +19,7 @@ let notSignedInPage: NotSignedInErrorPage;
 let signUpFormPage: SignUpFormPage;
 
 test.beforeEach(async ({ page }) => {
-	helpers = new SupabaseTestHelpers();
+	helpers = createSupabaseHelpers();
 
 	landingPage = new LandingPage(page);
 	signInPage = new SignInPage(page);
@@ -35,9 +35,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.afterEach(async () => {
-	if (!process.env.CI) {
-		await helpers.deleteUserByEmail(testUsers.new.mail);
-	}
+	await helpers.deleteUserByEmail(testUsers.new.mail);
 });
 
 test('Sign up form errors', async ({ page }) => {
@@ -88,7 +86,7 @@ test('Sign up success', async ({ page, request, context }) => {
 		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_HOME));
 	});
 
-	// todo: clicking on the confirmation link twice log you out
+	// bug: clicking on the confirmation link twice log you out
 	// todo: move this step up once fixed
 	await test.step('Reopen the confirmation link in a second tab', async () => {
 		secondTab.goto(confirmationLink);

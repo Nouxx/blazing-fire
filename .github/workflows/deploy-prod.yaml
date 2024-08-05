@@ -1,6 +1,7 @@
 name: Deploy Production Environment
 
 env:
+  VERCEL_DEPLOY: true
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROD_PROJECT_ID }}
@@ -21,10 +22,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.9.2
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -39,7 +36,7 @@ jobs:
       - name: Install Supabase CLI
         uses: supabase/setup-cli@v1
         with:
-          version: 1.150.0
+          version: 1.183.5
 
       - name: Link Supabase project
         working-directory: ${{ env.SUPABASE_DIRECTORY }}

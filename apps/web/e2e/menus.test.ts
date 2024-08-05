@@ -8,14 +8,13 @@ import { MenusPage } from './pages/menus.page';
 import { ConfirmationModalPage } from './pages/shared/confirmation-modal.page';
 
 import { testUsers } from './data/users';
-import { SupabaseTestHelpers } from './utils/supabase-helpers';
+
+import { createSupabaseHelpers } from './utils/supabase-helpers';
 import { SnapshotHandler } from './utils/snapshot-handler';
 
 const clearDataForTest = async () => {
-	if (!process.env.CI) {
-		const helpers = new SupabaseTestHelpers();
-		await helpers.deleteMenusForUser(testUsers.registered.mail);
-	}
+	const helpers = createSupabaseHelpers();
+	await helpers.deleteMenusForUser(testUsers.registered.mail);
 };
 
 let landingPage: LandingPage;

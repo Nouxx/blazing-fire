@@ -1,6 +1,5 @@
 import { APIRequestContext } from '@playwright/test';
 import { SupabaseClient, createClient } from '@supabase/supabase-js';
-import dotenv from 'dotenv';
 
 /**
  * reference: https://github.com/inbucket/inbucket/wiki/REST-GET-message
@@ -21,14 +20,10 @@ type InbucketMailboxItem = {
 
 export class SupabaseTestHelpers {
 	private readonly supabaseClient: SupabaseClient;
-	private readonly inbucketUrl = 'http://127.0.0.1:54324';
+	private readonly inbucketUrl = 'http://localhost:9000';
 
-	constructor() {
-		dotenv.config();
-		this.supabaseClient = createClient(
-			process.env.SUPABASE_URL ?? '',
-			process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
-		);
+	constructor(supabaseUrl: string, supabaseKey: string) {
+		this.supabaseClient = createClient(supabaseUrl, supabaseKey);
 	}
 
 	async deleteUserByEmail(mail: string) {
@@ -46,7 +41,7 @@ export class SupabaseTestHelpers {
 			email: mail
 		});
 		if (error) {
-			throw `Error fetching user id for email ${mail}, ${JSON.stringify(error)}`;
+			throw new Error(`Error fetching user id for email ${mail}`);
 		}
 		if (!data[0]) {
 			return null;
@@ -57,7 +52,7 @@ export class SupabaseTestHelpers {
 	private async deleteUserById(userId: string) {
 		const { data, error } = await this.supabaseClient.auth.admin.deleteUser(userId);
 		if (error) {
-			throw `Error deleting the user ${userId}, ${error}`;
+			throw new Error(`Error deleting the user ${userId}, ${error}`);
 		}
 		return data;
 	}
@@ -65,7 +60,7 @@ export class SupabaseTestHelpers {
 	async deleteMenusForUser(mail: string) {
 		const userId = await this.findUserIdByMail(mail);
 		await this.supabaseClient.from('menus').delete().eq('user_id', userId);
-		console.log(`All menus deleted of user ${mail}`);
+		console.log(`All menus deleted for user ${mail}`);
 	}
 
 	/**
@@ -86,8 +81,31 @@ export class SupabaseTestHelpers {
 		const mail: InbucketMail = await fetchMailResponse.json();
 		const linkRegExpMatch = mail.body.text.match(/(http.*)(?= \))/g);
 		if (linkRegExpMatch === null) {
-			throw 'No confirmation link matched';
+			throw new Error('No confirmation link matched');
 		}
 		return linkRegExpMatch[0];
 	}
+}
+
+export function createSupabaseHelpers() {
+	const url = process.env.SUPABASE_URL ?? '';
+	const roleKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
+
+	const missingVariables: string[] = [];
+
+	if (url === '') {
+		missingVariables.push('URL');
+	}
+
+	if (roleKey === '') {
+		missingVariables.push('Role Key');
+	}
+
+	if (missingVariables.length > 0) {
+		throw new Error(
+			`Supabase Test Helper can't be instanciated, missing: ${missingVariables.join(', ')}`
+		);
+	}
+
+	return new SupabaseTestHelpers(url, roleKey);
 }

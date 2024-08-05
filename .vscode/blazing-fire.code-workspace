@@ -1,10 +1,10 @@
 {
-    "folders": [
-      {
-        "path": "../."
-      },
-      {
-        "path": "../apps/web"
-      }
-    ]
-  }
+  "folders": [
+    {
+      "path": "../."
+    },
+    {
+      "path": "../apps/web"
+    }
+  ]
+}

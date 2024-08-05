@@ -5,7 +5,7 @@ SET session_replication_role = replica;
 --
 
 -- Dumped from database version 15.1 (Ubuntu 15.1-1.pgdg20.04+1)
--- Dumped by pg_dump version 15.5 (Ubuntu 15.5-1.pgdg20.04+1)
+-- Dumped by pg_dump version 15.7 (Ubuntu 15.7-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -22,16 +22,16 @@ SET row_security = off;
 -- Data for Name: flow_state; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
-INSERT INTO "auth"."flow_state" ("id", "user_id", "auth_code", "code_challenge_method", "code_challenge", "provider_type", "provider_access_token", "provider_refresh_token", "created_at", "updated_at", "authentication_method") VALUES
-	('bf0d8eeb-5447-4d27-9df6-afc393701170', 'b67cd35d-1e25-418a-a68b-afa0aaaabe36', 'd5523aa9-8c43-4990-ab77-38a193f4b8af', 's256', 'ud38wa1MM5RH5CEX432LStO4Uwsm0luoYUZlywfnNvc', 'email', '', '', '2024-05-03 00:43:27.988559+00', '2024-05-03 00:43:27.988559+00', 'email/signup');
+INSERT INTO "auth"."flow_state" ("id", "user_id", "auth_code", "code_challenge_method", "code_challenge", "provider_type", "provider_access_token", "provider_refresh_token", "created_at", "updated_at", "authentication_method", "auth_code_issued_at") VALUES
+	('bf0d8eeb-5447-4d27-9df6-afc393701170', 'b67cd35d-1e25-418a-a68b-afa0aaaabe36', 'd5523aa9-8c43-4990-ab77-38a193f4b8af', 's256', 'ud38wa1MM5RH5CEX432LStO4Uwsm0luoYUZlywfnNvc', 'email', '', '', '2024-05-03 00:43:27.988559+00', '2024-05-03 00:43:27.988559+00', 'email/signup', NULL);
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
-INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_password", "email_confirmed_at", "invited_at", "confirmation_token", "confirmation_sent_at", "recovery_token", "recovery_sent_at", "email_change_token_new", "email_change", "email_change_sent_at", "last_sign_in_at", "raw_app_meta_data", "raw_user_meta_data", "is_super_admin", "created_at", "updated_at", "phone", "phone_confirmed_at", "phone_change", "phone_change_token", "phone_change_sent_at", "email_change_token_current", "email_change_confirm_status", "banned_until", "reauthentication_token", "reauthentication_sent_at", "is_sso_user", "deleted_at") VALUES
-	('00000000-0000-0000-0000-000000000000', 'b67cd35d-1e25-418a-a68b-afa0aaaabe36', 'authenticated', 'authenticated', 'user1@test.com', '$2a$10$gRROztkCQNubJlK/OoIFHuJURl1A32Ugz/EQGjFcbRuo0qo0e4fyi', '2024-05-03 00:43:49.943861+00', NULL, '', '2024-05-03 00:43:27.989068+00', '', NULL, '', '', NULL, '2024-05-03 00:44:05.606283+00', '{"provider": "email", "providers": ["email"]}', '{}', NULL, '2024-05-03 00:43:27.985282+00', '2024-05-03 00:44:05.607337+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL);
+INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_password", "email_confirmed_at", "invited_at", "confirmation_token", "confirmation_sent_at", "recovery_token", "recovery_sent_at", "email_change_token_new", "email_change", "email_change_sent_at", "last_sign_in_at", "raw_app_meta_data", "raw_user_meta_data", "is_super_admin", "created_at", "updated_at", "phone", "phone_confirmed_at", "phone_change", "phone_change_token", "phone_change_sent_at", "email_change_token_current", "email_change_confirm_status", "banned_until", "reauthentication_token", "reauthentication_sent_at", "is_sso_user", "deleted_at", "is_anonymous") VALUES
+	('00000000-0000-0000-0000-000000000000', 'b67cd35d-1e25-418a-a68b-afa0aaaabe36', 'authenticated', 'authenticated', 'user1@test.com', '$2a$10$gRROztkCQNubJlK/OoIFHuJURl1A32Ugz/EQGjFcbRuo0qo0e4fyi', '2024-05-03 00:43:49.943861+00', NULL, '', '2024-05-03 00:43:27.989068+00', '', NULL, '', '', NULL, '2024-05-03 00:44:05.606283+00', '{"provider": "email", "providers": ["email"]}', '{}', NULL, '2024-05-03 00:43:27.985282+00', '2024-05-03 00:44:05.607337+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
 
 
 --
@@ -74,6 +74,12 @@ INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "
 
 --
 -- Data for Name: mfa_challenges; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: one_time_tokens; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
 
@@ -136,9 +142,12 @@ SELECT pg_catalog.setval('"public"."menus_id_seq"', 1, false);
 --
 
 RESET ALL;
+--
+-- Custom SQL fixtures required for local environment
+--
 
 --
--- Custom: Create functions required for e2e tests
+-- Function required for e2e tests
 --
 
 CREATE OR REPLACE FUNCTION get_user_id_by_email(email TEXT)
