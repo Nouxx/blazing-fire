@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/Nouxx/blazing-fire/compare/0.1.1...0.1.2) (2024-08-05)
+
+
+### Chores
+
+* **local:** switch to docker ([#17](https://github.com/Nouxx/blazing-fire/issues/17)) ([390d4f3](https://github.com/Nouxx/blazing-fire/commit/390d4f3ded9dd44dbd7b723691e42c79f891e419)), closes [#7](https://github.com/Nouxx/blazing-fire/issues/7)
+
 ## [0.1.1](https://github.com/Nouxx/blazing-fire/compare/0.1.0...0.1.1) (2024-06-14)
 
 
