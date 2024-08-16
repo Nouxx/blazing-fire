@@ -23,6 +23,7 @@
 </svg>
 
 <style lang="scss">
+
 	$stop-colors: (
 		top: #ffc675,
 		middle: #fca152,

@@ -7,7 +7,7 @@
 
     .icon {
         fill: $color-white;
-        height: 1.75rem;
+        height: inherit;
 
         :hover {
             opacity: 0.5;

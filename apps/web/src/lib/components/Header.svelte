@@ -8,50 +8,67 @@
 	export let session: Session | null;
 </script>
 
-<div class="header flex flex-col" data-testid="header">
-	<div class="flex flex-row items-center py-3 border-b-4 border-slate-400">
-		<div class="px-2 flex-1">
-			<div class="flex flex-row">
-				<a class="header__logo" href={routes.home} data-testid="logo">
-					<Logo />
-				</a>
-				<!-- <p class="flex items-center logo__text">Blazing Fire</p> -->
-			</div>
-		</div>
+<div class="header" data-testid="header">
+	<div class="header__logo">
+		<a href={routes.home} data-testid="logo">
+			<Logo />
+		</a>
+		<!-- <p class="flex items-center logo__text">Blazing Fire</p> -->
+	</div>
 
-		<div class="header__actions px-2" data-testid="navigation">
-			<button data-testid="toggle-theme" >
-				<DarkMode/>
-			</button>
-			<a href={routes.home} data-testid="home">
-				<Home/>
-			</a>
-			<a href={routes.account} data-testid="account">
-				<User/>
-			</a>
-
-		</div>
+	<div class="header__actions" data-testid="navigation">
+		<button data-testid="toggle-theme">
+			<DarkMode />
+		</button>
+		<a href={routes.home} data-testid="home">
+			<Home />
+		</a>
+		<a href={routes.account} data-testid="account">
+			<User />
+		</a>
 	</div>
 </div>
-<div />
 
 <style lang="scss">
-
+	@use "../../style/colors.scss" as *;
 
 	.header {
-		background: linear-gradient(to bottom right, #0d3b66, #10497e, #135490);
+		background: $color-gradient-primary;
 		position: sticky;
 		top: 0px;
 
-		&__logo:hover {
-			opacity: 0.5;
-			cursor: pointer;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		// temp
+		border-color: rgb(148 163 184 / 1);
+		border-bottom-width: 4px;
+
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+
+		&__logo {
+			display: flex;
+			flex: 1 1 0%;
+
+			a:hover {
+				opacity: 0.5;
+				cursor: pointer;
+			}
 		}
 
 		&__actions {
 			display: flex;
 			align-items: center;
 			gap: 1rem;
+			height: 1.5rem;
+
+			* {
+				height: inherit;
+			}
 		}
 	}
 
