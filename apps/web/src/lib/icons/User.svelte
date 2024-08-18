@@ -8,9 +8,5 @@
     .icon {
         fill: $color-white;
         height: inherit;
-
-        :hover {
-            opacity: 0.5;
-        }
     }
 </style>

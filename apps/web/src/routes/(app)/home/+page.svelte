@@ -10,4 +10,5 @@
 	</div>
 	<LinkButton label="Go to menus" link={routes.menus} id="menus" />
 	<LinkButton label="Go to account" link={routes.account} id="account" />
+
 </div>
