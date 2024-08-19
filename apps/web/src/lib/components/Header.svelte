@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { routes } from '$lib/const/routes';
 	import DarkMode from '$lib/components/icons/MoonIcon.svelte';
-	import Home from '$lib/components/icons/Home.svelte';
-	import Logo from '$lib/components/icons/Logo.svelte';
-	import User from '$lib/components/icons/User.svelte';
+	import Home from '$lib/components/icons/HomeIcon.svelte';
+	import Logo from '$lib/components/icons/LogoIcon.svelte';
+	import User from '$lib/components/icons/UserIcon.svelte';
 	import type { Session } from '@supabase/supabase-js';
 	import ButtonV2 from './ButtonV2.svelte';
+	import MoonIcon from '$lib/components/icons/MoonIcon.svelte';
+	import UserIcon from '$lib/components/icons/UserIcon.svelte';
+	import HomeIcon from '$lib/components/icons/HomeIcon.svelte';
 	export let session: Session | null;
 </script>
 
@@ -17,18 +20,15 @@
 	</div>
 
 	<div class="header__actions" data-testid="navigation">
-		<ButtonV2></ButtonV2>
-		<ButtonV2></ButtonV2>
-		<ButtonV2></ButtonV2>
-		<!-- <button data-testid="toggle-theme">
-			<DarkMode />
-		</button> -->
-		<!-- <a href={routes.home} data-testid="home">
-			<Home />
-		</a>
-		<a href={routes.account} data-testid="account">
-			<User />
-		</a> -->
+		<ButtonV2 type="button">
+			<MoonIcon />
+		</ButtonV2>
+		<ButtonV2 type="link" href={routes.home}>
+			<HomeIcon />
+		</ButtonV2>
+		<ButtonV2 type="link" href={routes.account}>
+			<UserIcon />
+		</ButtonV2>
 	</div>
 </div>
 
@@ -61,24 +61,13 @@
 			* {
 				height: inherit;
 			}
-
-			a {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-			}
-
-			a:hover {
-				opacity: 0.5;
-				cursor: pointer;
-			}
 		}
 
 		&__actions {
 			display: flex;
 			flex-direction: row;
 			align-items: center;
-			gap: 1rem;
+			gap: 0.5rem;
 
 			height: 2rem;
 

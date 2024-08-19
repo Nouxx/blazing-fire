@@ -1,10 +1,19 @@
 <script lang="ts">
-	import MoonIcon from './icons/MoonIcon.svelte';
+	export let type: 'button' | 'link';
+	export let href: string | null = null;
 </script>
 
-<button class="button">
-	<MoonIcon />
-</button>
+{#if type === 'button'}
+	<button class="button">
+		<slot />
+	</button>
+{/if}
+
+{#if type === 'link'}
+	<a {href} class="button">
+		<slot />
+	</a>
+{/if}
 
 <style lang="scss">
 	// todo: use alias
@@ -28,7 +37,7 @@
 		&:hover {
 			background: $color-new-bg-light-hover;
 
-			& .button__icon {
+			& > :global(svg) {
 				fill: $color-new-light-hover;
 			}
 		}
