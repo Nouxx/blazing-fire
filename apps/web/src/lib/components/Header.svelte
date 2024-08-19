@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { routes } from '$lib/const/routes';
-	import DarkMode from '$lib/icons/DarkMode.svelte';
-	import Home from '$lib/icons/Home.svelte';
-	import Logo from '$lib/icons/Logo.svelte';
-	import User from '$lib/icons/User.svelte';
+	import DarkMode from '$lib/components/icons/MoonIcon.svelte';
+	import Home from '$lib/components/icons/Home.svelte';
+	import Logo from '$lib/components/icons/Logo.svelte';
+	import User from '$lib/components/icons/User.svelte';
 	import type { Session } from '@supabase/supabase-js';
+	import ButtonV2 from './ButtonV2.svelte';
 	export let session: Session | null;
 </script>
 
@@ -16,15 +17,18 @@
 	</div>
 
 	<div class="header__actions" data-testid="navigation">
-		<button data-testid="toggle-theme">
+		<ButtonV2></ButtonV2>
+		<ButtonV2></ButtonV2>
+		<ButtonV2></ButtonV2>
+		<!-- <button data-testid="toggle-theme">
 			<DarkMode />
-		</button>
-		<a href={routes.home} data-testid="home">
+		</button> -->
+		<!-- <a href={routes.home} data-testid="home">
 			<Home />
 		</a>
 		<a href={routes.account} data-testid="account">
 			<User />
-		</a>
+		</a> -->
 	</div>
 </div>
 
@@ -33,19 +37,18 @@
 	@use '../../style/colors.scss' as *;
 
 	.header {
-		background: $color-gradient-primary;
+		background: $color-new-bg-light;
 		position: sticky;
 		top: 0px;
 
-		height: 4.5rem;
+		height: 4rem;
 
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 
-		// temp
-		// border-color: rgb(148 163 184 / 1);
-		// border-bottom-width: 4px;
+		border-color: $color-secondary-bg;
+		border-bottom-width: 0.1rem;
 
 		padding: 1rem;
 
@@ -73,21 +76,27 @@
 
 		&__actions {
 			display: flex;
+			flex-direction: row;
 			align-items: center;
 			gap: 1rem;
-			height: 1.35rem;
 
-			* {
-				height: inherit;
-			}
+			height: 2rem;
 
-			a:hover {
-				opacity: 0.5;
-			}
+			// * {
+			// 	height: 2rem;
+			// 	width: 2rem;
+			// 	// border: 1px solid white;
+			// 	background-color: inherit;
+			// 	border-radius: 0.35rem;
+			// }
 
-			button:hover {
-				opacity: 0.5;
-			}
+			// *:hover {
+			// 	background-color: $color-new-bg-dark-hover;
+
+			// 	.icon {
+			// 		fill: red;
+			// 	}
+			// }
 		}
 	}
 </style>
