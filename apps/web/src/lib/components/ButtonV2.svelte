@@ -1,10 +1,20 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
+
 	export let type: 'button' | 'link';
 	export let href: string | null = null;
+
+	export const CLICK_EVENT_NAME = 'click';
+
+	const dispatch = createEventDispatcher();
+
+	function handleClick() {
+		dispatch(CLICK_EVENT_NAME);
+	}
 </script>
 
 {#if type === 'button'}
-	<button class="button">
+	<button class="button" on:click={handleClick}>
 		<slot />
 	</button>
 {/if}
@@ -22,12 +32,11 @@
 	.button {
 		height: 2rem;
 		width: 2rem;
-		background: $color-new-bg-light;
 		border-radius: 0.375rem;
 		padding: 0.375rem;
 
 		& > :global(svg) {
-			fill: $color-new-light;
+			fill: $color-secondary-light;
 			display: block;
 			margin: auto;
 			height: 100%;
@@ -35,10 +44,24 @@
 		}
 
 		&:hover {
-			background: $color-new-bg-light-hover;
+			background: $color-background-hover-light;
 
 			& > :global(svg) {
-				fill: $color-new-light-hover;
+				fill: $color-secondary-light-hover;
+			}
+		}
+	}
+
+	:global(body.dark) .button {
+		& > :global(svg) {
+			fill: $color-secondary-dark;
+		}
+
+		&:hover {
+			background: $color-background-hover-dark;
+
+			& > :global(svg) {
+				fill: $color-secondary-dark-hover;
 			}
 		}
 	}

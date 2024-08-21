@@ -1,4 +1,31 @@
+// colors name
+
+
+
+$color-black-rich: #051727;
+$color-blue-oxford: #08233c;
+$color-blue-prussian: #0b2f51;
+$color-blue-yale: #0d3b66;
+
 $color-white: #fbfbfb;
+$color-grey-platinium: #dfe2e2;
+$color-grey-anti-flash: #eaecec;
+
+$color-orange-sandy: #fca152;
+$color-orange-crayola: #fe7040;
+
+// functional colors
+
+$color-background-light: $color-white;
+$color-background-hover-light: $color-grey-anti-flash;
+$color-secondary-light: $color-blue-prussian;
+$color-secondary-light-hover: $color-blue-oxford;
+
+$color-background-dark: $color-blue-oxford;
+$color-background-hover-dark: $color-blue-prussian;
+$color-secondary-dark: $color-grey-platinium;
+$color-secondary-dark-hover: $color-white;
+
 
 // Primary
 $color-primary: #10497e;

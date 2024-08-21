@@ -1,15 +1,24 @@
 <script lang="ts">
 	import { routes } from '$lib/const/routes';
-	import DarkMode from '$lib/components/icons/MoonIcon.svelte';
-	import Home from '$lib/components/icons/HomeIcon.svelte';
 	import Logo from '$lib/components/icons/LogoIcon.svelte';
-	import User from '$lib/components/icons/UserIcon.svelte';
 	import type { Session } from '@supabase/supabase-js';
 	import ButtonV2 from './ButtonV2.svelte';
 	import MoonIcon from '$lib/components/icons/MoonIcon.svelte';
+	import SunIcon from '$lib/components/icons/SunIcon.svelte';
 	import UserIcon from '$lib/components/icons/UserIcon.svelte';
 	import HomeIcon from '$lib/components/icons/HomeIcon.svelte';
 	export let session: Session | null;
+
+	type Theme = 'light' | 'dark';
+
+	let theme: Theme = 'light';
+
+	function toggleTheme() {
+		const currentTheme = theme;
+		theme = theme === 'light' ? 'dark' : 'light';
+		document.body.classList.remove(currentTheme);
+		document.body.classList.add(theme);
+	}
 </script>
 
 <div class="header" data-testid="header">
@@ -20,8 +29,13 @@
 	</div>
 
 	<div class="header__actions" data-testid="navigation">
-		<ButtonV2 type="button">
-			<MoonIcon />
+		<ButtonV2 type="button" on:click={toggleTheme}>
+			{#if theme === 'light'}
+				<MoonIcon />
+			{/if}
+			{#if theme === 'dark'}
+				<SunIcon />
+			{/if}
 		</ButtonV2>
 		<ButtonV2 type="link" href={routes.home}>
 			<HomeIcon />
@@ -37,7 +51,7 @@
 	@use '../../style/colors.scss' as *;
 
 	.header {
-		background: $color-new-bg-light;
+		background: $color-background-light;
 		position: sticky;
 		top: 0px;
 
@@ -70,22 +84,10 @@
 			gap: 0.5rem;
 
 			height: 2rem;
-
-			// * {
-			// 	height: 2rem;
-			// 	width: 2rem;
-			// 	// border: 1px solid white;
-			// 	background-color: inherit;
-			// 	border-radius: 0.35rem;
-			// }
-
-			// *:hover {
-			// 	background-color: $color-new-bg-dark-hover;
-
-			// 	.icon {
-			// 		fill: red;
-			// 	}
-			// }
 		}
+	}
+
+	:global(body.dark) .header {
+		background: $color-background-dark;
 	}
 </style>
