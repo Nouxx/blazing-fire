@@ -47,11 +47,8 @@
 </div>
 
 <style lang="scss">
-	// todo: use alias
-	@use '../../style/colors.scss' as *;
-
 	.header {
-		background: $color-background-light;
+		background: var(--color-background-primary);
 		position: sticky;
 		top: 0px;
 
@@ -61,7 +58,7 @@
 		flex-direction: row;
 		align-items: center;
 
-		border-color: $color-secondary-bg;
+		border-color: orange;
 		border-bottom-width: 0.1rem;
 
 		padding: 1rem;
@@ -85,9 +82,5 @@
 
 			height: 2rem;
 		}
-	}
-
-	:global(body.dark) .header {
-		background: $color-background-dark;
 	}
 </style>
