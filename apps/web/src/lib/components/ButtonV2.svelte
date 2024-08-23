@@ -26,9 +26,6 @@
 {/if}
 
 <style lang="scss">
-	// todo: use alias
-	@use '../../style/colors.scss' as *;
-
 	.button {
 		height: 2rem;
 		width: 2rem;
@@ -36,7 +33,7 @@
 		padding: 0.375rem;
 
 		& > :global(svg) {
-			fill: $color-secondary-light;
+			fill: var(--color-action-primary);
 			display: block;
 			margin: auto;
 			height: 100%;
@@ -44,24 +41,10 @@
 		}
 
 		&:hover {
-			background: $color-background-hover-light;
+			background: var(--color-action-secondary);
 
 			& > :global(svg) {
-				fill: $color-secondary-light-hover;
-			}
-		}
-	}
-
-	:global(body.dark) .button {
-		& > :global(svg) {
-			fill: $color-secondary-dark;
-		}
-
-		&:hover {
-			background: $color-background-hover-dark;
-
-			& > :global(svg) {
-				fill: $color-secondary-dark-hover;
+				fill: var(--color-background-tertiary);
 			}
 		}
 	}

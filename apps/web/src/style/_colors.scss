@@ -1,83 +1,53 @@
-// todo: remove the color prefix
-
 // colors definition
 
-$color-black-rich: #051727;
+$black-rich: #051727;
 
-$color-blue-oxford: #08233c;
-$color-blue-prussian: #0b2f51;
-$color-blue-yale: #0d3b66;
+$blue-oxford: #08233c;
+$blue-prussian: #0b2f51;
+$blue-yale: #0d3b66;
 
-$color-white: #fbfbfb;
+$white: #fbfbfb;
 
-$color-grey-platinium: #dfe2e2;
-$color-grey-anti-flash: #161e1e;
+$grey-anti-flash: #eaecec;
+$grey-platinium: #dfe2e2;
 
-$color-orange-sandy: #fca152;
-$color-orange-crayola: #fe7040;
+$orange-sandy: #fca152;
+$orange-crayola: #fe7040;
+
+$green: #5cb85c;
+$error: #ff3008;
 
 // colors style definition
 
 :root {
-	--color-background-primary: #{$color-white};
-	--color-content-primary: $color-black-rich;
+	--color-content-primary: #{$black-rich};
+	--color-background-primary: #{$white};
+	--color-background-secondary: #{$grey-anti-flash};
+	--color-background-tertiary: #{$grey-platinium};
+	--color-action-primary: #{$blue-prussian};
+	--color-action-secondary: #{$blue-oxford};
+	--color-brand-primary: #{$orange-sandy};
+	--color-brand-secondary: #{$orange-crayola};
 }
 
 body.dark {
-	--color-background-primary: #{$color-black-rich};
-	--color-content-primary: $color-white;
+	--color-content-primary: #{$white};
+	--color-background-primary: #{$blue-oxford};
+	--color-background-secondary: #{$blue-prussian};
+	--color-background-tertiary: #{$blue-yale};
+	--color-action-primary: #{$grey-platinium};
+	--color-action-secondary: #{$white};
+	--color-brand-primary: #{$orange-sandy};
+	--color-brand-secondary: #{$orange-crayola};
 }
 
 body.light {
-	--color-background-primary: #{$color-white};
-	--color-content-primary: $color-black-rich;
+	--color-content-primary: #{$black-rich};
+	--color-background-primary: #{$white};
+	--color-background-secondary: #{$grey-anti-flash};
+	--color-background-tertiary: #{$grey-platinium};
+	--color-action-primary: #{$blue-prussian};
+	--color-action-secondary: #{$blue-oxford};
+	--color-brand-primary: #{$orange-sandy};
+	--color-brand-secondary: #{$orange-crayola};
 }
-
-
-
-$color-background-light: $color-white;
-$color-background-hover-light: $color-grey-anti-flash;
-$color-secondary-light: $color-blue-prussian;
-$color-secondary-light-hover: $color-blue-oxford;
-
-$color-background-dark: $color-blue-oxford;
-$color-background-hover-dark: $color-blue-prussian;
-$color-secondary-dark: $color-grey-platinium;
-$color-secondary-dark-hover: $color-white;
-
-// Primary
-$color-primary: #10497e;
-$color-primary-bg: #0d3b66;
-$color-gradient-primary: linear-gradient(
-	to bottom right,
-	$color-primary-bg,
-	$color-primary,
-	#135490
-);
-
-// Secondary
-$color-secondary: #fd8949;
-$color-secondary-bg: #fe7040;
-$color-secondary-bg-2: #fe7040;
-
-// Neutral
-$color-neutral: #f4f5f5;
-$color-neutral-bg: #fbfbfb;
-$color-neutral-bg-500: #eaecec;
-
-$color-success: #5cb85c;
-$color-error: #ff3008;
-
-$color-new-bg-dark: rgba(16, 24, 43, 1);
-$color-new-bg-dark-hover: rgba(29, 42, 60, 1);
-$color-new-dark: rgba(226, 232, 240, 1);
-$color-new-dark-hover: rgba(255, 255, 255, 1);
-
-$color-new-bg-light: rgba(255, 255, 255, 1);
-$color-new-bg-light-hover: rgba(248, 250, 252, 1);
-$color-new-light: rgba(51, 67, 85, 1);
-$color-new-light-hover: rgba(15, 23, 42, 1);
-
-// neutral
-// primary > blue
-// secondary > orange

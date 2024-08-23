@@ -48,7 +48,7 @@
 
 <style lang="scss">
 	.header {
-		background: var(--color-background-primary);
+		background: var(--color-background-secondary);
 		position: sticky;
 		top: 0px;
 
@@ -58,7 +58,7 @@
 		flex-direction: row;
 		align-items: center;
 
-		border-color: orange;
+		border-color: var(--color-brand-primary);
 		border-bottom-width: 0.1rem;
 
 		padding: 1rem;
@@ -79,7 +79,6 @@
 			flex-direction: row;
 			align-items: center;
 			gap: 0.5rem;
-
 			height: 2rem;
 		}
 	}
