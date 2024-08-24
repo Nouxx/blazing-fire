@@ -48,7 +48,7 @@
 
 <style lang="scss">
 	.header {
-		background: var(--color-background-secondary);
+		background: var(--color-background-primary);
 		position: sticky;
 		top: 0px;
 

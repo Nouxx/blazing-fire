@@ -41,10 +41,10 @@
 		}
 
 		&:hover {
-			background: var(--color-action-secondary);
+			background: var(--color-background-secondary);
 
 			& > :global(svg) {
-				fill: var(--color-background-tertiary);
+				fill: var(--color-action-secondary);
 			}
 		}
 	}
