@@ -53,20 +53,20 @@
 		top: 0px;
 
 		height: 4rem;
+		padding: 1rem;
 
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 
 		border-color: var(--color-brand-primary);
-		border-bottom-width: 0.1rem;
-
-		padding: 1rem;
+		border-bottom-width: 1px;
 
 		&__logo {
 			display: flex;
 			align-items: center;
 			flex: 1 1 0%;
+
 			height: 2rem;
 
 			* {
@@ -78,6 +78,7 @@
 			display: flex;
 			flex-direction: row;
 			align-items: center;
+			
 			gap: 0.5rem;
 			height: 2rem;
 		}
