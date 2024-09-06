@@ -11,8 +11,8 @@ $white: #fbfbfb;
 $grey-anti-flash: #eaecec;
 $grey-platinium: #dfe2e2;
 
-// $orange-sandy: #fca152;
-$orange-sandy: rgba(254 215 170 / .75);
+$orange-sandy: #fca152;
+$orange-sandy-75: rgba(254 215 170 / .75);
 $orange-crayola: #fe7040;
 
 $green: #5cb85c;
@@ -21,34 +21,52 @@ $error: #ff3008;
 // colors style definition
 
 :root {
-	--color-content-primary: #{$black-rich};
+	--header-color-background: #{$white};
+	--header-color-border: #{$orange-sandy-75};
+	--button-color-background-primary: #{$orange-sandy};
+	--button-color-background-primary-hover: #{$orange-crayola};
+	--button-color-background-secondary: #{$white};
+	--button-color-background-secondary-hover: #{$grey-anti-flash};
+	--button-icon-color-primary: #{$white};
+	--button-icon-color-secondary: #{$blue-prussian};
+	--button-icon-color-primary-hover: #{$white};
+	--button-icon-color-secondary-hover: #{$black-rich};
+	--color-font-primary: #{$black-rich};
 	--color-background-primary: #{$white};
 	--color-background-secondary: #{$grey-anti-flash};
 	--color-background-tertiary: #{$grey-platinium};
-	--color-action-primary: #{$blue-prussian};
-	--color-action-secondary: #{$blue-oxford};
-	--color-brand-primary: #{$orange-sandy};
-	--color-brand-secondary: #{$orange-crayola};
 }
 
 body.dark {
-	--color-content-primary: #{$white};
+	--header-color-background: #{$blue-prussian};
+	--header-color-border: #{$orange-sandy-75};
+	--button-color-background-primary: #{$orange-sandy};
+	--button-color-background-primary-hover: #{$orange-crayola};
+	--button-color-background-secondary: #{$blue-prussian};
+	--button-color-background-secondary-hover: #{$blue-yale};
+	--button-icon-color-primary: #{$white};
+	--button-icon-color-secondary: #{$grey-anti-flash};
+	--button-icon-color-primary-hover: #{$white};
+	--button-icon-color-secondary-hover: #{$white};
+	--color-font-primary: #{$white};
 	--color-background-primary: #{$black-rich};
 	--color-background-secondary: #{$blue-oxford};
-	--color-background-tertiary: #{$blue-prussian};
-	--color-action-primary: #{$grey-platinium};
-	--color-action-secondary: #{$white};
-	--color-brand-primary: #{$orange-sandy};
-	--color-brand-secondary: #{$orange-crayola};
+	--color-background-tertiary: #{$blue-yale};
 }
 
 body.light {
-	--color-content-primary: #{$black-rich};
+	--header-color-background: #{$white};
+	--header-color-border: #{$orange-sandy-75};
+	--button-color-background-primary: #{$orange-sandy};
+	--button-color-background-primary-hover: #{$orange-crayola};
+	--button-color-background-secondary: #{$white};
+	--button-color-background-secondary-hover: #{$grey-anti-flash};
+	--button-icon-color-primary: #{$white};
+	--button-icon-color-secondary: #{$blue-prussian};
+	--button-icon-color-primary-hover: #{$white};
+	--button-icon-color-secondary-hover: #{$black-rich};
+	--color-font-primary: #{$black-rich};
 	--color-background-primary: #{$white};
 	--color-background-secondary: #{$grey-anti-flash};
 	--color-background-tertiary: #{$grey-platinium};
-	--color-action-primary: #{$blue-prussian};
-	--color-action-secondary: #{$blue-oxford};
-	--color-brand-primary: #{$orange-sandy};
-	--color-brand-secondary: #{$orange-crayola};
 }

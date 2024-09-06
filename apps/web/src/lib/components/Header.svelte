@@ -48,7 +48,7 @@
 
 <style lang="scss">
 	.header {
-		background: var(--color-background-primary);
+		background: var(--header-color-background);
 		position: sticky;
 		top: 0px;
 
@@ -59,7 +59,7 @@
 		flex-direction: row;
 		align-items: center;
 
-		border-color: var(--color-brand-primary);
+		border-color: var(--header-color-border);
 		border-bottom-width: 1px;
 
 		&__logo {

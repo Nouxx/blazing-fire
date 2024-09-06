@@ -11,6 +11,8 @@
 	function handleClick() {
 		dispatch(CLICK_EVENT_NAME);
 	}
+
+	// todo: add button style variant (primary, secondary)
 </script>
 
 {#if type === 'button'}
@@ -32,8 +34,10 @@
 		border-radius: 0.375rem;
 		padding: 0.375rem;
 
+		background: var(--button-color-background-secondary);
+
 		& > :global(svg) {
-			fill: var(--color-action-primary);
+			fill: var(--button-icon-color-secondary);
 			display: block;
 			margin: auto;
 			height: 100%;
@@ -41,10 +45,10 @@
 		}
 
 		&:hover {
-			background: var(--color-background-secondary);
+			background: var(--button-color-background-secondary-hover);
 
 			& > :global(svg) {
-				fill: var(--color-action-secondary);
+				fill: var(--button-icon-color-secondary-hover);
 			}
 		}
 	}
