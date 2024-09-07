@@ -37,10 +37,10 @@
 				<SunIcon />
 			{/if}
 		</ButtonV2>
-		<ButtonV2 type="link" href={routes.home}>
+		<ButtonV2 type="link" variant="secondary" href={routes.home}>
 			<HomeIcon />
 		</ButtonV2>
-		<ButtonV2 type="link" href={routes.account}>
+		<ButtonV2 type="link" variant="secondary" href={routes.account}>
 			<UserIcon />
 		</ButtonV2>
 	</div>

@@ -2,7 +2,8 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let type: 'button' | 'link';
-	export let variant: 'primary' | 'secondary' = 'secondary';
+	export let variant: 'primary' | 'secondary';
+
 	export let href: string | null = null;
 
 	export const CLICK_EVENT_NAME = 'click';
@@ -36,14 +37,14 @@
 		&.primary {
 			background: var(--button-color-background-primary);
 			& > :global(svg) {
-				fill: var(--button-icon-color-primary);
+				fill: var(--button-content-color-primary);
 			}
 		}
 
 		&.secondary {
 			background: var(--button-color-background-secondary);
 			& > :global(svg) {
-				fill: var(--button-icon-color-secondary);
+				fill: var(--button-content-color-secondary);
 			}
 		}
 
@@ -58,14 +59,14 @@
 			&.primary {
 				background: var(--button-color-background-primary-hover);
 				& > :global(svg) {
-					fill: var(--button-icon-color-primary-hover);
+					fill: var(--button-content-color-primary-hover);
 				}
 			}
 
 			&.secondary {
 				background: var(--button-color-background-secondary-hover);
 				& > :global(svg) {
-					fill: var(--button-icon-color-secondary-hover);
+					fill: var(--button-content-color-secondary-hover);
 				}
 			}
 		}
