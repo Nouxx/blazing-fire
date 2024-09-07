@@ -31,14 +31,14 @@
 			<p class="text-sm italic text-red-600">{error}</p>
 		{/if}
 		<div class="flex flex-row justify-center mt-2 [&>*]:mx-2">
-			<Button label={closeLabel} type="button" on:click={handleClose} {disabled} id="close" />
+			<Button label={closeLabel} type="button" on:click={handleClose} {disabled} dataTestId="close" />
 			<Button
 				label={confirmLabel}
 				style="danger"
 				type="submit"
 				{disabled}
 				on:click={handleConfirm}
-				id="confirm"
+				dataTestId="confirm"
 			/>
 		</div>
 	</dialog>

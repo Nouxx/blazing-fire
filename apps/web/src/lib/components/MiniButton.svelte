@@ -1,28 +1,30 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import type { ButtonTag, ButtonVariant } from './types/button';
 
-	export let type: 'button' | 'link';
-	export let variant: 'primary' | 'secondary';
-
-	export let href: string | null = null;
-
-	export const CLICK_EVENT_NAME = 'click';
+	const CLICK_EVENT_NAME = 'click';
 
 	const dispatch = createEventDispatcher();
+
+	export let tag: ButtonTag = 'button';
+	export let variant: ButtonVariant;
+	export let dataTestId: string;
 
 	function handleClick() {
 		dispatch(CLICK_EVENT_NAME);
 	}
+
+	export let href: string | null = null;
 </script>
 
-{#if type === 'button'}
-	<button class="button {variant}" on:click={handleClick}>
+{#if tag === 'button'}
+	<button class="button {variant}" on:click={handleClick} data-testid={dataTestId}>
 		<slot />
 	</button>
 {/if}
 
-{#if type === 'link'}
-	<a {href} class="button {variant}">
+{#if tag === 'a'}
+	<a {href} class="button {variant}" data-testid={dataTestId}>
 		<slot />
 	</a>
 {/if}

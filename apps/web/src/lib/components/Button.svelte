@@ -1,42 +1,41 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import type { ButtonTag, ButtonVariant } from './types/button';
 
-	const CLICK_EVENT = 'click';
-
-	type TagType = 'button' | 'a';
-	export let tag: TagType = 'button';
-
-	type ButtonType = 'button' | 'submit' | 'reset';
-	const DEFAULT_TYPE = 'button';
-	export let type: ButtonType = DEFAULT_TYPE;
-
-	type ButtonVariant = 'primary' | 'secondary' | 'tertiary'; // todo: refactor
-	export let variant: ButtonVariant;
-
-	export let label: string;
-	export let href: string;
-	export let id: string;
-	export let disabled = false;
+	const CLICK_EVENT_NAME = 'click';
 
 	const dispatch = createEventDispatcher();
 
+	export let tag: ButtonTag = 'button';
+	export let variant: ButtonVariant;
+	export let label: string;
+	export let dataTestId: string;
+
+	export let type: 'button' | 'submit' | 'reset' = 'button';
+	export let disabled = false;
+
 	function handleClick() {
-		dispatch(CLICK_EVENT);
+		dispatch(CLICK_EVENT_NAME);
 	}
-	// class="p-1 px-3 border-2 text-center h-9 shadow-md rounded"
+
+	export let href: string;
 </script>
 
-<svelte:element
-	this={tag}
-	class="button button__{variant}"
-	{type}
-	on:click={handleClick}
-	data-testid={id}
-	{href}
-	{disabled}
->
-	{label}
-</svelte:element>
+{#if tag === 'a'}
+	<a class="button button__{variant}" {href} data-testid={dataTestId}>{label}</a>
+{/if}
+
+{#if tag === 'button'}
+	<button
+		class="button button__{variant}"
+		{type}
+		on:click={handleClick}
+		{disabled}
+		data-testid={dataTestId}
+	>
+		{label}
+	</button>
+{/if}
 
 <style lang="scss">
 	.button {

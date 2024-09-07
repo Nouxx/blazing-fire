@@ -28,7 +28,7 @@
 		<h1 class="flex flex-1 text-3xl font-bold">Menus</h1>
 		<Button
 			label={isEditionOn ? 'Back' : 'Edit'}
-			id="toggle-edit"
+			dataTestId="toggle-edit"
 			on:click={() => toggleEditionMode()}
 		/>
 	</div>

@@ -50,7 +50,7 @@
 	<input type="hidden" name="name" value={menu.name} />
 	<Button
 		label={isLoading ? 'Loading...' : 'Save'}
-		id="save"
+		dataTestId="save"
 		type="submit"
 		disabled={disabled || isLoading}
 	/>

@@ -2,7 +2,7 @@
 	import { routes } from '$lib/const/routes';
 	import Logo from '$lib/components/icons/LogoIcon.svelte';
 	import type { Session } from '@supabase/supabase-js';
-	import ButtonV2 from './ButtonV2.svelte';
+	import ButtonV2 from './MiniButton.svelte';
 	import MoonIcon from '$lib/components/icons/MoonIcon.svelte';
 	import SunIcon from '$lib/components/icons/SunIcon.svelte';
 	import UserIcon from '$lib/components/icons/UserIcon.svelte';
@@ -29,7 +29,7 @@
 	</div>
 
 	<div class="header__actions" data-testid="navigation">
-		<ButtonV2 type="button" variant="secondary" on:click={toggleTheme}>
+		<ButtonV2 tag="button" variant="secondary" on:click={toggleTheme}>
 			{#if theme === 'light'}
 				<MoonIcon />
 			{/if}

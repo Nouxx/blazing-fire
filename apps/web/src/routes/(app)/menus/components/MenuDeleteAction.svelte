@@ -39,7 +39,7 @@
 	};
 </script>
 
-<Button label="Delete" id="delete" on:click={showModal} {disabled} />
+<Button label="Delete" dataTestId="delete" on:click={showModal} {disabled} />
 
 {#if isModalDisplayed}
 	<form method="post" action="?/deleteMenu" use:enhance={submitFunction}>

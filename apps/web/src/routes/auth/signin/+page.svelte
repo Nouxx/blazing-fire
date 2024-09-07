@@ -71,7 +71,7 @@
 		<Button
 			type="submit"
 			label="Sign in"
-			id="submit"
+			dataTestId="submit"
 			disabled={!validityState.email || !validityState.password}
 		/>
 	</form>
