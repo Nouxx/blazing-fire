@@ -2,6 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let type: 'button' | 'link';
+	export let variant: 'primary' | 'secondary' = 'secondary';
 	export let href: string | null = null;
 
 	export const CLICK_EVENT_NAME = 'click';
@@ -11,18 +12,16 @@
 	function handleClick() {
 		dispatch(CLICK_EVENT_NAME);
 	}
-
-	// todo: add button style variant (primary, secondary)
 </script>
 
 {#if type === 'button'}
-	<button class="button" on:click={handleClick}>
+	<button class="button {variant}" on:click={handleClick}>
 		<slot />
 	</button>
 {/if}
 
 {#if type === 'link'}
-	<a {href} class="button">
+	<a {href} class="button {variant}">
 		<slot />
 	</a>
 {/if}
@@ -34,10 +33,21 @@
 		border-radius: 0.375rem;
 		padding: 0.375rem;
 
-		background: var(--button-color-background-secondary);
+		&.primary {
+			background: var(--button-color-background-primary);
+			& > :global(svg) {
+				fill: var(--button-icon-color-primary);
+			}
+		}
+
+		&.secondary {
+			background: var(--button-color-background-secondary);
+			& > :global(svg) {
+				fill: var(--button-icon-color-secondary);
+			}
+		}
 
 		& > :global(svg) {
-			fill: var(--button-icon-color-secondary);
 			display: block;
 			margin: auto;
 			height: 100%;
@@ -45,10 +55,18 @@
 		}
 
 		&:hover {
-			background: var(--button-color-background-secondary-hover);
+			&.primary {
+				background: var(--button-color-background-primary-hover);
+				& > :global(svg) {
+					fill: var(--button-icon-color-primary-hover);
+				}
+			}
 
-			& > :global(svg) {
-				fill: var(--button-icon-color-secondary-hover);
+			&.secondary {
+				background: var(--button-color-background-secondary-hover);
+				& > :global(svg) {
+					fill: var(--button-icon-color-secondary-hover);
+				}
 			}
 		}
 	}

@@ -29,7 +29,7 @@
 	</div>
 
 	<div class="header__actions" data-testid="navigation">
-		<ButtonV2 type="button" on:click={toggleTheme}>
+		<ButtonV2 type="button" variant="secondary" on:click={toggleTheme}>
 			{#if theme === 'light'}
 				<MoonIcon />
 			{/if}
@@ -78,7 +78,7 @@
 			display: flex;
 			flex-direction: row;
 			align-items: center;
-			
+
 			gap: 0.5rem;
 			height: 2rem;
 		}
