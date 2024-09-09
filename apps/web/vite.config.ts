@@ -3,11 +3,6 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
 	plugins: [sveltekit()],
-	resolve: {
-		alias: {
-			'@': './src' // Styles in src/styles will be accessible as '@/styles/whatever.scss'
-		}
-	},
 	test: {
 		environment: 'jsdom',
 		include: ['src/**/*.{test,spec}.ts'],
