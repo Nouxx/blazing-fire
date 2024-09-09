@@ -1,13 +1,11 @@
 <script lang="ts">
 	import { routes } from '$lib/const/routes';
 	import Logo from '$lib/components/icons/LogoIcon.svelte';
-	import type { Session } from '@supabase/supabase-js';
 	import ButtonV2 from './MiniButton.svelte';
 	import MoonIcon from '$lib/components/icons/MoonIcon.svelte';
 	import SunIcon from '$lib/components/icons/SunIcon.svelte';
 	import UserIcon from '$lib/components/icons/UserIcon.svelte';
 	import HomeIcon from '$lib/components/icons/HomeIcon.svelte';
-	export let session: Session | null;
 
 	type Theme = 'light' | 'dark';
 

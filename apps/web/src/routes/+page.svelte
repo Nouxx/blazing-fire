@@ -22,5 +22,11 @@
 		Suspendisse potenti. Integer consequat luctus metus, et hendrerit quam bibendum non. Nunc
 		porttitor sagittis diam, ut pretium lorem convallis eget.
 	</p>
-	<Button variant="primary" tag="a" href={routes.home} label="Go to app" dataTestId="link-to-home" />
+	<Button
+		variant="primary"
+		tag="a"
+		href={routes.home}
+		label="Go to app"
+		dataTestId="link-to-home"
+	/>
 </div>

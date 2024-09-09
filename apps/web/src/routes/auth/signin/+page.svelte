@@ -48,7 +48,12 @@
 <div class="flex flex-col items-center" data-testid="sign-in-form">
 	<h1 class="text-3xl font-bold my-3">Sign In</h1>
 
-	<form method="post" action="?/signInWithPassword" class="flex flex-col w-1/3 items-center" use:enhance>
+	<form
+		method="post"
+		action="?/signInWithPassword"
+		class="flex flex-col w-1/3 items-center"
+		use:enhance
+	>
 		<input
 			class="p-1 my-3 w-full border-2 border-slate-200 shadow-md rounded"
 			name="email"

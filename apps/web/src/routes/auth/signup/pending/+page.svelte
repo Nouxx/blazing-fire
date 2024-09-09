@@ -11,5 +11,11 @@
 		<span class="font-bold">({data.email})</span>
 		to verify your email address.
 	</p>
-	<Button variant="primary" tag="a" label="Sign in" href={routes.signin} dataTestId="link-to-signin" />
+	<Button
+		variant="primary"
+		tag="a"
+		label="Sign in"
+		href={routes.signin}
+		dataTestId="link-to-signin"
+	/>
 </div>

@@ -21,7 +21,13 @@
 </script>
 
 <form action="?/createMenu" method="POST" use:enhance={submitFunction}>
-	<Button variant="primary" type="submit" label="New Menu" dataTestId="new-menu" disabled={isLoading} />
+	<Button
+		variant="primary"
+		type="submit"
+		label="New Menu"
+		dataTestId="new-menu"
+		disabled={isLoading}
+	/>
 </form>
 
 <div class="mt-2">
