@@ -12,7 +12,7 @@
 	export let href: string | null = null;
 
 	if (tag === 'a' && !href) {
-		throw new Error('"href" attribute is not defined in the MiniButton component');
+		console.error('"href" attribute is not defined in the MiniButton component');
 	}
 
 	function handleClick() {
