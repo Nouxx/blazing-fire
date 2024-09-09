@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import type { ButtonTag, ButtonVariant } from './types/button';
+	import type { ButtonTag, ButtonType, ButtonVariant } from './types/button';
 
 	const CLICK_EVENT_NAME = 'click';
 
@@ -11,14 +11,14 @@
 	export let label: string;
 	export let dataTestId: string;
 
-	export let type: 'button' | 'submit' | 'reset' = 'button';
+	export let type: ButtonType = 'button';
 	export let disabled = false;
+	
+	export let href: string | null = null;
 
 	function handleClick() {
 		dispatch(CLICK_EVENT_NAME);
 	}
-
-	export let href: string | null = null;
 </script>
 
 {#if tag === 'a'}
