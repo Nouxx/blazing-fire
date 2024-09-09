@@ -12,6 +12,6 @@
 		tag="a"
 		label="Go to account"
 		href={routes.account}
-		dataTestId="account"
+		dataTestId="link-to-account"
 	/>
 </div>

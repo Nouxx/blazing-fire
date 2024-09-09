@@ -9,8 +9,8 @@
 		<p class="text-sm my-1">There is nothing to do here, yet.</p>
 	</div>
 	<div class="page__actions">
-		<Button tag="a" variant="primary" href={routes.menus} label="Go to menus" dataTestId="menus" />
-		<Button tag="a" variant="primary" href={routes.account} label="Go to account" dataTestId="account" />
+		<Button tag="a" variant="primary" href={routes.menus} label="Go to menus" dataTestId="link-to-menus" />
+		<Button tag="a" variant="primary" href={routes.account} label="Go to account" dataTestId="link-to-account" />
 	</div>
 </div>
 

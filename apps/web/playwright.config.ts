@@ -6,7 +6,7 @@ const CI = process.env.CI;
 
 const config: PlaywrightTestConfig = {
 	outputDir: 'playwright-test-results',
-	reporter: [['html', { open: CI ? 'never' : 'on-failure' }]],
+	reporter: [['html', { open: 'never' }]],
 	maxFailures: CI ? 0 : 1,
 	workers: CI ? 1 : '100%',
 	forbidOnly: !!CI,

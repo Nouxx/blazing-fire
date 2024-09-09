@@ -11,7 +11,7 @@
 		tag="a"
 		label="Go to Sign In"
 		href={routes.signin}
-		dataTestId="signin"
+		dataTestId="link-to-signin"
 	/>
 </div>
 

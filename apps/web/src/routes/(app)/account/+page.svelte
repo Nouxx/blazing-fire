@@ -14,7 +14,13 @@
 		<Button variant="primary" type="submit" label="Logout" dataTestId="logout" />
 	</form>
 
-	<Button variant="primary" tag="a" label="Go back to app" href={routes.home} dataTestId="home" />
+	<Button
+		variant="primary"
+		tag="a"
+		label="Go back to app"
+		href={routes.home}
+		dataTestId="link-to-home"
+	/>
 </div>
 
 <style lang="scss">
