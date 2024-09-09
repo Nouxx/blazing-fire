@@ -70,7 +70,7 @@
 
 	{#if editionMode}
 		<MenuActionsFeedback status={saveSuccessful} display={isSubmitted} />
-		<div data-testid="actions" class="flex flex-row [&>*]:ml-2">
+		<div data-testid="actions" class="flex flex-row items-center [&>*]:ml-2">
 			<MenuRenameAction
 				{menu}
 				disabled={!isNameDifferentFromDB}

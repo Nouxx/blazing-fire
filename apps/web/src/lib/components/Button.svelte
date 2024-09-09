@@ -18,7 +18,7 @@
 		dispatch(CLICK_EVENT_NAME);
 	}
 
-	export let href: string;
+	export let href: string | null = null;
 </script>
 
 {#if tag === 'a'}
@@ -44,7 +44,11 @@
 		padding-left: 1rem;
 		padding-right: 1rem;
 
+		height: 2rem;
 		width: fit-content;
+
+		font-size: 1rem;
+		line-height: 1rem;
 		text-align: center;
 
 		border-radius: 0.375rem;
