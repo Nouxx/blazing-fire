@@ -31,7 +31,14 @@
 			<p class="text-sm italic text-red-600">{error}</p>
 		{/if}
 		<div class="flex flex-row justify-center mt-2 [&>*]:mx-2">
-			<Button variant="primary" label={closeLabel} type="button" on:click={handleClose} {disabled} dataTestId="close" />
+			<Button
+				variant="primary"
+				label={closeLabel}
+				type="button"
+				on:click={handleClose}
+				{disabled}
+				dataTestId="close"
+			/>
 			<Button
 				variant="primary"
 				label={confirmLabel}
@@ -53,5 +60,10 @@
 		left: 0;
 		top: 0;
 		background-color: rgba(0, 0, 0, 0.3);
+
+		& dialog {
+			background: var(--color-background-primary);
+			color: var(--color-font-primary);
+		}
 	}
 </style>

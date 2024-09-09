@@ -1,17 +1,18 @@
 <script lang="ts">
+	import Button from '$lib/components/Button.svelte';
 	import Environment from '$lib/components/Environment.svelte';
-	import LinkButton from '$lib/components/LinkButton.svelte';
+	import LogoIcon from '$lib/components/icons/LogoIcon.svelte';
 	import { routes } from '$lib/const/routes';
 </script>
 
 <div class="flex flex-col items-center mx-5">
-	<h1 class="text-3xl font-bold my-3">Blazing Fire</h1>
+	<div class="h-20 mt-4">
+		<LogoIcon />
+	</div>
 
 	<div class="mb-3">
 		<Environment />
 	</div>
-
-	<img alt="The project logo" src="/logo.png" class="w-24 my-3" />
 
 	<p class="my-3">
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae vestibulum risus, in
@@ -21,5 +22,5 @@
 		Suspendisse potenti. Integer consequat luctus metus, et hendrerit quam bibendum non. Nunc
 		porttitor sagittis diam, ut pretium lorem convallis eget.
 	</p>
-	<LinkButton link={routes.home} label="Go to app" id="home" />
+	<Button variant="primary" tag="a" href={routes.home} label="Go to app" dataTestId="home" />
 </div>

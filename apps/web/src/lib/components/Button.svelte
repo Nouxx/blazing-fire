@@ -61,6 +61,10 @@
 				background: var(--button-color-background-primary-hover);
 				color: var(--button-content-color-primary-hover);
 			}
+
+			&:disabled {
+				background-color: var(--color-background-tertiary);
+			}
 		}
 	}
 </style>

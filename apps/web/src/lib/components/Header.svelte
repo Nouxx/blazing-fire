@@ -29,7 +29,7 @@
 	</div>
 
 	<div class="header__actions" data-testid="navigation">
-		<ButtonV2 tag="button" variant="secondary" on:click={toggleTheme}>
+		<ButtonV2 tag="button" variant="secondary" on:click={toggleTheme} dataTestId="toggle-mode">
 			{#if theme === 'light'}
 				<MoonIcon />
 			{/if}
@@ -37,10 +37,10 @@
 				<SunIcon />
 			{/if}
 		</ButtonV2>
-		<ButtonV2 type="link" variant="secondary" href={routes.home}>
+		<ButtonV2 tag="a" variant="secondary" href={routes.home} dataTestId="go-to-home">
 			<HomeIcon />
 		</ButtonV2>
-		<ButtonV2 type="link" variant="secondary" href={routes.account}>
+		<ButtonV2 tag="a" variant="secondary" href={routes.account} dataTestId="go-to-account">
 			<UserIcon />
 		</ButtonV2>
 	</div>
