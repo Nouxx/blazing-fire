@@ -10,11 +10,13 @@
 	export let variant: ButtonVariant;
 	export let label: string;
 	export let dataTestId: string;
-
 	export let type: ButtonType = 'button';
 	export let disabled = false;
-	
 	export let href: string | null = null;
+
+	if (tag === 'a' && !href) {
+		throw new Error('"href" attribute is not defined in the Button component');
+	}
 
 	function handleClick() {
 		dispatch(CLICK_EVENT_NAME);

@@ -9,12 +9,15 @@
 	export let tag: ButtonTag = 'button';
 	export let variant: ButtonVariant;
 	export let dataTestId: string;
+	export let href: string | null = null;
+
+	if (tag === 'a' && !href) {
+		throw new Error('"href" attribute is not defined in the MiniButton component');
+	}
 
 	function handleClick() {
 		dispatch(CLICK_EVENT_NAME);
 	}
-
-	export let href: string | null = null;
 </script>
 
 {#if tag === 'button'}
