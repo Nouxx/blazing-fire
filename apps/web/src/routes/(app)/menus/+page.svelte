@@ -27,14 +27,15 @@
 	<div class="flex flex-row w-full my-6 items-center">
 		<h1 class="flex flex-1 text-3xl font-bold">Menus</h1>
 		<Button
+			variant="primary"
 			label={isEditionOn ? 'Back' : 'Edit'}
-			id="toggle-edit"
+			dataTestId="toggle-edit"
 			on:click={() => toggleEditionMode()}
 		/>
 	</div>
 
 	{#if thereIsNoMenu}
-		<p class="mb-2">You don't have any menu yet.</p>
+		<p class="my-4">You don't have any menu yet.</p>
 	{:else}
 		{#each data.menus as menu (menu.id)}
 			<MenuTile {menu} editionMode={isEditionOn} />

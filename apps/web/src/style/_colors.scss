@@ -1,0 +1,71 @@
+// colors definition
+
+$black-rich: #051727;
+
+$blue-oxford: #08233c;
+$blue-prussian: #0b2f51;
+$blue-yale: #0d3b66;
+
+$white: #fbfbfb;
+
+$grey-anti-flash: #eaecec;
+$grey-platinium: #dfe2e2;
+
+$orange-sandy: #fca152;
+$orange-crayola: #fe7040;
+
+$green: #5cb85c;
+$error: #ff3008;
+
+// colors style definition
+
+:root {
+	--header-color-background: #{$white};
+	--header-color-border: #{$orange-sandy};
+	--button-color-background-primary: #{$orange-sandy};
+	--button-color-background-primary-hover: #{$orange-crayola};
+	--button-color-background-secondary: #{$white};
+	--button-color-background-secondary-hover: #{$grey-anti-flash};
+	--button-content-color-primary: #{$white};
+	--button-content-color-secondary: #{$blue-prussian};
+	--button-content-color-primary-hover: #{$white};
+	--button-content-color-secondary-hover: #{$black-rich};
+	--color-font-primary: #{$black-rich};
+	--color-background-primary: #{$white};
+	--color-background-secondary: #{$grey-anti-flash};
+	--color-background-tertiary: #{$grey-platinium};
+}
+
+body.dark {
+	--header-color-background: #{$blue-prussian};
+	--header-color-border: #{$orange-crayola};
+	--button-color-background-primary: #{$orange-sandy};
+	--button-color-background-primary-hover: #{$orange-crayola};
+	--button-color-background-secondary: #{$blue-prussian};
+	--button-color-background-secondary-hover: #{$blue-yale};
+	--button-content-color-primary: #{$white};
+	--button-content-color-secondary: #{$grey-anti-flash};
+	--button-content-color-primary-hover: #{$white};
+	--button-content-color-secondary-hover: #{$white};
+	--color-font-primary: #{$white};
+	--color-background-primary: #{$black-rich};
+	--color-background-secondary: #{$blue-oxford};
+	--color-background-tertiary: #{$blue-yale};
+}
+
+body.light {
+	--header-color-background: #{$white};
+	--header-color-border: #{$orange-sandy};
+	--button-color-background-primary: #{$orange-sandy};
+	--button-color-background-primary-hover: #{$orange-crayola};
+	--button-color-background-secondary: #{$white};
+	--button-color-background-secondary-hover: #{$grey-anti-flash};
+	--button-content-color-primary: #{$white};
+	--button-content-color-secondary: #{$blue-prussian};
+	--button-content-color-primary-hover: #{$white};
+	--button-content-color-secondary-hover: #{$black-rich};
+	--color-font-primary: #{$black-rich};
+	--color-background-primary: #{$white};
+	--color-background-secondary: #{$grey-anti-flash};
+	--color-background-tertiary: #{$grey-platinium};
+}

@@ -16,7 +16,6 @@ on:
       - ready_for_review
 
 env:
-  COMPOSE_PROFILES: test,run
   GCLOUD_BUCKET_NAME: blazing-fire-playwright-reports
 
 jobs:

@@ -1,24 +1,84 @@
 <script lang="ts">
 	import { routes } from '$lib/const/routes';
-	import type { Session } from '@supabase/supabase-js';
-	export let session: Session | null;
+	import Logo from '$lib/components/icons/LogoIcon.svelte';
+	import ButtonV2 from './MiniButton.svelte';
+	import MoonIcon from '$lib/components/icons/MoonIcon.svelte';
+	import SunIcon from '$lib/components/icons/SunIcon.svelte';
+	import UserIcon from '$lib/components/icons/UserIcon.svelte';
+	import HomeIcon from '$lib/components/icons/HomeIcon.svelte';
+
+	type Theme = 'light' | 'dark';
+
+	let theme: Theme = 'light';
+
+	function toggleTheme() {
+		const currentTheme = theme;
+		theme = theme === 'light' ? 'dark' : 'light';
+		document.body.classList.remove(currentTheme);
+		document.body.classList.add(theme);
+	}
 </script>
 
-<div class="flex flex-col sticky top-0" data-testid="header">
-	<div class="flex flex-row items-center bg-slate-50 py-3 border-b-4 border-slate-400">
-		<div class="px-2 flex-1">
-			<div>
-				<p class="font-bold">LOGO</p>
-			</div>
-		</div>
+<div class="header" data-testid="header">
+	<div class="header__logo">
+		<a href={routes.home} data-testid="logo">
+			<Logo />
+		</a>
+	</div>
 
-		<div class="content-center px-2 hover:text-sky-500 cursor-pointer">
-			{#if session}
-				<a href={routes.account} data-testid="link">My Account</a>
-			{:else}
-				<a href={routes.signin} data-testid="link">Sign in</a>
+	<div class="header__actions" data-testid="navigation">
+		<ButtonV2 tag="button" variant="secondary" on:click={toggleTheme} dataTestId="toggle-mode">
+			{#if theme === 'light'}
+				<MoonIcon />
 			{/if}
-		</div>
+			{#if theme === 'dark'}
+				<SunIcon />
+			{/if}
+		</ButtonV2>
+		<ButtonV2 tag="a" variant="secondary" href={routes.home} dataTestId="go-to-home">
+			<HomeIcon />
+		</ButtonV2>
+		<ButtonV2 tag="a" variant="secondary" href={routes.account} dataTestId="go-to-account">
+			<UserIcon />
+		</ButtonV2>
 	</div>
 </div>
-<div />
+
+<style lang="scss">
+	.header {
+		background: var(--header-color-background);
+		position: sticky;
+		top: 0px;
+
+		height: 4rem;
+		padding: 1rem;
+
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		border-color: var(--header-color-border);
+		border-bottom-width: 1px;
+
+		&__logo {
+			display: flex;
+			align-items: center;
+			flex: 1 1 0%;
+
+			height: 2rem;
+
+			* {
+				height: inherit;
+			}
+		}
+
+		&__actions {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+
+			gap: 0.5rem;
+			height: 2rem;
+		}
+	}
+</style>

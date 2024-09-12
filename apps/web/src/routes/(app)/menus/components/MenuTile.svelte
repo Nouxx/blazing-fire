@@ -61,7 +61,7 @@
 </script>
 
 <div
-	class="flex flex-row w-full p-3 my-3 h-16 border-2 border-slate-400 rounded hover:bg-slate-100"
+	class="flex flex-row w-full p-3 my-3 h-16 border-2 border-slate-400 rounded menu-tile"
 	data-testid="menu"
 >
 	<div class="flex flex-1 w-full">
@@ -70,7 +70,7 @@
 
 	{#if editionMode}
 		<MenuActionsFeedback status={saveSuccessful} display={isSubmitted} />
-		<div data-testid="actions" class="flex flex-row [&>*]:ml-2">
+		<div data-testid="actions" class="flex flex-row items-center [&>*]:ml-2">
 			<MenuRenameAction
 				{menu}
 				disabled={!isNameDifferentFromDB}
@@ -82,3 +82,11 @@
 		</div>
 	{/if}
 </div>
+
+<style lang="scss">
+	.menu-tile {
+		&:hover {
+			background: var(--color-background-secondary);
+		}
+	}
+</style>

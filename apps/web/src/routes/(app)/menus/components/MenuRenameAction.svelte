@@ -49,8 +49,9 @@
 	<input type="hidden" name="id" value={menu.id} />
 	<input type="hidden" name="name" value={menu.name} />
 	<Button
+		variant="primary"
 		label={isLoading ? 'Loading...' : 'Save'}
-		id="save"
+		dataTestId="save"
 		type="submit"
 		disabled={disabled || isLoading}
 	/>

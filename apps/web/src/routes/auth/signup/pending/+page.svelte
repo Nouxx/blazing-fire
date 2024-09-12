@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LinkButton from '$lib/components/LinkButton.svelte';
+	import Button from '$lib/components/Button.svelte';
 	import { routes } from '$lib/const/routes.js';
 	export let data;
 </script>
@@ -11,5 +11,11 @@
 		<span class="font-bold">({data.email})</span>
 		to verify your email address.
 	</p>
-	<LinkButton label="Sign in" link={routes.signin} id="signin" />
+	<Button
+		variant="primary"
+		tag="a"
+		label="Sign in"
+		href={routes.signin}
+		dataTestId="link-to-signin"
+	/>
 </div>
