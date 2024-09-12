@@ -98,7 +98,7 @@ jobs:
         if: steps.e2e-tests.outcome == 'failure'
         with:
           content: "<!-- e2e_start_match -->\n**Playwright tests suite has failed! :boom:**\nReport is available [here](${{ env.TEST_REPORT_URL }}).\n<!-- e2e_end_match -->"
-          regex: '<!--e2e_start_match -->.*?<!-- e2e_end_match -->'
+          regex: '<!-- e2e_start_match -->.*?<!-- e2e_end_match -->'
           regexFlags: ims
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -107,7 +107,7 @@ jobs:
         if: steps.e2e-tests.outcome == 'success'
         with:
           content: "<!-- e2e_start_match -->\n**Playwright tests suite has passed! :white_check_mark:**\n Report has not been published.\n<!-- e2e_end_match -->"
-          regex: '<!--e2e_start_match -->.*?<!-- e2e_end_match -->'
+          regex: '<!-- e2e_start_match -->.*?<!-- e2e_end_match -->'
           regexFlags: ims
           token: ${{ secrets.GITHUB_TOKEN }}
 
