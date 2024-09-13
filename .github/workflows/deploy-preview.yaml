@@ -64,7 +64,6 @@ jobs:
 
       - name: Update PR Description
         uses: nefrob/pr-description@v1.1.2
-        if: steps.e2e-tests.outcome == 'failure'
         with:
           content: "<!-- e2e_start_match -->\n**Preview environment live at [${{ env.VERCEL_ALIAS }}.vercel.app](${{ env.ENVIRONMENT_URL }})**\n:octocat: Commit deployed: `${{ env.MOST_RECENT_COMMIT_SHA }}` - `${{ env.MOST_RECENT_COMMIT_NAME }}`\n<!-- e2e_end_match -->"
           regex: '<!-- e2e_start_match -->.*?<!-- e2e_end_match -->'
