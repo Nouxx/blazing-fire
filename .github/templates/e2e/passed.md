@@ -4,4 +4,6 @@
 
 Report has not been published.
 
+Test: ${{ env.GCLOUD_BUCKET_NAME }}
+
 <!-- e2e_end_match -->
