@@ -97,7 +97,9 @@ jobs:
         uses: nefrob/pr-description@v1.1.2
         if: steps.e2e-tests.outcome == 'failure'
         with:
-          content: "<!-- e2e_start_match -->\n**Playwright tests suite has failed! :boom:**\nReport is available [here](${{ env.TEST_REPORT_URL }}).\n<!-- e2e_end_match -->"
+          # content: "<!-- e2e_start_match -->\n**Playwright tests suite has failed! :boom:**\nReport is available [here](${{ env.TEST_REPORT_URL }}).\n<!-- e2e_end_match -->"
+          content: .github/templates/e2e/failed.md
+          contentIsFilePath: true
           regex: '<!-- e2e_start_match -->.*?<!-- e2e_end_match -->'
           regexFlags: ims
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -106,7 +108,9 @@ jobs:
         uses: nefrob/pr-description@v1.1.2
         if: steps.e2e-tests.outcome == 'success'
         with:
-          content: "<!-- e2e_start_match -->\n**Playwright tests suite has passed! :white_check_mark:**\n Report has not been published.\n<!-- e2e_end_match -->"
+          # content: "<!-- e2e_start_match -->\n**Playwright tests suite has passed! :white_check_mark:**\n Report has not been published.\n<!-- e2e_end_match -->"
+          content: .github/templates/e2e/passed.md
+          contentIsFilePath: true
           regex: '<!-- e2e_start_match -->.*?<!-- e2e_end_match -->'
           regexFlags: ims
           token: ${{ secrets.GITHUB_TOKEN }}
