@@ -6,9 +6,11 @@ Here's a friendly checklist to ensure that everything is in order before merging
 - [ ] _(if applicable)_ I've updated the documentation to reflect my modifications.
 - [ ] _(if applicable)_ I've rigorously tested my changes in the preview environment.
 
-## :rocket: Preview environment
+---
 
-_This section is updated automatically, do not edit!_
+_The following sections are updated automatically, do not edit them!_
+
+## :rocket: Preview environment
 
 <!-- preview_start_match -->
 
@@ -17,8 +19,6 @@ The preview environnent has not been deployed yet. :dizzy_face:
 <!-- preview_end_match -->
 
 ## :performing_arts: E2E Tests
-
-_This section is updated automatically, do not edit!_
 
 <!-- e2e_start_match -->
 
