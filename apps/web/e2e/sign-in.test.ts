@@ -46,6 +46,8 @@ test('A user can sign in', async ({ page, context }) => {
 	const secondTab = await context.newPage();
 	const accountPageForSecondTab = new AccountPage(secondTab);
 
+	expect(1).toBe(2);
+
 	await test.step('Try to click on the sign in button', async () => {
 		await expect(signInPage.submitButton).toBeDisabled();
 		await expect(page).toHaveScreenshot(sh.getFileName(SNAP_SIGN_IN));
