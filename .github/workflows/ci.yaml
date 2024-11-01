@@ -93,6 +93,11 @@ jobs:
           parent: false
           gzip: false
 
+      - name: Populate test report URL in failure message template
+        if: steps.e2e-tests.outcome == 'failure'
+        run: |
+          sed -i 's|\$TEST_REPORT_URL|${{ env.TEST_REPORT_URL }}|g' .github/templates/e2e/failed.md
+
       - name: Update PR Description (if tests failed)
         uses: nefrob/pr-description@v1.1.2
         if: steps.e2e-tests.outcome == 'failure'
