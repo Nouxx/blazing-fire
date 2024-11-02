@@ -30,6 +30,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -93,15 +95,41 @@ jobs:
           parent: false
           gzip: false
 
-      - name: Update PR Test Comment
-        uses: thollander/actions-comment-pull-request@v2
+      - name: Get git information for the current branch
+        id: git-info
+        uses: ./.github/actions/git-info
+
+      - name: Populate commit information in message templates
+        run: |
+          sed -i 's|\$MOST_RECENT_COMMIT_SHA|${{ steps.git-info.outputs.most-recent-commit-sha }}|g' .github/templates/e2e/passed.md
+          sed -i 's|\$MOST_RECENT_COMMIT_NAME|${{ steps.git-info.outputs.most-recent-commit-name }}|g' .github/templates/e2e/passed.md
+          sed -i 's|\$MOST_RECENT_COMMIT_SHA|${{ steps.git-info.outputs.most-recent-commit-sha }}|g' .github/templates/e2e/failed.md
+          sed -i 's|\$MOST_RECENT_COMMIT_NAME|${{ steps.git-info.outputs.most-recent-commit-name }}|g' .github/templates/e2e/failed.md
+
+      - name: Populate test report URL in failure message template
+        if: steps.e2e-tests.outcome == 'failure'
+        run: |
+          sed -i 's|\$TEST_REPORT_URL|${{ env.TEST_REPORT_URL }}|g' .github/templates/e2e/failed.md
+
+      - name: Update PR Description (if tests failed)
+        uses: nefrob/pr-description@v1.1.2
+        if: steps.e2e-tests.outcome == 'failure'
         with:
-          pr_number: ${{ github.event.number }}
-          mode: ${{ steps.e2e-tests.outcome == 'failure' && 'upsert' || 'delete' }}
-          comment_tag: test-report
-          message: |
-            :dizzy_face: **Playwright tests suite has failed!**
-            :performing_arts: Report is available [here](${{ env.TEST_REPORT_URL }}).
+          content: .github/templates/e2e/failed.md
+          contentIsFilePath: true
+          regex: '<!-- e2e_start_match -->.*?<!-- e2e_end_match -->'
+          regexFlags: ims
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update PR Description (if tests passed)
+        uses: nefrob/pr-description@v1.1.2
+        if: steps.e2e-tests.outcome == 'success'
+        with:
+          content: .github/templates/e2e/passed.md
+          contentIsFilePath: true
+          regex: '<!-- e2e_start_match -->.*?<!-- e2e_end_match -->'
+          regexFlags: ims
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fail if E2E tests failed
         if: steps.e2e-tests.outcome == 'failure'

@@ -40,11 +40,9 @@ jobs:
       - name: Set 'VERCEL_ALIAS'
         run: echo "VERCEL_ALIAS=blazing-fire-preview-pr-${{ github.event.number }}" >> $GITHUB_ENV
 
-      - name: Set 'MOST_RECENT_COMMIT_SHA'
-        run: echo "MOST_RECENT_COMMIT_SHA=$(git log --format=%h -n 1)" >> $GITHUB_ENV
-
-      - name: Set 'MOST_RECENT_COMMIT_NAME'
-        run: echo "MOST_RECENT_COMMIT_NAME=$(git log --pretty=format:"%s" -n 1)" >> $GITHUB_ENV
+      - name: Get git information for the current branch
+        id: git-info
+        uses: ./.github/actions/git-info
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
@@ -59,11 +57,21 @@ jobs:
       - name: Set Alias to Deployment
         run: vercel alias set ${{ steps.deployment.outputs.deployment-url }} ${{ env.VERCEL_ALIAS }} --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Comment PR with the preview URL
-        uses: thollander/actions-comment-pull-request@v2
+      - name: Set 'ENVIRONMENT_URL'
+        run: echo "ENVIRONMENT_URL=https://${{ env.VERCEL_ALIAS }}.vercel.app" >> $GITHUB_ENV
+
+      - name: Populate test report URL in failure message template
+        run: |
+          sed -i 's|\$VERCEL_ALIAS|${{ env.VERCEL_ALIAS }}|g' .github/templates/deploy/ephemeral.md
+          sed -i 's|\$ENVIRONMENT_URL|${{ env.ENVIRONMENT_URL }}|g' .github/templates/deploy/ephemeral.md
+          sed -i 's|\$MOST_RECENT_COMMIT_SHA|${{ steps.git-info.outputs.most-recent-commit-sha }}|g' .github/templates/deploy/ephemeral.md
+          sed -i 's|\$MOST_RECENT_COMMIT_NAME|${{ steps.git-info.outputs.most-recent-commit-name }}|g' .github/templates/deploy/ephemeral.md
+
+      - name: Update PR Description
+        uses: nefrob/pr-description@v1.1.2
         with:
-          pr_number: ${{ github.event.number }}
-          comment_tag: deploy-message
-          message: |
-            :rocket: **Preview environment live at [${{ env.VERCEL_ALIAS }}.vercel.app](https://${{ env.VERCEL_ALIAS }}.vercel.app)**
-            :octocat: Commit deployed: `${{ env.MOST_RECENT_COMMIT_SHA }}` - `${{ env.MOST_RECENT_COMMIT_NAME }}`
+          content: .github/templates/deploy/ephemeral.md
+          contentIsFilePath: true
+          regex: '<!-- preview_start_match -->.*?<!-- preview_end_match -->'
+          regexFlags: ims
+          token: ${{ secrets.GITHUB_TOKEN }}

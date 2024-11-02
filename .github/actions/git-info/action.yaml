@@ -1,0 +1,20 @@
+name: 'Git Branch Information'
+description: 'provides git information on the current branch'
+
+outputs:
+  most-recent-commit-sha:
+    description: 'SHA of the most recent commit'
+    value: ${{ steps.vars.outputs.commit-sha }}
+  most-recent-commit-name:
+    description: 'the most recent commit name'
+    value: ${{ steps.vars.outputs.commit-name }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set variables
+      id: vars
+      run: |
+        echo "commit-sha=$(git log --format=%h -n 1)" >> $GITHUB_OUTPUT
+        echo "commit-name=$(git log --pretty=format:"%s" -n 1)" >> $GITHUB_OUTPUT
+      shell: bash
