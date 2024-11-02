@@ -70,7 +70,7 @@ jobs:
       - name: Update PR Description
         uses: nefrob/pr-description@v1.1.2
         with:
-          content: .github/templates/deploy/ephemral.md
+          content: .github/templates/deploy/ephemeral.md
           contentIsFilePath: true
           regex: '<!-- preview_start_match -->.*?<!-- preview_end_match -->'
           regexFlags: ims
