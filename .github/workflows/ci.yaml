@@ -95,7 +95,7 @@ jobs:
 
       - name: Get git information for the current branch
         id: git-info
-        uses: ./.github/actions/git-info.yaml
+        uses: ./.github/actions/git-info
 
       - name: Populate commit information in message templates
         run: |
