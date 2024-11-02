@@ -14,7 +14,7 @@ _The following sections are updated automatically, do not edit them!_
 
 <!-- preview_start_match -->
 
-The preview environnent has not been deployed yet. :dizzy_face:
+The preview environment has not been deployed yet. :dizzy_face:
 
 <!-- preview_end_match -->
 
