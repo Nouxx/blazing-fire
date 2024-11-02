@@ -62,6 +62,13 @@ jobs:
       - name: Set 'ENVIRONMENT_URL'
         run: echo "ENVIRONMENT_URL=https://${{ env.VERCEL_ALIAS }}.vercel.app" >> $GITHUB_ENV
 
+      - name: Populate test report URL in failure message template
+        run: |
+          sed -i 's|\$VERCEL_ALIAS|${{ env.VERCEL_ALIAS }}|g' .github/templates/deploy/ephemeral.md
+          sed -i 's|\$ENVIRONMENT_URL|${{ env.ENVIRONMENT_URL }}|g' .github/templates/deploy/ephemeral.md
+          sed -i 's|\$MOST_RECENT_COMMIT_SHA|${{ env.MOST_RECENT_COMMIT_SHA }}|g' .github/templates/deploy/ephemeral.md
+          sed -i 's|\$MOST_RECENT_COMMIT_NAME|${{ env.MOST_RECENT_COMMIT_NAME }}|g' .github/templates/deploy/ephemeral.md
+
       - name: Update PR Description
         uses: nefrob/pr-description@v1.1.2
         with:
