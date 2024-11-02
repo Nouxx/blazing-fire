@@ -93,6 +93,13 @@ jobs:
           parent: false
           gzip: false
 
+      - name: Populate commit information in message templates
+        run: |
+          sed -i 's|\$MOST_RECENT_COMMIT_SHA|${{ env.MOST_RECENT_COMMIT_SHA }}|g' .github/templates/e2e/passed.md
+          sed -i 's|\$MOST_RECENT_COMMIT_NAME|${{ env.MOST_RECENT_COMMIT_NAME }}|g' .github/templates/e2e/passed.md
+          sed -i 's|\$MOST_RECENT_COMMIT_SHA|${{ env.MOST_RECENT_COMMIT_SHA }}|g' .github/templates/e2e/failed.md
+          sed -i 's|\$MOST_RECENT_COMMIT_NAME|${{ env.MOST_RECENT_COMMIT_NAME }}|g' .github/templates/e2e/failed.md
+
       - name: Populate test report URL in failure message template
         if: steps.e2e-tests.outcome == 'failure'
         run: |
