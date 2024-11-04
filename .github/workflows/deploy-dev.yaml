@@ -1,4 +1,4 @@
-name: Deploy Deployment Environment
+name: Deploy Development Environment
 
 env:
   VERCEL_DEPLOY: true
