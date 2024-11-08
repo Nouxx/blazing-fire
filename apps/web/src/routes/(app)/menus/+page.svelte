@@ -24,18 +24,16 @@
 </script>
 
 <div class="page" data-testid="menu-page">
-	<div class="page__header">
-		<h1 class="page__header-title">Menus</h1>
-		<Button
-			variant="primary"
-			label={isEditionOn ? 'Back' : 'Edit'}
-			dataTestId="toggle-edit"
-			on:click={() => toggleEditionMode()}
-		/>
-	</div>
-
-	<div class="page__main">
-		<p>YOLO</p>
+	<div class="page__content">
+		<div class="content__header">
+			<h1 class="content__header-title">My Menus</h1>
+			<Button
+				variant="primary"
+				label={isEditionOn ? 'Back' : 'Edit'}
+				dataTestId="toggle-edit"
+				on:click={() => toggleEditionMode()}
+			/>
+		</div>
 	</div>
 
 	<!-- {#if thereIsNoMenu}
@@ -56,37 +54,39 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding-left: 1.25rem;
-		padding-right: 1.25rem;
+		padding-left: 2rem;
+		padding-right: 2rem;
+		padding-top: 2rem;
 		width: 100%;
-		height: 100vh;
+		height: 100%;
 
-		&__header {
-			display: flex;
-			flex-direction: row;
-			padding-top: 1.5rem;
-			padding-bottom: 1.5rem;
-			align-items: center;
+		&__content {
 			width: 100%;
-
-			&-title {
-				display: flex;
-				flex: 1;
-				font-size: 1.875rem;
-				line-height: 2.25rem;
-				font-weight: 700;
-			}
-		}
-
-		&__main {
-			width: 100%;
-			margin-top: 1.5rem;
 			border-top-left-radius: 2rem;
 			border-top-right-radius: 2rem;
 			background-color: var(--color-background-secondary);
 			display: flex;
 			flex-direction: column;
-			flex: 1;
+			flex-grow: 1;
+		}
+	}
+
+	.content {
+		&__header {
+			display: flex;
+			flex-direction: row;
+			flex: 0 1 auto;
+			padding: 1.5rem;
+			align-items: center;
+			width: 100%;
+
+			&-title {
+				display: flex;
+				flex: 1 1 auto;
+				font-size: 1.875rem;
+				line-height: 2.25rem;
+				font-weight: 700;
+			}
 		}
 	}
 
