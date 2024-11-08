@@ -24,7 +24,7 @@
 	<Button
 		variant="primary"
 		type="submit"
-		label="New Menu"
+		label="Create New Menu"
 		dataTestId="new-menu"
 		disabled={isLoading}
 	/>

@@ -27,8 +27,11 @@
 	<div class="page__content">
 		<div class="content__header">
 			<h1 class="content__header-title">My Menus</h1>
+		</div>
+		<div class="content__actions">
+			<MenuCreateAction />
 			<Button
-				variant="primary"
+				variant="tertiary"
 				label={isEditionOn ? 'Back' : 'Edit'}
 				dataTestId="toggle-edit"
 				on:click={() => toggleEditionMode()}
@@ -76,7 +79,7 @@
 			display: flex;
 			flex-direction: row;
 			flex: 0 1 auto;
-			padding: 1.5rem;
+			padding: 1rem 1.5rem;
 			align-items: center;
 			width: 100%;
 
@@ -87,6 +90,14 @@
 				line-height: 2.25rem;
 				font-weight: 700;
 			}
+		}
+
+		&__actions {
+			display: flex;
+			flex-direction: row;
+			justify-content: end;
+			gap: 0.5rem;
+			padding: 1rem 1.5rem;
 		}
 	}
 

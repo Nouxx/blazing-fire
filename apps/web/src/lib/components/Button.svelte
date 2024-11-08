@@ -68,5 +68,19 @@
 				background-color: var(--color-background-tertiary);
 			}
 		}
+
+		&__tertiary {
+			background: var(--button-color-background-tertiary);
+			color: var(--button-content-color-tertiary);
+
+			&:hover {
+				background: var(--button-color-background-tertiary-hover);
+				color: var(--button-content-color-tertiary-hover);
+			}
+
+			&:disabled {
+				background-color: var(--color-background-tertiary);
+			}
+		}
 	}
 </style>
