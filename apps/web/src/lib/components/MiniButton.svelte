@@ -34,6 +34,7 @@
 
 <style lang="scss">
 	.button {
+		display: flex;
 		height: 2rem;
 		width: 2rem;
 		border-radius: 0.375rem;
@@ -47,7 +48,7 @@
 		}
 
 		&.secondary {
-			background: var(--button-color-background-secondary);
+			background: transparent;
 			& > :global(svg) {
 				fill: var(--button-content-color-secondary);
 			}

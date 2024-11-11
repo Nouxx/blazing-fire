@@ -1,4 +1,5 @@
 <script lang="ts">
+	import TextInput from '$lib/components/TextInput.svelte';
 	import type { Menu } from '$lib/types/menu';
 
 	const NAME_CHARACTERS_LIMIT = 40;
@@ -13,9 +14,9 @@
 	}
 </script>
 
-<div class="flex flex-col w-full justify-center">
+<div class="element">
 	{#if editionMode}
-		<input
+		<!-- <input
 			type="text"
 			name="name"
 			bind:value={menu.name}
@@ -24,11 +25,29 @@
 			class:underline-offset-4={editionMode}
 			data-testid="name-input"
 			autocomplete="off"
-		/>
-		<p class="text-xs text-slate-500">{menu.name.length}/{NAME_CHARACTERS_LIMIT}</p>
+		/> -->
+		<TextInput bind:value={menu.name} disabled={false} />
+		<!-- <p class="text-xs text-slate-500">{menu.name.length}/{NAME_CHARACTERS_LIMIT}</p> -->
 	{:else}
-		<p>
+		<p class="element--read-only">
 			{menu.name}
 		</p>
 	{/if}
 </div>
+
+<style lang="scss">
+	.element {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		justify-content: center;
+
+		height: 2rem;
+
+		&--read-only {
+			font-size: 1.15rem;
+			line-height: 2.25rem;
+			font-weight: 700;
+		}
+	}
+</style>

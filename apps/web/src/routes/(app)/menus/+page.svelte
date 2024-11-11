@@ -29,7 +29,9 @@
 			<h1 class="content__header-title">My Menus</h1>
 		</div>
 		<div class="content__actions">
-			<MenuCreateAction />
+			{#if !isEditionOn}
+				<MenuCreateAction />
+			{/if}
 			<Button
 				variant="tertiary"
 				label={isEditionOn ? 'Back' : 'Edit'}
@@ -37,19 +39,16 @@
 				on:click={() => toggleEditionMode()}
 			/>
 		</div>
+		<div class="content">
+			{#if thereIsNoMenu}
+				<p class="my-4">You don't have any menu yet.</p>
+			{:else}
+				{#each data.menus as menu (menu.id)}
+					<MenuTile {menu} editionMode={isEditionOn} />
+				{/each}
+			{/if}
+		</div>
 	</div>
-
-	<!-- {#if thereIsNoMenu}
-		<p class="my-4">You don't have any menu yet.</p>
-	{:else}
-		{#each data.menus as menu (menu.id)}
-			<MenuTile {menu} editionMode={isEditionOn} />
-		{/each}
-	{/if}
-
-	{#if !isEditionOn}
-		<MenuCreateAction />
-	{/if} -->
 </div>
 
 <style lang="scss">
@@ -99,6 +98,11 @@
 			gap: 0.5rem;
 			padding: 1rem 1.5rem;
 		}
+
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		padding: 1rem 1.5rem;
+		gap: 1rem;
 	}
 
 	.debug {

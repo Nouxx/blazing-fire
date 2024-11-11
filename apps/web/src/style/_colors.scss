@@ -7,9 +7,11 @@ $blue-prussian: #0b2f51;
 $blue-yale: #0d3b66;
 
 $white: #fbfbfb;
+$darker-white: #f4f5f5;
 
 $grey-anti-flash: #eaecec;
 $grey-platinium: #dfe2e2;
+$grey-concrete: #95a5a6;
 
 $orange-sandy: #fca152;
 $orange-crayola: #fe7040;
@@ -26,8 +28,8 @@ $error: #ff3008;
 	--button-color-background-primary-hover: #{$orange-crayola};
 	--button-color-background-secondary: #{$white};
 	--button-color-background-secondary-hover: #{$grey-anti-flash};
-	--button-color-background-tertiary: #{$blue-prussian};
-	--button-color-background-tertiary-hover: #{$blue-oxford};
+	--button-color-background-tertiary: #{$blue-oxford};
+	--button-color-background-tertiary-hover: #{$blue-yale};
 	--button-content-color-primary: #{$white};
 	--button-content-color-secondary: #{$blue-prussian};
 	--button-content-color-primary-hover: #{$white};
@@ -36,8 +38,9 @@ $error: #ff3008;
 	--button-content-color-tertiary-hover: #{$white};
 	--color-font-primary: #{$black-rich};
 	--color-background-primary: #{$white};
-	--color-background-secondary: #{$grey-anti-flash};
-	--color-background-tertiary: #{$grey-platinium};
+	--color-background-secondary: #{$darker-white};
+	--color-background-tertiary: #{$grey-anti-flash};
+	--input-color-background-primary: #{$grey-platinium};
 }
 
 body.dark {

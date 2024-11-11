@@ -5,6 +5,10 @@
 	import MenuRenameAction from './MenuRenameAction.svelte';
 
 	import type { Menu } from '$lib/types/menu';
+	import BookmarkSolidIcon from '$lib/components/icons/BookmarkSolidIcon.svelte';
+	import MiniButton from '$lib/components/MiniButton.svelte';
+	import TrashIcon from '$lib/components/icons/TrashIcon.svelte';
+	import Nutrient from './Nutrient.svelte';
 
 	export let menu: Menu;
 	export let editionMode: boolean;
@@ -60,17 +64,34 @@
 	}
 </script>
 
-<div
-	class="flex flex-row w-full p-3 my-3 h-16 border-2 border-slate-400 rounded menu-tile"
-	data-testid="menu"
->
-	<div class="flex flex-1 w-full">
-		<MenuName bind:menu {editionMode} />
+<div class="tile" data-testid="menu">
+	<div class="tile__header flex">
+		<div class="tile__header-title">
+			<MenuName bind:menu {editionMode} />
+		</div>
+		<div class="tile__header-actions">
+			{#if editionMode}
+				<MiniButton tag="button" variant="secondary" dataTestId="temp">
+					<TrashIcon />
+				</MiniButton>
+			{:else}
+				<MiniButton tag="button" variant="secondary" dataTestId="temp">
+					<BookmarkSolidIcon />
+				</MiniButton>
+			{/if}
+		</div>
 	</div>
 
-	{#if editionMode}
+	<div class="tile__content">
+		<Nutrient value="2600" label="Calories" />
+		<Nutrient value="120" label="Proteins" />
+		<Nutrient value="80" label="Fat" />
+		<Nutrient value="370" label="Carbs" />
+	</div>
+
+	<!-- {#if editionMode}
 		<MenuActionsFeedback status={saveSuccessful} display={isSubmitted} />
-		<div data-testid="actions" class="flex flex-row items-center [&>*]:ml-2">
+		<div data-testid="actions" class="flex flex-row items-center gap-2">
 			<MenuRenameAction
 				{menu}
 				disabled={!isNameDifferentFromDB}
@@ -80,13 +101,34 @@
 			/>
 			<MenuDeleteAction {menu} disabled={isLoading} />
 		</div>
-	{/if}
+	{/if} -->
 </div>
 
 <style lang="scss">
-	.menu-tile {
-		&:hover {
-			background: var(--color-background-secondary);
+	.tile {
+		display: flex;
+		flex-direction: column;
+		gap: 4rem;
+		background-color: var(--color-background-tertiary);
+		border-radius: 0.5rem;
+		padding: 1rem;
+
+		&__header {
+			display: flex;
+			flex-direction: row;
+
+			&-title {
+				flex-grow: 1;
+			}
+
+			&-actions {
+				// width: 2rem;
+			}
+		}
+
+		&__content {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
 		}
 	}
 </style>
