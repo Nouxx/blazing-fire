@@ -23,12 +23,13 @@
 	}
 </script>
 
-<div class="page" data-testid="menu-page">
-	<div class="page__content">
-		<div class="content__header">
-			<h1 class="content__header-title">My Menus</h1>
+<div class="menu-page">
+	<div class="menu-page__content">
+		<div class="menu-page__header">
+			<h1 class="menu-page__title">My Menus</h1>
 		</div>
-		<div class="content__actions">
+
+		<div class="menu-page__actions">
 			{#if !isEditionOn}
 				<MenuCreateAction />
 			{/if}
@@ -39,7 +40,8 @@
 				on:click={() => toggleEditionMode()}
 			/>
 		</div>
-		<div class="content">
+
+		<div class="menu-page__menus">
 			{#if thereIsNoMenu}
 				<p class="my-4">You don't have any menu yet.</p>
 			{:else}
@@ -52,43 +54,49 @@
 </div>
 
 <style lang="scss">
-	.page {
+	.menu-page {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding-left: 2rem;
-		padding-right: 2rem;
-		padding-top: 2rem;
+
 		width: 100%;
 		height: 100%;
 
+		padding-left: 2rem;
+		padding-right: 2rem;
+		padding-top: 2rem;
+
 		&__content {
-			width: 100%;
-			border-top-left-radius: 2rem;
-			border-top-right-radius: 2rem;
-			background-color: var(--color-background-secondary);
 			display: flex;
 			flex-direction: column;
 			flex-grow: 1;
-		}
-	}
 
-	.content {
+			width: 100%;
+
+			background-color: var(--color-background-secondary);
+
+			border-top-left-radius: 2rem;
+			border-top-right-radius: 2rem;
+		}
+
 		&__header {
 			display: flex;
 			flex-direction: row;
 			flex: 0 1 auto;
-			padding: 1rem 1.5rem;
 			align-items: center;
+
 			width: 100%;
 
-			&-title {
-				display: flex;
-				flex: 1 1 auto;
-				font-size: 1.875rem;
-				line-height: 2.25rem;
-				font-weight: 700;
-			}
+			padding: 1rem 1.5rem;
+		}
+
+		&__title {
+			display: flex;
+			flex: 1 1 auto;
+
+			font-size: 1.875rem;
+			line-height: 2.25rem;
+			font-weight: 700;
 		}
 
 		&__actions {
@@ -96,16 +104,16 @@
 			flex-direction: row;
 			justify-content: end;
 			gap: 0.5rem;
+
 			padding: 1rem 1.5rem;
 		}
 
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		padding: 1rem 1.5rem;
-		gap: 1rem;
-	}
+		&__menus {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 2rem;
 
-	.debug {
-		border: 1px solid violet;
+			padding: 1rem 1.5rem;
+		}
 	}
 </style>

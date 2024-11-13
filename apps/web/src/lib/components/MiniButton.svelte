@@ -10,6 +10,7 @@
 	export let variant: ButtonVariant;
 	export let dataTestId: string;
 	export let href: string | null = null;
+	export let disabled: boolean = false;
 
 	if (tag === 'a' && !href) {
 		console.error('"href" attribute is not defined in the MiniButton component');
@@ -21,7 +22,7 @@
 </script>
 
 {#if tag === 'button'}
-	<button class="button {variant}" on:click={handleClick} data-testid={dataTestId}>
+	<button class="button {variant}" on:click={handleClick} data-testid={dataTestId} {disabled}>
 		<slot />
 	</button>
 {/if}
@@ -40,6 +41,19 @@
 		border-radius: 0.375rem;
 		padding: 0.375rem;
 
+		& > :global(svg) {
+			display: block;
+			margin: auto;
+			height: 100%;
+			width: 100%;
+		}
+
+		&:disabled {
+			& > :global(svg) {
+				fill: var(--color-background-tertiary);
+			}
+		}
+
 		&.primary {
 			background: var(--button-color-background-primary);
 			& > :global(svg) {
@@ -52,13 +66,6 @@
 			& > :global(svg) {
 				fill: var(--button-content-color-secondary);
 			}
-		}
-
-		& > :global(svg) {
-			display: block;
-			margin: auto;
-			height: 100%;
-			width: 100%;
 		}
 
 		&:hover {

@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import Button from '$lib/components/Button.svelte';
+
 	import ConfirmationModal from '$lib/components/ConfirmationModal.svelte';
+	import TrashIcon from '$lib/components/icons/TrashIcon.svelte';
+	import MiniButton from '$lib/components/MiniButton.svelte';
 
 	import type { Menu } from '$lib/types/menu';
 	import type { SubmitFunction } from '../$types';
@@ -39,7 +41,9 @@
 	};
 </script>
 
-<Button variant="primary" label="Delete" dataTestId="delete" on:click={showModal} {disabled} />
+<MiniButton tag="button" variant="secondary" dataTestId="delete" on:click={showModal} {disabled}>
+	<TrashIcon />
+</MiniButton>
 
 {#if isModalDisplayed}
 	<form method="post" action="?/deleteMenu" use:enhance={submitFunction}>

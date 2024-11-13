@@ -9,20 +9,20 @@
 
 	export let label: MacroNutrient;
 	export let value: string;
+
+	const iconMap = {
+		Calories: FlameIcon,
+		Proteins: EggIcon,
+		Fat: BaconIcon,
+		Carbs: WheatIcon
+	} as const;
 </script>
 
 <div class="content">
-	{#if label === 'Calories'}
-		<Icon variant="primary">
-			<FlameIcon />
-		</Icon>
-	{:else if label === 'Proteins'}
-		<EggIcon />
-	{:else if label === 'Fat'}
-		<BaconIcon />
-	{:else if label === 'Carbs'}
-		<WheatIcon />
-	{/if}
+	<Icon variant="primary">
+		<svelte:component this={iconMap[label]} />
+	</Icon>
+
 	<p>{value} {label}</p>
 </div>
 
@@ -30,7 +30,7 @@
 	.content {
 		display: flex;
 		flex-direction: row;
-		gap: 1rem;
+		gap: 0.75rem;
 		height: 2rem;
 		padding: 0.25rem;
 	}

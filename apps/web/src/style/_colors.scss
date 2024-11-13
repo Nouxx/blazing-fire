@@ -1,6 +1,7 @@
 // colors definition
 
 $black-rich: #051727;
+$black-rich-o25: hsla(208, 77%, 9%, 0.25);
 
 $blue-oxford: #08233c;
 $blue-prussian: #0b2f51;
@@ -41,6 +42,8 @@ $error: #ff3008;
 	--color-background-secondary: #{$darker-white};
 	--color-background-tertiary: #{$grey-anti-flash};
 	--input-color-background-primary: #{$grey-platinium};
+	--icon-color-primary: #{$orange-sandy};
+	--shadow-color: #{$black-rich-o25};
 }
 
 body.dark {
@@ -58,6 +61,7 @@ body.dark {
 	--color-background-primary: #{$black-rich};
 	--color-background-secondary: #{$blue-oxford};
 	--color-background-tertiary: #{$blue-yale};
+	--icon-color-primary: #{$orange-sandy};
 }
 
 body.light {
@@ -75,4 +79,5 @@ body.light {
 	--color-background-primary: #{$white};
 	--color-background-secondary: #{$grey-anti-flash};
 	--color-background-tertiary: #{$grey-platinium};
+	--icon-color-primary: #{$orange-sandy};
 }

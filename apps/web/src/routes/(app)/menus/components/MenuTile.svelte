@@ -71,9 +71,7 @@
 		</div>
 		<div class="tile__header-actions">
 			{#if editionMode}
-				<MiniButton tag="button" variant="secondary" dataTestId="temp">
-					<TrashIcon />
-				</MiniButton>
+				<MenuDeleteAction {menu} disabled={isLoading} />
 			{:else}
 				<MiniButton tag="button" variant="secondary" dataTestId="temp">
 					<BookmarkSolidIcon />
@@ -84,8 +82,8 @@
 
 	<div class="tile__content">
 		<Nutrient value="2600" label="Calories" />
-		<Nutrient value="120" label="Proteins" />
 		<Nutrient value="80" label="Fat" />
+		<Nutrient value="120" label="Proteins" />
 		<Nutrient value="370" label="Carbs" />
 	</div>
 
@@ -99,7 +97,7 @@
 				on:error={handleRenameError}
 				on:save={handleSave}
 			/>
-			<MenuDeleteAction {menu} disabled={isLoading} />
+			
 		</div>
 	{/if} -->
 </div>
@@ -112,6 +110,8 @@
 		background-color: var(--color-background-tertiary);
 		border-radius: 0.5rem;
 		padding: 1rem;
+
+		filter: drop-shadow(var(--shadow-color) 0.25rem 0.25rem 10px );
 
 		&__header {
 			display: flex;

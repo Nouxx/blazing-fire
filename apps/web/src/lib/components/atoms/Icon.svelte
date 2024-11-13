@@ -12,13 +12,8 @@
 		justify-content: center;
 		align-items: center;
 
-		// padding: 0.25rem;
-
 		height: 100%;
 		width: 2rem;
-
-		box-sizing: border-box;
-		border: 1px solid violet;
 
 		& > :global(svg) {
 			max-width: 100%;
@@ -27,13 +22,7 @@
 
 		&__primary {
 			& > :global(svg) {
-				fill: red;
-			}
-		}
-
-		&__secondary {
-			& > :global(svg) {
-				fill: blue;
+				fill: var(--icon-color-primary);
 			}
 		}
 	}
