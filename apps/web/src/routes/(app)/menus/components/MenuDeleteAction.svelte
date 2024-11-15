@@ -4,12 +4,15 @@
 	import ConfirmationModal from '$lib/components/ConfirmationModal.svelte';
 	import TrashIcon from '$lib/components/icons/TrashIcon.svelte';
 	import MiniButton from '$lib/components/MiniButton.svelte';
+	import { modalStore, type Modal } from '$lib/stores/modalStore';
 
 	import type { Menu } from '$lib/types/menu';
 	import type { SubmitFunction } from '../$types';
 
 	export let menu: Menu;
 	export let disabled: boolean;
+
+	export let formElement: HTMLFormElement;
 
 	const ERROR_LABEL = 'Whoops! We cannot delete the menu. Please try again later.';
 	const MODAL_MESSAGE = `Are you sure you want to delete the menu "${menu.name}"?`;
@@ -20,6 +23,20 @@
 
 	function showModal() {
 		isModalDisplayed = true;
+		const modal: Modal = {
+			message: MODAL_MESSAGE,
+			confirmLabel: 'Delete',
+			closeLabel: 'Cancel',
+			disabled: isLoading,
+			onClose: () => modalStore.reset(),
+			onConfirm: () => submitForm()
+		};
+		modalStore.set(modal);
+	}
+
+	function submitForm() {
+		formElement.requestSubmit();
+		modalStore.reset();
 	}
 
 	function hideModal() {
@@ -45,16 +62,6 @@
 	<TrashIcon />
 </MiniButton>
 
-{#if isModalDisplayed}
-	<form method="post" action="?/deleteMenu" use:enhance={submitFunction}>
-		<input type="hidden" name="id" value={menu.id} />
-		<ConfirmationModal
-			message={MODAL_MESSAGE}
-			confirmLabel="Confirm"
-			closeLabel="Cancel"
-			disabled={isLoading}
-			{error}
-			on:close={hideModal}
-		/>
-	</form>
-{/if}
+<form bind:this={formElement} method="post" action="?/deleteMenu" use:enhance={submitFunction}>
+	<input type="hidden" name="id" value={menu.id} />
+</form>

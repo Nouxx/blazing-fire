@@ -1,9 +1,14 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import Button from './Button.svelte';
+	import type { Modal } from '$lib/stores/modalStore';
 
 	const CLOSE_EVENT = 'close';
 	const CONFIRM_EVENT = 'confirm';
+
+	// todo: the component should accept an object
+
+	// export let modal: Modal
 
 	export let message: string;
 	export let closeLabel: string;
@@ -22,15 +27,13 @@
 	}
 </script>
 
-<div class="flex flex-col justify-center modal" data-testid="confirmation-modal">
-	<dialog
-		class="flex flex-col items-center p-5 border-2 border-slate-200 shadow-md rounded [&>*]:my-3"
-	>
-		<h1 class="text-m">{message}</h1>
+<div class="modal__overlay fixed inset-0" data-testid="confirmation-modal">
+	<dialog class="modal__content">
+		<h1 class="modal__message">{message}</h1>
 		{#if error}
-			<p class="text-sm italic text-red-600">{error}</p>
+			<p class="modal__message--error">{error}</p>
 		{/if}
-		<div class="flex flex-row justify-center mt-2 [&>*]:mx-2">
+		<div class="modal__actions">
 			<Button
 				variant="primary"
 				label={closeLabel}
@@ -51,19 +54,45 @@
 	</dialog>
 </div>
 
-<style>
+<style lang="scss">
 	.modal {
-		position: fixed;
-		z-index: 1;
-		width: 100%;
-		height: 100%;
-		left: 0;
-		top: 0;
-		background-color: rgba(0, 0, 0, 0.3);
+		&__overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: rgba(0, 0, 0, 0.5);
+			z-index: 1000;
+		}
 
-		& dialog {
+		&__content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1.25rem;
+			padding: 1.25rem;
 			background: var(--color-background-primary);
 			color: var(--color-font-primary);
+		}
+
+		&__message {
+			&--error {
+				font-size: 0.875rem;
+				line-height: 1.25rem;
+				font-style: italic;
+				color: var(--color-error);
+			}
+		}
+
+		&__actions {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			gap: 1rem;
 		}
 	}
 </style>
