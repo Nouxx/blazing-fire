@@ -11,14 +11,7 @@
 </noscript>
 
 {#if $modalStore}
-	<ConfirmationModal
-		message={$modalStore.message}
-		confirmLabel={$modalStore.confirmLabel}
-		closeLabel={$modalStore.closeLabel}
-		disabled={$modalStore.disabled}
-		on:close={$modalStore.onClose}
-		on:confirm={$modalStore.onConfirm}
-	/>
+	<ConfirmationModal modal={$modalStore} />
 {/if}
 
 <slot />

@@ -6,24 +6,39 @@ export type Modal = {
 	closeLabel: string;
 	disabled: boolean;
 	error?: string;
-	onClose?: () => void;
-	onConfirm?: () => void;
+	onClose: () => void;
+	onConfirm: () => void;
 };
 
-function createModalStore() {
-	const { subscribe, set } = writable<Modal | null>(null);
-
-	return {
-		subscribe,
-		set,
-		reset: () => set(null)
-	};
-}
+type ModalSettableProperty = keyof Pick<Modal, 'error' | 'disabled'>;
 
 /**
  * Store that handles app-wide modal with the follwing rules:
  * - one modal at a time
- * - if a Modal object is in the store, it is displayed. use `set()` to pop a modal
- * - if there is no Modal (null), it is not displayed. use `reset()` to remove the modal
+ * - if a Modal object is in the store, it is displayed. Use `open()` to pop a modal
+ * - if there is no Modal (null), it is not displayed. Use `reset()` to remove the modal
  */
 export const modalStore = createModalStore();
+
+function createModalStore() {
+	const { subscribe, set, update } = writable<Modal | null>(null);
+
+	const open = (modal: Modal) => set(modal);
+
+	const setProperty = <K extends ModalSettableProperty>(property: K, value: Modal[K]) =>
+		update((modal) => {
+			if (!modal) {
+				console.error(`Cannot set ${property}: no modal is currently open.`);
+			}
+			return modal ? { ...modal, [property]: value } : modal;
+		});
+
+	const close = () => set(null);
+
+	return {
+		subscribe,
+		open,
+		close,
+		setProperty
+	};
+}

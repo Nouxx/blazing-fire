@@ -1,53 +1,31 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import Button from './Button.svelte';
 	import type { Modal } from '$lib/stores/modalStore';
 
-	const CLOSE_EVENT = 'close';
-	const CONFIRM_EVENT = 'confirm';
-
-	// todo: the component should accept an object
-
-	// export let modal: Modal
-
-	export let message: string;
-	export let closeLabel: string;
-	export let confirmLabel: string;
-	export let disabled = false;
-	export let error: string | undefined = undefined;
-
-	const dispatch = createEventDispatcher();
-
-	function handleClose() {
-		dispatch(CLOSE_EVENT);
-	}
-
-	function handleConfirm() {
-		dispatch(CONFIRM_EVENT);
-	}
+	export let modal: Modal;
 </script>
 
-<div class="modal__overlay fixed inset-0" data-testid="confirmation-modal">
+<div class="modal__overlay" data-testid="confirmation-modal">
 	<dialog class="modal__content">
-		<h1 class="modal__message">{message}</h1>
-		{#if error}
-			<p class="modal__message--error">{error}</p>
+		<h1 class="modal__message">{modal.message}</h1>
+		{#if modal.error}
+			<p class="modal__message--error">{modal.error}</p>
 		{/if}
 		<div class="modal__actions">
 			<Button
 				variant="primary"
-				label={closeLabel}
+				label={modal.closeLabel}
 				type="button"
-				on:click={handleClose}
-				{disabled}
+				on:click={modal.onClose}
+				disabled={modal.disabled}
 				dataTestId="close"
 			/>
 			<Button
+				type="button"
 				variant="primary"
-				label={confirmLabel}
-				type="submit"
-				{disabled}
-				on:click={handleConfirm}
+				label={modal.confirmLabel}
+				disabled={modal.disabled}
+				on:click={modal.onConfirm}
 				dataTestId="confirm"
 			/>
 		</div>
@@ -75,6 +53,7 @@
 			align-items: center;
 			gap: 1.25rem;
 			padding: 1.25rem;
+			border-radius: 0.5rem;
 			background: var(--color-background-primary);
 			color: var(--color-font-primary);
 		}
