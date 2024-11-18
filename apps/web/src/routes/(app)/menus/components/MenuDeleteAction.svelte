@@ -6,6 +6,7 @@
 	import MiniButton from '$lib/components/MiniButton.svelte';
 	import type { Menu } from '$lib/types/menu';
 	import type { SubmitFunction } from '../$types';
+	import MenuDeleteActionModal from './MenuDeleteActionModal.svelte';
 
 	export let menu: Menu;
 	export let disabled: boolean;
@@ -13,11 +14,13 @@
 	let formElement: HTMLFormElement;
 
 	const ERROR_LABEL = 'Whoops! We cannot delete the menu. Please try again later.';
-	const MODAL_MESSAGE = `Are you sure you want to delete the menu "${menu.name}"?`;
 
 	function showModal() {
 		const modal: Modal = {
-			message: MODAL_MESSAGE,
+			content: {
+				component: MenuDeleteActionModal,
+				props: { menu }
+			},
 			confirmLabel: 'Delete',
 			closeLabel: 'Cancel',
 			disabled: false,

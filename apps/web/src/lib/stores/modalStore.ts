@@ -1,7 +1,10 @@
 import { writable } from 'svelte/store';
 
 export type Modal = {
-	message: string;
+	content: {
+		component: any;
+		props: Record<string, any>;
+	};
 	confirmLabel: string;
 	closeLabel: string;
 	disabled: boolean;

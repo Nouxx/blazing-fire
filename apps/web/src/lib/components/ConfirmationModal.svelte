@@ -7,7 +7,9 @@
 
 <div class="modal__overlay" data-testid="confirmation-modal">
 	<dialog class="modal__content">
-		<h1 class="modal__message">{modal.message}</h1>
+		<div class="modal__message">
+			<svelte:component this={modal.content.component} {...modal.content.props} />
+		</div>
 		{#if modal.error}
 			<p class="modal__message--error">{modal.error}</p>
 		{/if}
@@ -51,19 +53,20 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			gap: 1.25rem;
-			padding: 1.25rem;
 			border-radius: 0.5rem;
-			background: var(--color-background-primary);
+			background: var(--color-background-tertiary);
 			color: var(--color-font-primary);
+			filter: drop-shadow(var(--shadow-color) 0.25rem 0.25rem 10px);
 		}
 
 		&__message {
+			padding: 1.25rem;
 			&--error {
 				font-size: 0.875rem;
 				line-height: 1.25rem;
 				font-style: italic;
 				color: var(--color-error);
+				padding: .5rem; 
 			}
 		}
 
@@ -72,6 +75,11 @@
 			flex-direction: row;
 			justify-content: center;
 			gap: 1rem;
+			background: var(--color-background-FORTH);
+			width: 100%;
+			padding: 1.25rem;
+			border-bottom-left-radius: 0.5rem;
+			border-bottom-right-radius: 0.5rem;
 		}
 	}
 </style>
