@@ -62,9 +62,9 @@
 		width: 100%;
 		height: 100%;
 
-		padding-left: 2rem;
-		padding-right: 2rem;
-		padding-top: 2rem;
+		padding-left: 5rem;
+		padding-right: 5rem;
+		padding-top: 3rem;
 
 		&__content {
 			display: flex;
