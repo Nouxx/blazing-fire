@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-
 	import { modalStore, type Modal } from '$lib/stores/modalStore';
 	import TrashIcon from '$lib/components/icons/TrashIcon.svelte';
 	import MiniButton from '$lib/components/MiniButton.svelte';
@@ -34,15 +33,11 @@
 		formElement.requestSubmit();
 	}
 
-	function hideModal() {
-		modalStore.close();
-	}
-
 	const submitFunction: SubmitFunction = () => {
 		modalStore.setProperty('disabled', true);
 		return async ({ result, update }) => {
 			if (result.type === 'success') {
-				hideModal();
+				modalStore.close();
 			} else {
 				modalStore.setProperty('error', ERROR_LABEL);
 			}

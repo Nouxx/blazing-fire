@@ -73,7 +73,7 @@
 			{#if editionMode}
 				<MenuDeleteAction {menu} disabled={isLoading} />
 			{:else}
-				<MiniButton tag="button" variant="secondary" dataTestId="temp">
+				<MiniButton tag="button" variant="secondary" disabled={true} dataTestId="temp">
 					<BookmarkSolidIcon />
 				</MiniButton>
 			{/if}
@@ -111,7 +111,7 @@
 		border-radius: 0.5rem;
 		padding: 1rem;
 
-		filter: drop-shadow(var(--shadow-color) 0.25rem 0.25rem 10px );
+		filter: drop-shadow(var(--shadow-color) 0.25rem 0.25rem 10px);
 
 		&__header {
 			display: flex;

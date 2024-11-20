@@ -2,8 +2,10 @@ import { writable } from 'svelte/store';
 
 export type Modal = {
 	content: {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		component: any;
-		props: Record<string, any>;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		props?: Record<string, any>;
 	};
 	confirmLabel: string;
 	closeLabel: string;

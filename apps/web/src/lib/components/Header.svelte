@@ -27,7 +27,7 @@
 	</div>
 
 	<div class="header__actions" data-testid="navigation">
-		<MiniButton tag="button" variant="secondary" on:click={toggleTheme} dataTestId="toggle-mode">
+		<MiniButton tag="button" variant="primary" on:click={toggleTheme} dataTestId="toggle-mode">
 			{#if theme === 'light'}
 				<MoonIcon />
 			{/if}
@@ -35,10 +35,10 @@
 				<SunIcon />
 			{/if}
 		</MiniButton>
-		<MiniButton tag="a" variant="secondary" href={routes.home} dataTestId="go-to-home">
+		<MiniButton tag="a" variant="primary" href={routes.home} dataTestId="go-to-home">
 			<HomeIcon />
 		</MiniButton>
-		<MiniButton tag="a" variant="secondary" href={routes.account} dataTestId="go-to-account">
+		<MiniButton tag="a" variant="primary" href={routes.account} dataTestId="go-to-account">
 			<UserIcon />
 		</MiniButton>
 	</div>

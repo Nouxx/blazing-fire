@@ -34,7 +34,7 @@
 				<MenuCreateAction />
 			{/if}
 			<Button
-				variant="tertiary"
+				variant="secondary"
 				label={isEditionOn ? 'Back' : 'Edit'}
 				dataTestId="toggle-edit"
 				on:click={() => toggleEditionMode()}

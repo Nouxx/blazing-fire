@@ -40,6 +40,24 @@
 {/if}
 
 <style lang="scss">
+	$button-variants: (
+		primary: (
+			background: var(--button-color-background-primary),
+			content: var(--button-color-content-primary),
+			hover: var(--button-color-background-primary-hover)
+		),
+		secondary: (
+			background: var(--button-color-background-secondary),
+			content: var(--button-color-content-secondary),
+			hover: var(--button-color-background-secondary-hover)
+		),
+		tertiary: (
+			background: var(--button-color-background-tertiary),
+			content: var(--button-color-content-tertiary),
+			hover: var(--button-color-background-tertiary-hover)
+		)
+	);
+
 	.button {
 		padding-top: 0.5rem;
 		padding-bottom: 0.5rem;
@@ -55,31 +73,18 @@
 
 		border-radius: 0.375rem;
 
-		&__primary {
-			background: var(--button-color-background-primary);
-			color: var(--button-content-color-primary);
+		@each $variant, $properties in $button-variants {
+			&__#{$variant} {
+				background: map-get($properties, background);
+				color: map-get($properties, content);
 
-			&:hover {
-				background: var(--button-color-background-primary-hover);
-				color: var(--button-content-color-primary-hover);
-			}
+				&:hover {
+					background: map-get($properties, hover);
+				}
 
-			&:disabled {
-				background-color: var(--color-background-tertiary);
-			}
-		}
-
-		&__tertiary {
-			background: var(--button-color-background-tertiary);
-			color: var(--button-content-color-tertiary);
-
-			&:hover {
-				background: var(--button-color-background-tertiary-hover);
-				color: var(--button-content-color-tertiary-hover);
-			}
-
-			&:disabled {
-				background-color: var(--color-background-tertiary);
+				&:disabled {
+					background: var(--button-color-background-disabled);
+				}
 			}
 		}
 	}
