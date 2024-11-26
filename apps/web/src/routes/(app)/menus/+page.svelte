@@ -1,11 +1,15 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import { setContext } from 'svelte';
 	import MenuCreateAction from './components/MenuCreateAction.svelte';
 	import MenuTile from './components/MenuTile.svelte';
 
 	export let data;
+	export let form;
 
-	let isEditionOn = false;
+	setContext('form', form);
+
+	let isEditionOn = true; // todo: move to a store
 	$: thereIsNoMenu = data.menus.length === 0;
 
 	function toggleEditionMode(value?: boolean): void {

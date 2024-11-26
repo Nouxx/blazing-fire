@@ -67,6 +67,7 @@
 <div class="tile" data-testid="menu">
 	<div class="tile__header flex">
 		<div class="tile__header-title">
+			
 			<MenuName bind:menu {editionMode} />
 		</div>
 		<div class="tile__header-actions">

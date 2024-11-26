@@ -1,5 +1,7 @@
 <script lang="ts">
-	export let variant: 'primary' | 'secondary';
+	import type { IconVariant } from '../types/icon';
+
+	export let variant: IconVariant;
 </script>
 
 <div class="wrapper wrapper__{variant}">

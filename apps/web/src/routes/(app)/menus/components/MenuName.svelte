@@ -1,32 +1,60 @@
 <script lang="ts">
+	import Icon from '$lib/components/atoms/Icon.svelte';
+	import LoadingSpinner from '$lib/components/atoms/LoadingSpinner.svelte';
+	import CheckIcon from '$lib/components/icons/CheckIcon.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
 	import type { Menu } from '$lib/types/menu';
+	import { getContext } from 'svelte';
+	import { fade } from 'svelte/transition';
 
 	const NAME_CHARACTERS_LIMIT = 40;
 
 	export let menu: Menu;
 	export let editionMode: boolean;
 
+	let isSaving = false;
+
 	$: {
 		if (menu.name.length > NAME_CHARACTERS_LIMIT) {
 			menu.name = menu.name.slice(0, menu.name.length - 1);
 		}
 	}
+
+	let form = getContext('form');
+
+	let formElement: HTMLFormElement;
+
+	function submitForm() {
+		formElement.requestSubmit();
+		isSaving = true;
+	}
+
+	const hasFormResponse = form?.success && form.data.id === menu.id;
+	let showSuccess = hasFormResponse;
+
+	setTimeout(() => (showSuccess = false), 1000);
+
+	// https://github.com/sveltejs/kit/issues/10796
 </script>
 
 <div class="element">
 	{#if editionMode}
-		<!-- <input
-			type="text"
-			name="name"
-			bind:value={menu.name}
-			class="outline-none bg-inherit"
-			class:underline={editionMode}
-			class:underline-offset-4={editionMode}
-			data-testid="name-input"
-			autocomplete="off"
-		/> -->
-		<TextInput bind:value={menu.name} disabled={false} />
+		<form bind:this={formElement} action="?/renameMenu" method="post">
+			<input type="hidden" name="id" value={menu.id} />
+			<TextInput name="name" bind:value={menu.name} disabled={false} on:focusOut={submitForm} />
+		</form>
+		{#if isSaving}
+			<div class="element__status--loading">
+				<LoadingSpinner variant="primary" />
+			</div>
+		{/if}
+		{#if showSuccess}
+			<div class="element__status--success" transition:fade>
+				<Icon variant="primary">
+					<CheckIcon />
+				</Icon>
+			</div>
+		{/if}
 		<!-- <p class="text-xs text-slate-500">{menu.name.length}/{NAME_CHARACTERS_LIMIT}</p> -->
 	{:else}
 		<p class="element--read-only">
@@ -38,11 +66,26 @@
 <style lang="scss">
 	.element {
 		display: flex;
-		flex-direction: column;
+		flex-direction: row;
+		align-items: center;
+		gap: 0rem;
 		width: 100%;
-		justify-content: center;
 
 		height: 2rem;
+
+		&__status {
+			&--success {
+				height: 1.5rem;
+				// visibility: hidden;
+				// opacity: 0;
+				// transition:
+				// 	visibility 0s 2s,
+				// 	opacity 2s linear;
+			}
+			&--loading {
+				height: 1.5rem;
+			}
+		}
 
 		&--read-only {
 			font-size: 1.15rem;

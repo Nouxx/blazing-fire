@@ -69,7 +69,13 @@ export const actions = {
 			return fail(500, { error: response.error, name });
 		}
 
-		return response.data;
+		await new Promise(resolve => setTimeout(resolve, 2000));
+
+		// todo: return success?
+		return {
+			success: true,
+			data: response.data
+		};
 	},
 	deleteMenu: async ({ locals, request }) => {
 		const { session, user, supabase } = locals;
