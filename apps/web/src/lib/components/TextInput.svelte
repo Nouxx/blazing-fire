@@ -4,7 +4,7 @@
 	export let value: string;
 	export let disabled: boolean;
 	export let name: string;
-	export let autofocus = false;
+	export let charactersLimit: number | undefined = undefined;
 
 	interface TextInputEvents {
 		input: string;
@@ -23,28 +23,51 @@
 	function handleFocusOut() {
 		dispatch('focusOut');
 	}
+
+	$: {
+		if (charactersLimit && charactersLimit > 0) {
+			if (value.length > charactersLimit) {
+				value = value.slice(0, value.length - 1);
+			}
+		}
+	}
 </script>
 
-<input
-	type="text"
-	{name}
-	bind:value
-	autocomplete="off"
-	{disabled}
-	on:input={handleInput}
-	on:focusin={handleFocusIn}
-	on:focusout={handleFocusOut}
-	{autofocus}
-/>
+<div class="input">
+	<input
+		type="text"
+		class="input__field"
+		{name}
+		bind:value
+		autocomplete="off"
+		{disabled}
+		on:input={handleInput}
+		on:focusin={handleFocusIn}
+		on:focusout={handleFocusOut}
+	/>
+	{#if charactersLimit}
+		<p class="input__counter">{value.length}/{charactersLimit}</p>
+	{/if}
+	<div></div>
+</div>
 
 <style lang="scss">
-	input {
+	.input {
 		display: flex;
 		flex-direction: row;
+		gap: 0.5rem;
 		padding: 0.5rem;
-		outline: none;
+
 		border-radius: 8px;
-		width: fit-content;
 		background-color: var(--input-color-background-primary);
+
+		&__field {
+			outline: none;
+			background-color: var(--input-color-background-primary);
+		}
+
+		&__counter {
+			font-size: 0.875rem;
+		}
 	}
 </style>

@@ -7,41 +7,47 @@
 	import { getContext } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	const NAME_CHARACTERS_LIMIT = 40;
-
 	export let menu: Menu;
 	export let editionMode: boolean;
 
 	let isSaving = false;
+	let storedName = menu.name;
 
-	$: {
-		if (menu.name.length > NAME_CHARACTERS_LIMIT) {
-			menu.name = menu.name.slice(0, menu.name.length - 1);
-		}
-	}
+	// const NAME_CHARACTERS_LIMIT = 40;
+	// $: {
+	// 	if (menu.name.length > NAME_CHARACTERS_LIMIT) {
+	// 		menu.name = menu.name.slice(0, menu.name.length - 1);
+	// 	}
+	// }
 
 	let form = getContext('form');
 
 	let formElement: HTMLFormElement;
 
 	function submitForm() {
-		formElement.requestSubmit();
-		isSaving = true;
+		if (menu.name != storedName) {
+			formElement.requestSubmit();
+			isSaving = true;
+		}
 	}
 
 	const hasFormResponse = form?.success && form.data.id === menu.id;
 	let showSuccess = hasFormResponse;
 
 	setTimeout(() => (showSuccess = false), 1000);
-
-	// https://github.com/sveltejs/kit/issues/10796
 </script>
 
 <div class="element">
 	{#if editionMode}
 		<form bind:this={formElement} action="?/renameMenu" method="post">
 			<input type="hidden" name="id" value={menu.id} />
-			<TextInput name="name" bind:value={menu.name} disabled={false} on:focusOut={submitForm} />
+			<TextInput
+				name="name"
+				bind:value={menu.name}
+				disabled={false}
+				on:focusOut={submitForm}
+				charactersLimit={20}
+			/>
 		</form>
 		{#if isSaving}
 			<div class="element__status--loading">
