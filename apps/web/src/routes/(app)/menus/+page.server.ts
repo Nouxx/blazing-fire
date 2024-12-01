@@ -33,7 +33,7 @@ export const actions = {
 		const { session, user, supabase } = locals;
 
 		if (!session || !user) {
-			error(401);
+			return fail(401, { error: { message: 'Authentication issue' } });
 		}
 
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
@@ -41,16 +41,19 @@ export const actions = {
 		const response = await menuService.createNewMenuForUser(user.id);
 
 		if (response.error) {
-			return fail(500, { message: response.error.message });
+			return fail(500, { error: { message: response.error.message } });
 		}
 
-		return response.data;
+		return {
+			success: true,
+			data: null
+		};
 	},
 	renameMenu: async ({ locals, request }) => {
 		const { session, user, supabase } = locals;
 
 		if (!session || !user) {
-			error(401);
+			return fail(401, { error: { message: 'Authentication issue' }, data: null });
 		}
 
 		const formData = await request.formData();
@@ -58,8 +61,14 @@ export const actions = {
 		const menuId = getStringFromFormValue(formData.get('id'));
 
 		if (!name || !menuId) {
-			return fail(400, { error: { message: 'Missing inputs' }, name });
+			return fail(400, { error: { message: 'Missing inputs' }, data: { name, id: menuId } });
 		}
+
+		// await new Promise((resolve) => setTimeout(resolve, 1000));
+		// return fail(400, {
+		// 	error: { message: 'Fake error' },
+		// 	data: { name, id: menuId }
+		// });
 
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
 		const menuService = new MenuService(supabaseRepo);
@@ -68,8 +77,6 @@ export const actions = {
 		if (response.error) {
 			return fail(500, { error: response.error, name });
 		}
-
-		await new Promise(resolve => setTimeout(resolve, 2000));
 
 		// todo: return success?
 		return {
@@ -81,14 +88,14 @@ export const actions = {
 		const { session, user, supabase } = locals;
 
 		if (!session || !user) {
-			error(401);
+			return fail(401, { error: { message: 'Authentication issue' } });
 		}
 
 		const formData = await request.formData();
 		const menuId = getStringFromFormValue(formData.get('id'));
 
 		if (!menuId) {
-			return fail(400, { error: 'Missing menu id' });
+			return fail(400, { error: { message: 'Missing menu id' } });
 		}
 
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
@@ -96,9 +103,12 @@ export const actions = {
 		const response = await menuService.deleteMenu(menuId);
 
 		if (response.error) {
-			error(500, response.error.message);
+			return fail(500, { error: response.error });
 		}
 
-		return response.data;
+		return {
+			success: true,
+			data: null
+		};
 	}
 } satisfies Actions;

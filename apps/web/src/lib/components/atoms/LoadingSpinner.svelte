@@ -28,5 +28,8 @@
 
 	.loading-spinner {
 		height: inherit;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 	}
 </style>

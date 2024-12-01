@@ -1,11 +1,9 @@
 <script lang="ts">
-	import Icon from '$lib/components/atoms/Icon.svelte';
-	import LoadingSpinner from '$lib/components/atoms/LoadingSpinner.svelte';
-	import CheckIcon from '$lib/components/icons/CheckIcon.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
 	import type { Menu } from '$lib/types/menu';
 	import { getContext } from 'svelte';
-	import { fade } from 'svelte/transition';
+	import type { ActionData } from '../$types';
+	import type { TextInputState } from '$lib/components/types/input';
 
 	export let menu: Menu;
 	export let editionMode: boolean;
@@ -13,14 +11,7 @@
 	let isSaving = false;
 	let storedName = menu.name;
 
-	// const NAME_CHARACTERS_LIMIT = 40;
-	// $: {
-	// 	if (menu.name.length > NAME_CHARACTERS_LIMIT) {
-	// 		menu.name = menu.name.slice(0, menu.name.length - 1);
-	// 	}
-	// }
-
-	let form = getContext('form');
+	let form = getContext<ActionData>('form'); // use page store
 
 	let formElement: HTMLFormElement;
 
@@ -31,10 +22,30 @@
 		}
 	}
 
-	const hasFormResponse = form?.success && form.data.id === menu.id;
-	let showSuccess = hasFormResponse;
+	// todo: refactor ActionData
+	console.log('form', form);
+	const hasFormResponseForTheComponent = form && form.data?.id == menu.id;
+	const isFormSuccess = hasFormResponseForTheComponent && form.success;
+	const isFormError = hasFormResponseForTheComponent && form.error;
 
-	setTimeout(() => (showSuccess = false), 1000);
+	console.log('hasFormResponseForTheComponent', hasFormResponseForTheComponent);
+
+	// todo: handle errors
+
+	let state: TextInputState;
+
+	if (isFormSuccess) {
+		state = 'success';
+	}
+	if (isFormError) {
+		menu.name = form.data?.name;
+		state = 'error';
+	}
+	$: {
+		if (isSaving) {
+			state = 'loading';
+		}
+	}
 </script>
 
 <div class="element">
@@ -46,22 +57,22 @@
 				bind:value={menu.name}
 				disabled={false}
 				on:focusOut={submitForm}
+				{state}
 				charactersLimit={20}
 			/>
 		</form>
-		{#if isSaving}
+		<!-- {#if isSaving}
 			<div class="element__status--loading">
 				<LoadingSpinner variant="primary" />
 			</div>
-		{/if}
-		{#if showSuccess}
+		{/if} -->
+		<!-- {#if showSuccess}
 			<div class="element__status--success" transition:fade>
 				<Icon variant="primary">
 					<CheckIcon />
 				</Icon>
 			</div>
-		{/if}
-		<!-- <p class="text-xs text-slate-500">{menu.name.length}/{NAME_CHARACTERS_LIMIT}</p> -->
+		{/if} -->
 	{:else}
 		<p class="element--read-only">
 			{menu.name}
@@ -82,11 +93,6 @@
 		&__status {
 			&--success {
 				height: 1.5rem;
-				// visibility: hidden;
-				// opacity: 0;
-				// transition:
-				// 	visibility 0s 2s,
-				// 	opacity 2s linear;
 			}
 			&--loading {
 				height: 1.5rem;

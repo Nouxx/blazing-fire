@@ -3,11 +3,12 @@
 	import { setContext } from 'svelte';
 	import MenuCreateAction from './components/MenuCreateAction.svelte';
 	import MenuTile from './components/MenuTile.svelte';
+	import type { ActionData } from './$types';
 
 	export let data;
 	export let form;
 
-	setContext('form', form);
+	setContext<ActionData>('form', form);
 
 	let isEditionOn = true; // todo: move to a store
 	$: thereIsNoMenu = data.menus.length === 0;
