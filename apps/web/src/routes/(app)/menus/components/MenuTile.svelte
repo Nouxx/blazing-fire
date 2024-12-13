@@ -1,22 +1,17 @@
 <script lang="ts">
 	import MenuName from './MenuName.svelte';
-	import MenuActionsFeedback from './MenuActionsFeedback.svelte';
 	import MenuDeleteAction from './MenuDeleteAction.svelte';
-	import MenuRenameAction from './MenuRenameAction.svelte';
-
-	import type { Menu } from '$lib/types/menu';
 	import BookmarkSolidIcon from '$lib/components/icons/BookmarkSolidIcon.svelte';
 	import MiniButton from '$lib/components/MiniButton.svelte';
-	import TrashIcon from '$lib/components/icons/TrashIcon.svelte';
 	import Nutrient from './Nutrient.svelte';
+	import type { Menu } from '$lib/types/menu';
+	import { menuPageStore } from '../stores/menu-store';
+	import { getContext, onDestroy, setContext } from 'svelte';
 
 	export let menu: Menu;
-	export let editionMode: boolean;
 
 	let isSubmitted: boolean;
 	let saveSuccessful: boolean;
-	let isLoading: boolean;
-	/** the value currently stored in the data source (DB) */
 	let storedName: string;
 
 	$: isNameDifferentFromDB = menu.name !== storedName;
@@ -25,54 +20,41 @@
 		isSubmitted = false;
 		saveSuccessful = false;
 		setStoredName(menu.name);
-		isLoading = false;
 	}
 
 	function setStoredName(name: string) {
 		storedName = name;
 		menu.name = name;
-		isNameDifferentFromDB = false;
+		isNameDifferentFromDB = false; // todo: remove
 	}
 
 	initState();
 
-	$: if (editionMode === true) {
+	let isEditionEnabled: boolean;
+
+	const unsubscribe = menuPageStore.subscribe((store) => {
+		isEditionEnabled = store.isEditionEnabled;
+	});
+
+	onDestroy(() => unsubscribe());
+
+	$: if (isEditionEnabled) {
 		initState();
 	}
 
-	$: if (editionMode === false) {
-		if (isNameDifferentFromDB) {
-			setStoredName(storedName);
-		}
-	}
-
-	function handleRenameSuccess(event: CustomEvent<Menu>) {
-		isSubmitted = true;
-		saveSuccessful = true;
-		setStoredName(event.detail.name);
-		isLoading = false;
-	}
-
-	function handleRenameError() {
-		isSubmitted = true;
-		saveSuccessful = false;
-		isLoading = false;
-	}
-
-	function handleSave() {
-		isLoading = true;
+	$: if (!isEditionEnabled && isNameDifferentFromDB) {
+		setStoredName(storedName);
 	}
 </script>
 
 <div class="tile" data-testid="menu">
 	<div class="tile__header flex">
 		<div class="tile__header-title">
-			
-			<MenuName bind:menu {editionMode} />
+			<MenuName bind:menu />
 		</div>
 		<div class="tile__header-actions">
-			{#if editionMode}
-				<MenuDeleteAction {menu} disabled={isLoading} />
+			{#if isEditionEnabled}
+				<MenuDeleteAction {menu} />
 			{:else}
 				<MiniButton tag="button" variant="secondary" disabled={true} dataTestId="temp">
 					<BookmarkSolidIcon />
@@ -87,20 +69,6 @@
 		<Nutrient value="120" label="Proteins" />
 		<Nutrient value="370" label="Carbs" />
 	</div>
-
-	<!-- {#if editionMode}
-		<MenuActionsFeedback status={saveSuccessful} display={isSubmitted} />
-		<div data-testid="actions" class="flex flex-row items-center gap-2">
-			<MenuRenameAction
-				{menu}
-				disabled={!isNameDifferentFromDB}
-				on:success={handleRenameSuccess}
-				on:error={handleRenameError}
-				on:save={handleSave}
-			/>
-			
-		</div>
-	{/if} -->
 </div>
 
 <style lang="scss">

@@ -1,31 +1,42 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
-	import { setContext } from 'svelte';
+	import { onDestroy } from 'svelte';
 	import MenuCreateAction from './components/MenuCreateAction.svelte';
 	import MenuTile from './components/MenuTile.svelte';
-	import type { ActionData } from './$types';
+	import { menuPageStore } from './stores/menu-store';
 
 	export let data;
 	export let form;
 
-	setContext<ActionData>('form', form);
+	console.log('form.action', form?.action);
 
-	let isEditionOn = true; // todo: move to a store
-	$: thereIsNoMenu = data.menus.length === 0;
+	let isEditionEnabled: boolean;
+
+	if (form?.action === 'renameMenu' && form.success) {
+		menuPageStore.setProperty('isEditionEnabled', true);
+	}
+
+	const unsubscribe = menuPageStore.subscribe((store) => {
+		isEditionEnabled = store.isEditionEnabled;
+	});
 
 	function toggleEditionMode(value?: boolean): void {
 		if (value !== undefined) {
-			isEditionOn = value;
+			isEditionEnabled = value;
 			return;
 		}
-		isEditionOn = !isEditionOn;
+		menuPageStore.setProperty('isEditionEnabled', !isEditionEnabled);
 	}
+
+	$: thereIsNoMenu = data.menus?.length === 0;
 
 	$: {
 		if (thereIsNoMenu) {
 			toggleEditionMode(false);
 		}
 	}
+
+	onDestroy(() => unsubscribe());
 </script>
 
 <div class="menu-page">
@@ -35,12 +46,12 @@
 		</div>
 
 		<div class="menu-page__actions">
-			{#if !isEditionOn}
+			{#if !isEditionEnabled}
 				<MenuCreateAction />
 			{/if}
 			<Button
 				variant="secondary"
-				label={isEditionOn ? 'Back' : 'Edit'}
+				label={isEditionEnabled ? 'Back' : 'Edit'}
 				dataTestId="toggle-edit"
 				on:click={() => toggleEditionMode()}
 			/>
@@ -51,7 +62,7 @@
 				<p class="my-4">You don't have any menu yet.</p>
 			{:else}
 				{#each data.menus as menu (menu.id)}
-					<MenuTile {menu} editionMode={isEditionOn} />
+					<MenuTile {menu} />
 				{/each}
 			{/if}
 		</div>

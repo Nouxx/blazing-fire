@@ -8,7 +8,6 @@
 	import MenuDeleteActionModal from './MenuDeleteActionModal.svelte';
 
 	export let menu: Menu;
-	export let disabled: boolean;
 
 	let formElement: HTMLFormElement;
 
@@ -47,7 +46,7 @@
 	};
 </script>
 
-<MiniButton tag="button" variant="secondary" dataTestId="delete" on:click={showModal} {disabled}>
+<MiniButton tag="button" variant="secondary" dataTestId="delete" on:click={showModal}>
 	<TrashIcon />
 </MiniButton>
 

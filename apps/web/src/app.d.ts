@@ -7,6 +7,7 @@ declare global {
 			message: string;
 			formData?: unknown;
 			name?: string;
+			code?: string;
 		}
 		interface Locals {
 			supabase: SupabaseClient<Database>;
@@ -16,6 +17,7 @@ declare global {
 		interface PageData {
 			session: Session | null;
 			user: User | null;
+			// src/routes/(app)/menus
 			menus?: {
 				name: string;
 			}[];

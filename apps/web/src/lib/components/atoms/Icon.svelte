@@ -4,12 +4,12 @@
 	export let variant: IconVariant;
 </script>
 
-<div class="wrapper wrapper__{variant}">
+<div class="icon icon__{variant}">
 	<slot />
 </div>
 
 <style lang="scss">
-	.wrapper {
+	.icon {
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -25,6 +25,18 @@
 		&__primary {
 			& > :global(svg) {
 				fill: var(--icon-color-primary);
+			}
+		}
+
+		&__success {
+			& > :global(svg) {
+				fill: var(--icon-color-success);
+			}
+		}
+
+		&__error {
+			& > :global(svg) {
+				fill: var(--icon-color-error);
 			}
 		}
 	}

@@ -25,7 +25,7 @@ $orange-sandy: #fca152;
 $orane-atomic-tangerine: #fd8949;
 $orange-crayola: #fe7040;
 
-$green: #5cb85c;
+$success: #5cb85c;
 $error: #ff3008;
 
 // colors style definition
@@ -76,6 +76,8 @@ $error: #ff3008;
 	--input-color-background-primary: #{$grey-platinium};
 	// icon
 	--icon-color-primary: #{$orange-sandy};
+	--icon-color-success: #{$success};
+	--icon-color-error: #{$error};
 	// shadow
 	--shadow-color: #{$black-o25};
 }

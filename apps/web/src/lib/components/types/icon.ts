@@ -1,1 +1,1 @@
-export type IconVariant = 'primary' | 'secondary';
+export type IconVariant = 'primary' | 'secondary' | 'success' | 'error';
