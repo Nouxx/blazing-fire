@@ -6,7 +6,7 @@
 	import Nutrient from './Nutrient.svelte';
 	import type { Menu } from '$lib/types/menu';
 	import { menuPageStore } from '../stores/menu-store';
-	import { getContext, onDestroy, setContext } from 'svelte';
+	import { onDestroy } from 'svelte';
 
 	export let menu: Menu;
 

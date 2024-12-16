@@ -73,3 +73,14 @@ export function createFormActionsFailureResponse<ActionsName, ResponseData>(
 ): ActionFailure<FormActionsFailureResponse<ActionsName, ResponseData>> {
 	return fail(status, response);
 }
+
+/**
+ * Returns a string value from a FormDataEntryValue.
+ * If the provided value is not a string or is null, returns an empty string.
+ *
+ * @param value - The `FormDataEntryValue` to extract the string from.
+ * @returns The string value if valid, or an empty string if the input is null or not a string.
+ */
+export function getString(value: FormDataEntryValue | null): string {
+	return typeof value === 'string' ? value : '';
+}

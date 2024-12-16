@@ -1,18 +1,15 @@
 import { error, type ActionFailure } from '@sveltejs/kit';
-
-import { getStringFromFormValue } from '$lib/forms/form-input';
-
-import type { Actions, PageServerLoad } from './$types';
 import {
 	createFormActionsFailureResponse,
 	createFormActionsSuccessResponse,
+	getString,
 	type FormActionsFailureResponse,
 	type FormActionsSuccessResponse
 } from '$lib/server/form';
-
-import type { Menu } from '$lib/types/menu';
 import { MenuService } from '$lib/server/services/menu.service';
 import { SupabaseMenuRepository } from '$lib/server/repositories/supabase/menus';
+import type { Actions, PageServerLoad } from './$types';
+import type { Menu } from '$lib/types/menu';
 
 export const load: PageServerLoad = async ({ parent, locals }) => {
 	await parent();
@@ -85,8 +82,8 @@ export const actions = {
 		}
 
 		const formData = await request.formData();
-		const name = getStringFromFormValue(formData.get('name'));
-		const menuId = getStringFromFormValue(formData.get('id'));
+		const name = getString(formData.get('name'));
+		const menuId = getString(formData.get('id'));
 
 		if (!name || !menuId) {
 			return createFormActionsFailureResponse(400, {
@@ -128,7 +125,7 @@ export const actions = {
 		}
 
 		const formData = await request.formData();
-		const menuId = getStringFromFormValue(formData.get('id'));
+		const menuId = getString(formData.get('id'));
 
 		if (!menuId) {
 			return createFormActionsFailureResponse(400, {
