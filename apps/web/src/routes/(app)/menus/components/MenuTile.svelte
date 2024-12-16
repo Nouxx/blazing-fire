@@ -1,12 +1,12 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import MenuName from './MenuName.svelte';
+	import Nutrient from './Nutrient.svelte';
 	import MenuDeleteAction from './MenuDeleteAction.svelte';
+	import { menuPageStore } from '../stores/menu-store';
 	import BookmarkSolidIcon from '$lib/components/icons/BookmarkSolidIcon.svelte';
 	import MiniButton from '$lib/components/MiniButton.svelte';
-	import Nutrient from './Nutrient.svelte';
 	import type { Menu } from '$lib/types/menu';
-	import { menuPageStore } from '../stores/menu-store';
-	import { onDestroy } from 'svelte';
 
 	export let menu: Menu;
 
@@ -88,10 +88,6 @@
 
 			&-title {
 				flex-grow: 1;
-			}
-
-			&-actions {
-				// width: 2rem;
 			}
 		}
 

@@ -5,7 +5,6 @@ declare global {
 	namespace App {
 		interface Error {
 			message: string;
-			formData?: unknown;
 			name?: string;
 			code?: string;
 		}
