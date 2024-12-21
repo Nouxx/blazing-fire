@@ -13,6 +13,9 @@
 	export let type: ButtonType = 'button';
 	export let disabled = false;
 	export let href: string | null = null;
+	export let shadow: boolean = false;
+
+	const shadowClass = shadow ? `button__${variant}--shadow` : '';
 
 	if (tag === 'a' && !href) {
 		console.error('"href" attribute is not defined in the Button component');
@@ -29,7 +32,7 @@
 
 {#if tag === 'button'}
 	<button
-		class="button button__{variant}"
+		class="button button__{variant} {shadowClass}"
 		{type}
 		on:click={handleClick}
 		{disabled}
@@ -84,6 +87,10 @@
 
 				&:disabled {
 					background: var(--button-color-background-disabled);
+				}
+
+				&--shadow {
+					filter: drop-shadow(var(--shadow-color) 0.25rem 0.25rem 10px);
 				}
 			}
 		}

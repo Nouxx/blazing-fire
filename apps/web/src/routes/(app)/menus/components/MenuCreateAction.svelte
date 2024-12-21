@@ -6,7 +6,7 @@
 	import type { SubmitFunction } from '../$types';
 
 	let isLoading = false;
-	let isSubmitted = false;
+	let isSubmitted = false; // todo: use form store instead
 	let isSubmissionOk = false;
 
 	const submitFunction: SubmitFunction = () => {
@@ -27,6 +27,7 @@
 		label="Create New Menu"
 		dataTestId="new-menu"
 		disabled={isLoading}
+		shadow
 	/>
 </form>
 

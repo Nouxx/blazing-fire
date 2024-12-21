@@ -8,8 +8,6 @@
 	export let data;
 	export let form;
 
-	console.log('form.action', form?.action);
-
 	let isEditionEnabled: boolean;
 
 	if (form?.action === 'renameMenu' && form.success) {
@@ -22,7 +20,7 @@
 
 	function toggleEditionMode(value?: boolean): void {
 		if (value !== undefined) {
-			isEditionEnabled = value;
+			menuPageStore.setProperty('isEditionEnabled', value);
 			return;
 		}
 		menuPageStore.setProperty('isEditionEnabled', !isEditionEnabled);
@@ -53,6 +51,7 @@
 				variant="secondary"
 				label={isEditionEnabled ? 'Back' : 'Edit'}
 				dataTestId="toggle-edit"
+				shadow
 				on:click={() => toggleEditionMode()}
 			/>
 		</div>
