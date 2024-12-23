@@ -1,0 +1,62 @@
+@font-face {
+	font-family: 'Inter';
+	font-weight: 700;
+	src: local('Inter Bold') url('/fonts/Inter_18pt-Bold.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-weight: 500;
+	src: url('/fonts/Inter_18pt-Medium.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-weight: 400;
+	src: url('/fonts/Inter_18pt-Regular.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-weight: 600;
+	src: url('/fonts/Inter_18pt-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-weight: 300;
+	src: url('/fonts/Inter_18pt-Light.woff2') format('woff2');
+}
+
+@mixin font-heading {
+	font-family: 'Inter', sans-serif;
+	font-weight: 700;
+	font-size: 32px;
+}
+
+@mixin font-sub-heading {
+	font-family: 'Inter';
+	font-weight: 500;
+	font-size: 20px;
+}
+
+@mixin font-body {
+	font-family: 'Inter';
+	font-weight: 400;
+	font-size: 18px;
+}
+
+@mixin font-button {
+	font-family: 'Inter';
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 1rem;
+}
+
+@mixin font-small {
+	font-family: 'Inter';
+	font-weight: 300;
+	font-size: 14px;
+}
+
+// todo: refactor

@@ -69,6 +69,8 @@
 </div>
 
 <style lang="scss">
+	@use '../../../style' as *;
+
 	.menu-page {
 		display: flex;
 		flex-direction: column;
@@ -109,9 +111,7 @@
 			display: flex;
 			flex: 1 1 auto;
 
-			font-size: 1.875rem;
-			line-height: 2.25rem;
-			font-weight: 700;
+			@include font-heading;
 		}
 
 		&__actions {

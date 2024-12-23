@@ -43,6 +43,8 @@
 {/if}
 
 <style lang="scss">
+	@use '../../style' as *;
+
 	$button-variants: (
 		primary: (
 			background: var(--button-color-background-primary),
@@ -70,9 +72,8 @@
 		height: 2rem;
 		width: fit-content;
 
-		font-size: 1rem;
-		line-height: 1rem;
 		text-align: center;
+		@include font-button;
 
 		border-radius: 0.375rem;
 
