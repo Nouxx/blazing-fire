@@ -19,6 +19,5 @@
 <style lang="scss">
 	:global(body) {
 		background: var(--color-background-primary);
-		color: var(--color-font-primary);
 	}
 </style>

@@ -62,6 +62,8 @@
 </div>
 
 <style lang="scss">
+	@use '../../../../style' as *;
+
 	.menu {
 		&__name {
 			display: flex;
@@ -73,9 +75,7 @@
 			height: 2rem;
 
 			&--read-only {
-				font-size: 1.15rem;
-				line-height: 2.25rem;
-				font-weight: 700;
+				@include font-sub-heading;
 			}
 		}
 	}

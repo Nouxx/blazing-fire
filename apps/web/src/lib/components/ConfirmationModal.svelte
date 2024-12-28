@@ -65,7 +65,7 @@
 				font-size: 0.875rem;
 				line-height: 1.25rem;
 				font-style: italic;
-				color: var(--color-error);
+				color: var(--color-font-error);
 				padding: .5rem; 
 			}
 		}

@@ -1,3 +1,22 @@
+@use 'style/fonts';
+@use 'style/colors/colors';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+	@include fonts.font-body;
+}
+
+:root body.light {
+	@each $name, $value in colors.$light {
+		--#{$name}: #{$value};
+	}
+}
+
+:root body.dark {
+	@each $name, $value in colors.$dark {
+		--#{$name}: #{$value};
+	}
+}
