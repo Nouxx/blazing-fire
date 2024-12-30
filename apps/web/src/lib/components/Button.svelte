@@ -64,16 +64,18 @@
 	);
 
 	.button {
-		padding-top: 0.5rem;
-		padding-bottom: 0.5rem;
-		padding-left: 1rem;
-		padding-right: 1rem;
+		padding-top: $spacing-8;
+		padding-bottom: $spacing-8;
+		padding-left: $spacing-16;
+		padding-right: $spacing-16;
 
-		height: 2rem;
+		height: $spacing-36;
 		width: fit-content;
 
 		text-align: center;
+
 		@include font-button;
+		line-height: $spacing-16;
 
 		border-radius: 0.375rem;
 
@@ -91,7 +93,7 @@
 				}
 
 				&--shadow {
-					filter: drop-shadow(var(--shadow-color) 0.25rem 0.25rem 10px);
+					box-shadow: 0 0.125rem 0.125rem rgba(0, 0, 0, 0.25);
 				}
 			}
 		}

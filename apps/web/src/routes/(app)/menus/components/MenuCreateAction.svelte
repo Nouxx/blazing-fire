@@ -24,7 +24,7 @@
 	<Button
 		variant="primary"
 		type="submit"
-		label="Create New Menu"
+		label="Create a new menu"
 		dataTestId="new-menu"
 		disabled={isLoading}
 		shadow

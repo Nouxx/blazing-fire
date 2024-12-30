@@ -41,7 +41,7 @@ $light: (
 	'icon-color-success': $success,
 	'icon-color-error': $error,
 	// shadow
-	'shadow-color': $black-o25
+	'shadow-color': $transparent-black
 );
 
 $dark: (
@@ -85,5 +85,5 @@ $dark: (
 	'icon-color-success': $success,
 	'icon-color-error': $error,
 	// shadow
-	'shadow-color': $black-o25
+	'shadow-color': $transparent-black,
 );
