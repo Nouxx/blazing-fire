@@ -56,7 +56,7 @@
 			{#if isEditionEnabled}
 				<MenuDeleteAction {menu} />
 			{:else}
-				<MiniButton tag="button" variant="secondary" disabled={true} dataTestId="temp">
+				<MiniButton tag="button" variant="neutral-secondary" disabled={true} dataTestId="temp">
 					<BookmarkSolidIcon />
 				</MiniButton>
 			{/if}
@@ -80,7 +80,7 @@
 		border-radius: 0.5rem;
 		padding: 1rem;
 
-		filter: drop-shadow(var(--shadow-color) 0.25rem 0.25rem 10px);
+		box-shadow: 0 0.125rem 0.125rem var(--shadow-color);
 
 		&__header {
 			display: flex;

@@ -93,7 +93,7 @@
 				}
 
 				&--shadow {
-					box-shadow: 0 0.125rem 0.125rem rgba(0, 0, 0, 0.25);
+					box-shadow: 0 0.125rem 0.125rem var(--shadow-color);
 				}
 			}
 		}

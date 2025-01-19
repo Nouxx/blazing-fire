@@ -51,6 +51,24 @@
 			background-hover: var(--mini-button-color-background-secondary-hover),
 			content: var(--mini-button-color-content-secondary),
 			content-hover: var(--mini-button-color-content-secondary-hover)
+		),
+		tertiary: (
+			background: var(--mini-button-color-background-tertiary),
+			background-hover: var(--mini-button-color-background-tertiary-hover),
+			content: var(--mini-button-color-content-tertiary),
+			content-hover: var(--mini-button-color-content-tertiary-hover)
+		),
+		neutral-primary: (
+			background: var(--button-color-background-neutral-primary),
+			background-hover: var(--button-color-background-neutral-primary-hover),
+			content: var(--button-color-content-neutral-primary),
+			content-hover: var(--button-color-content-neutral-primary-hover)
+		),
+		neutral-secondary: (
+			background: var(--button-color-background-neutral-secondary),
+			background-hover: var(--button-color-background-neutral-secondary-hover),
+			content: var(--button-color-content-neutral-secondary),
+			content-hover: var(--button-color-content-neutral-secondary-hover)
 		)
 	);
 

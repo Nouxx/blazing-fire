@@ -1,4 +1,9 @@
-export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
+export type ButtonVariant =
+	| 'primary'
+	| 'secondary'
+	| 'tertiary'
+	| 'neutral-primary'
+	| 'neutral-secondary';
 
 export type ButtonTag = 'a' | 'button';
 
