@@ -15,7 +15,7 @@
 		{/if}
 		<div class="modal__actions">
 			<Button
-				variant="primary"
+				variant="secondary"
 				label={modal.closeLabel}
 				type="button"
 				on:click={modal.onClose}
@@ -24,7 +24,7 @@
 			/>
 			<Button
 				type="button"
-				variant="primary"
+				variant="tertiary"
 				label={modal.confirmLabel}
 				disabled={modal.disabled}
 				on:click={modal.onConfirm}
@@ -35,6 +35,8 @@
 </div>
 
 <style lang="scss">
+	@use '../../style' as *;
+
 	.modal {
 		&__overlay {
 			position: fixed;
@@ -53,20 +55,25 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			border-radius: 0.5rem;
+
 			background: var(--color-background-tertiary);
 			color: var(--color-font-primary);
+
+			max-width: 25rem;
+
+			border-radius: 0.5rem;
 			filter: drop-shadow(var(--shadow-color) 0.25rem 0.25rem 10px);
 		}
 
 		&__message {
-			padding: 1.25rem;
+			padding: $spacing-24 $spacing-48;
+
 			&--error {
 				font-size: 0.875rem;
 				line-height: 1.25rem;
 				font-style: italic;
 				color: var(--color-font-error);
-				padding: .5rem; 
+				padding: 0.5rem;
 			}
 		}
 
@@ -75,7 +82,7 @@
 			flex-direction: row;
 			justify-content: center;
 			gap: 1rem;
-			background: var(--color-background-FORTH);
+			background: var(--color-background-quaternary);
 			width: 100%;
 			padding: 1.25rem;
 			border-bottom-left-radius: 0.5rem;

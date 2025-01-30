@@ -48,7 +48,7 @@
 </script>
 
 <div class="tile" data-testid="menu">
-	<div class="tile__header flex">
+	<div class="tile__header">
 		<div class="tile__header-title">
 			<MenuName bind:menu />
 		</div>
@@ -72,6 +72,8 @@
 </div>
 
 <style lang="scss">
+	@use '../../../../style' as *;
+
 	.tile {
 		display: flex;
 		flex-direction: column;
@@ -85,6 +87,8 @@
 		&__header {
 			display: flex;
 			flex-direction: row;
+			align-items: center;
+			gap: $spacing-8;
 
 			&-title {
 				flex-grow: 1;

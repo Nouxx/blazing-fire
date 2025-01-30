@@ -10,8 +10,14 @@
 	export let value: string;
 	export let disabled: boolean;
 	export let name: string;
-	export let state: TextInputState | undefined = undefined;
 	export let charactersLimit: number | undefined = undefined;
+
+	export function setState(newState: TextInputState) {
+		state = newState;
+	}
+
+	let state: TextInputState = undefined;
+	let showSuccess: boolean;
 
 	$: {
 		if (charactersLimit && charactersLimit > 0) {
@@ -21,29 +27,20 @@
 		}
 	}
 
-	let showSuccess: boolean;
-
-	if (state === 'success') {
-		showSuccess = true;
-	}
-
 	$: {
-		if (showSuccess) {
+		if (state === 'success') {
+			showSuccess = true;
 			setTimeout(() => (showSuccess = false), 1000);
 		}
 	}
 
 	interface TextInputEvents {
-		input: string;
 		focusIn: null;
 		focusOut: null;
 	}
 
 	const dispatch = createEventDispatcher<TextInputEvents>();
 
-	function handleInput() {
-		dispatch('input', value);
-	}
 	function handleFocusIn() {
 		dispatch('focusIn');
 	}
@@ -60,15 +57,16 @@
 		bind:value
 		autocomplete="off"
 		{disabled}
-		on:input={handleInput}
 		on:focusin={handleFocusIn}
 		on:focusout={handleFocusOut}
 	/>
+
 	{#if state == 'loading'}
 		<div class="input__feedback">
 			<LoadingSpinner variant="primary" />
 		</div>
 	{/if}
+
 	{#if state == 'error'}
 		<div class="input__feedback">
 			<Icon variant="error">
@@ -76,6 +74,7 @@
 			</Icon>
 		</div>
 	{/if}
+
 	{#if state == 'success' && showSuccess}
 		<div class="input__feedback" transition:fade>
 			<Icon variant="success">
@@ -83,6 +82,7 @@
 			</Icon>
 		</div>
 	{/if}
+
 	{#if charactersLimit}
 		<p class="input__counter">{value.length}/{charactersLimit}</p>
 	{/if}
@@ -94,8 +94,7 @@
 		flex-direction: row;
 		gap: 0.5rem;
 		padding: 0.5rem;
-		height: 40px;
-		width: 300px;
+		height: 2.625rem;
 
 		border-radius: 8px;
 		background-color: var(--input-color-background-primary);

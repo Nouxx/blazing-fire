@@ -93,10 +93,13 @@ export const actions = {
 			});
 		}
 
-		// // fake error
-		// await new Promise((resolve) => setTimeout(resolve, 1000));
-		// return fail(400, {
-		// 	error: { message: 'Fake error' },
+		// fake delay
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+
+		// fake error
+		// return createFormActionsFailureResponse(400, {
+		// 	action: 'renameMenu',
+		// 	error: { message: 'Missing inputs' },
 		// 	data: { name, id: Number(menuId) }
 		// });
 

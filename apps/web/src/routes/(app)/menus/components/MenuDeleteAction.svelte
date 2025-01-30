@@ -20,7 +20,7 @@
 				props: { menu }
 			},
 			confirmLabel: 'Delete',
-			closeLabel: 'Cancel',
+			closeLabel: 'Dismiss',
 			disabled: false,
 			onClose: () => modalStore.close(),
 			onConfirm: () => submitForm()
@@ -39,8 +39,8 @@
 				modalStore.close();
 			} else {
 				modalStore.setProperty('error', ERROR_LABEL);
+				modalStore.setProperty('disabled', false);
 			}
-			modalStore.setProperty('disabled', false);
 			update();
 		};
 	};

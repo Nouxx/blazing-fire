@@ -121,7 +121,7 @@
 			display: flex;
 			flex-direction: row;
 			justify-content: end;
-			gap: $spacing-16;
+			gap: $spacing-8;
 		}
 
 		&__menus {

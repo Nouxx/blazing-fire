@@ -12,8 +12,13 @@
 <style lang="scss">
 	.content {
 		display: flex;
+		text-align: center;
 		flex-direction: column;
 		align-items: center;
 		gap: 1rem;
+
+		* {
+			text-align: center;
+		}
 	}
 </style>
