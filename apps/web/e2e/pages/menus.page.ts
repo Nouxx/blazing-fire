@@ -30,7 +30,8 @@ export class MenusPage {
 	}
 
 	async saveNthMenu(nth: number) {
-		await this.nthMenu(nth).getByTestId('save').click();
+		// click on the menu tile to lose focus on the input
+		await this.nthMenu(nth).click();
 	}
 
 	async createMenu() {

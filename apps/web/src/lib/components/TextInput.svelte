@@ -11,6 +11,7 @@
 	export let disabled: boolean;
 	export let name: string;
 	export let charactersLimit: number | undefined = undefined;
+	export let dataTestId: string | undefined = undefined;
 
 	export function setState(newState: TextInputState) {
 		state = newState;
@@ -59,6 +60,7 @@
 		{disabled}
 		on:focusin={handleFocusIn}
 		on:focusout={handleFocusOut}
+		data-testid={dataTestId}
 	/>
 
 	{#if state == 'loading'}

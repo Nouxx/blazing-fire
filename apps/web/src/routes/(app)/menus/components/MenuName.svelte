@@ -64,6 +64,7 @@
 				on:focusOut={submitForm}
 				charactersLimit={40}
 				disabled={false}
+				dataTestId="name-input"
 			/>
 		</form>
 	{:else}
