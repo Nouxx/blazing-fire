@@ -9,16 +9,11 @@
 	import type { Menu } from '$lib/types/menu';
 
 	export let menu: Menu;
-
-	let isSubmitted: boolean;
-	let saveSuccessful: boolean;
 	let storedName: string;
 
 	$: isNameDifferentFromDB = menu.name !== storedName;
 
 	function initState() {
-		isSubmitted = false;
-		saveSuccessful = false;
 		setStoredName(menu.name);
 	}
 
