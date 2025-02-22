@@ -69,6 +69,7 @@
 			padding: $spacing-24 $spacing-48;
 
 			&--error {
+				text-align: center;
 				font-size: 0.875rem;
 				line-height: 1.25rem;
 				font-style: italic;
