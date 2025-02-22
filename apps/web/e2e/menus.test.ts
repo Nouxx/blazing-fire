@@ -52,9 +52,8 @@ test.afterEach(async () => {
 	await clearDataForTest();
 });
 
-test('Create menus', async ({ page }) => {
-	const TEST_ID = 'create-menus';
-	const sh = new SnapshotHandler(TEST_ID);
+test.only('Create menus', async ({ page }) => {
+	const sh = new SnapshotHandler('create-menus');
 	const SNAP_TWO_MENUS = 'Two menus displayed with edition mode off';
 	const SNAP_THREE_MENUS = 'Three menus displayed with edition mode off';
 

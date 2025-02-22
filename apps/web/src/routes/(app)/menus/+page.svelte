@@ -37,7 +37,7 @@
 	onDestroy(() => unsubscribe());
 </script>
 
-<div class="menu-page">
+<div class="menu-page" data-testid="menu-page">
 	<div class="menu-page__content">
 		<div class="menu-page__header">
 			<h1 class="menu-page__title">My Menus</h1>
