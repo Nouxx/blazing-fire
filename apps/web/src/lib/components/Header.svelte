@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { routes } from '$lib/const/routes';
 	import Logo from '$lib/components/icons/LogoIcon.svelte';
-	import ButtonV2 from './MiniButton.svelte';
+	import MiniButton from './MiniButton.svelte';
 	import MoonIcon from '$lib/components/icons/MoonIcon.svelte';
 	import SunIcon from '$lib/components/icons/SunIcon.svelte';
 	import UserIcon from '$lib/components/icons/UserIcon.svelte';
@@ -27,20 +27,20 @@
 	</div>
 
 	<div class="header__actions" data-testid="navigation">
-		<ButtonV2 tag="button" variant="secondary" on:click={toggleTheme} dataTestId="toggle-mode">
+		<MiniButton tag="button" variant="primary" on:click={toggleTheme} dataTestId="toggle-mode">
 			{#if theme === 'light'}
 				<MoonIcon />
 			{/if}
 			{#if theme === 'dark'}
 				<SunIcon />
 			{/if}
-		</ButtonV2>
-		<ButtonV2 tag="a" variant="secondary" href={routes.home} dataTestId="go-to-home">
+		</MiniButton>
+		<MiniButton tag="a" variant="primary" href={routes.home} dataTestId="go-to-home">
 			<HomeIcon />
-		</ButtonV2>
-		<ButtonV2 tag="a" variant="secondary" href={routes.account} dataTestId="go-to-account">
+		</MiniButton>
+		<MiniButton tag="a" variant="primary" href={routes.account} dataTestId="go-to-account">
 			<UserIcon />
-		</ButtonV2>
+		</MiniButton>
 	</div>
 </div>
 
@@ -78,7 +78,6 @@
 			align-items: center;
 
 			gap: 0.5rem;
-			height: 2rem;
 		}
 	}
 </style>

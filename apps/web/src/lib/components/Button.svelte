@@ -13,6 +13,9 @@
 	export let type: ButtonType = 'button';
 	export let disabled = false;
 	export let href: string | null = null;
+	export let shadow: boolean = false;
+
+	const shadowClass = shadow ? `button__${variant}--shadow` : '';
 
 	if (tag === 'a' && !href) {
 		console.error('"href" attribute is not defined in the Button component');
@@ -29,7 +32,7 @@
 
 {#if tag === 'button'}
 	<button
-		class="button button__{variant}"
+		class="button button__{variant} {shadowClass}"
 		{type}
 		on:click={handleClick}
 		{disabled}
@@ -40,32 +43,58 @@
 {/if}
 
 <style lang="scss">
-	.button {
-		padding-top: 0.5rem;
-		padding-bottom: 0.5rem;
-		padding-left: 1rem;
-		padding-right: 1rem;
+	@use '../../style' as *;
 
-		height: 2rem;
+	$button-variants: (
+		primary: (
+			background: var(--button-color-background-primary),
+			content: var(--button-color-content-primary),
+			hover: var(--button-color-background-primary-hover)
+		),
+		secondary: (
+			background: var(--button-color-background-secondary),
+			content: var(--button-color-content-secondary),
+			hover: var(--button-color-background-secondary-hover)
+		),
+		tertiary: (
+			background: var(--button-color-background-tertiary),
+			content: var(--button-color-content-tertiary),
+			hover: var(--button-color-background-tertiary-hover)
+		)
+	);
+
+	.button {
+		padding-top: $spacing-8;
+		padding-bottom: $spacing-8;
+		padding-left: $spacing-16;
+		padding-right: $spacing-16;
+
+		height: $spacing-36;
 		width: fit-content;
 
-		font-size: 1rem;
-		line-height: 1rem;
 		text-align: center;
+
+		@include font-button;
+		line-height: $spacing-16;
 
 		border-radius: 0.375rem;
 
-		&__primary {
-			background: var(--button-color-background-primary);
-			color: var(--button-content-color-primary);
+		@each $variant, $properties in $button-variants {
+			&__#{$variant} {
+				background: map-get($properties, background);
+				color: map-get($properties, content);
 
-			&:hover {
-				background: var(--button-color-background-primary-hover);
-				color: var(--button-content-color-primary-hover);
-			}
+				&:hover {
+					background: map-get($properties, hover);
+				}
 
-			&:disabled {
-				background-color: var(--color-background-tertiary);
+				&:disabled {
+					background: var(--button-color-background-disabled);
+				}
+
+				&--shadow {
+					box-shadow: 0 0.125rem 0.125rem var(--shadow-color);
+				}
 			}
 		}
 	}

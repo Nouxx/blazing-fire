@@ -259,7 +259,7 @@ services:
 
   test:
     container_name: playwright-test-runner
-    image: mcr.microsoft.com/playwright:v1.41.1-jammy
+    image: mcr.microsoft.com/playwright:v1.50.1-jammy
     profiles: [test]
     ipc: host
     init: true

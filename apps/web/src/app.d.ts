@@ -6,7 +6,7 @@ declare global {
 		interface Error {
 			message: string;
 			name?: string;
-			code?: string; // todo: enum
+			code?: string;
 		}
 		interface Locals {
 			supabase: SupabaseClient<Database>;

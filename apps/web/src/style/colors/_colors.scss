@@ -1,0 +1,108 @@
+@use './palette' as *;
+
+$light: (
+	// header
+	'header-color-background': $white,
+	'header-color-border': $orange-sandy,
+	// button
+	// button primary
+	'button-color-background-primary': $orange-sandy,
+	'button-color-background-primary-hover': $orange-sandy-light,
+	'button-color-content-primary': $white,
+	'button-color-content-primary-hover': $white,
+	// button secondary
+	'button-color-background-secondary': $blue-prussian,
+	'button-color-background-secondary-hover': $blue-yale,
+	'button-color-content-secondary': $white,
+	'button-color-content-secondary-hover': $white,
+	// button tertiary
+	'button-color-background-tertiary': $orange-crayola,
+	'button-color-background-tertiary-hover': $orane-atomic-tangerine,
+	'button-color-content-tertiary': $white,
+	'button-color-content-tertiary-hover': $white,
+	// button neutral-primary
+	'button-color-background-neutral-primary': $white,
+	'button-color-background-neutral-primary-hover': $white-anti-flash,
+	'button-color-content-neutral-primary': $blue-prussian,
+	'button-color-content-neutral-primary-hover': $blue-oxford,
+	// button neutral-secondary
+	'button-color-background-neutral-secondary': $grey-platinium,
+	'button-color-background-neutral-secondary-hover': $white-anti-flash,
+	'button-color-content-neutral-secondary': $blue-prussian,
+	'button-color-content-neutral-secondary-hover': $blue-oxford,
+	// button disabled
+	'button-color-background-disabled': $grey-disabled,
+	'button-color-background-disabled-hover': $grey-disabled,
+	'button-color-content-disabled': $white,
+	'button-color-content-disabled-hover': $white,
+	// mini button
+	'mini-button-color-background-primary': $white,
+	'mini-button-color-background-primary-hover': $white-anti-flash,
+	'mini-button-color-content-primary': $blue-prussian,
+	'mini-button-color-content-primary-hover': $black,
+	'mini-button-color-background-secondary': $white-anti-flash,
+	'mini-button-color-background-secondary-hover': $grey-platinium,
+	'mini-button-color-content-secondary': $blue-prussian,
+	'mini-button-color-content-secondary-hover': $black,
+	'mini-button-color-content-disabled': $grey-disabled,
+	// background
+	'color-background-primary': $white,
+	'color-background-secondary': $white-smoke,
+	'color-background-tertiary': $white-anti-flash,
+	'color-background-quaternary': $grey-platinium,
+	// font
+	'color-font-primary': $black,
+	'color-font-error': $error,
+	// input
+	'input-color-background-primary': $grey-platinium,
+	// icon
+	'icon-color-primary': $orange-sandy,
+	'icon-color-success': $success,
+	'icon-color-error': $error,
+	// shadow
+	'shadow-color': $transparent-black
+);
+
+$dark: (
+	// header
+	'header-color-background': $blue-prussian,
+	'header-color-border': $orange-crayola,
+	// button
+	'button-color-background-primary': $orange-sandy,
+	'button-color-background-primary-hover': $orange-crayola,
+	'button-color-content-primary': $white,
+	'button-color-background-secondary': $blue-prussian,
+	'button-color-background-secondary-hover': $blue-yale,
+	'button-color-content-secondary': $white-anti-flash,
+	'button-color-background-tertiary': $orange-crayola,
+	'button-color-background-tertiary-hover': $orane-atomic-tangerine,
+	'button-color-content-tertiary': $white,
+	'button-color-background-disabled': $grey-disabled,
+	'button-color-content-disabled': $white,
+	// mini button
+	'mini-button-color-background-primary': $blue-prussian,
+	'mini-button-color-background-primary-hover': $blue-yale,
+	'mini-button-color-content-primary': $white,
+	'mini-button-color-content-primary-hover': $white-smoke,
+	'mini-button-color-background-secondary': $blue-yale,
+	'mini-button-color-background-secondary-hover': $blue-prussian,
+	'mini-button-color-content-secondary': $white,
+	'mini-button-color-content-secondary-hover': $white-smoke,
+	'mini-button-color-content-disabled': $grey-disabled,
+	// background
+	'color-background-primary': $black,
+	'color-background-secondary': $blue-oxford,
+	'color-background-tertiary': $blue-prussian,
+	'color-background-quaternary': $blue-yale,
+	// font
+	'color-font-primary': $white,
+	'color-font-error': $error,
+	// input
+	'input-color-background-primary': $blue-prussian,
+	// icon
+	'icon-color-primary': $orange-sandy,
+	'icon-color-success': $success,
+	'icon-color-error': $error,
+	// shadow
+	'shadow-color': $transparent-black
+);

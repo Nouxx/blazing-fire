@@ -1,5 +1,7 @@
 <script lang="ts">
+	import ConfirmationModal from '$lib/components/ConfirmationModal.svelte';
 	import '../app.scss';
+	import { modalStore } from '$lib/stores/modalStore';
 </script>
 
 <noscript>
@@ -8,11 +10,14 @@
 	</div>
 </noscript>
 
+{#if $modalStore}
+	<ConfirmationModal modal={$modalStore} />
+{/if}
+
 <slot />
 
 <style lang="scss">
 	:global(body) {
 		background: var(--color-background-primary);
-		color: var(--color-font-primary);
 	}
 </style>

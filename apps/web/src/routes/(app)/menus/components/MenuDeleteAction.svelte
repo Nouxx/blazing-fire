@@ -1,56 +1,55 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import Button from '$lib/components/Button.svelte';
-	import ConfirmationModal from '$lib/components/ConfirmationModal.svelte';
-
+	import { modalStore, type Modal } from '$lib/stores/modalStore';
+	import TrashIcon from '$lib/components/icons/TrashIcon.svelte';
+	import MiniButton from '$lib/components/MiniButton.svelte';
 	import type { Menu } from '$lib/types/menu';
 	import type { SubmitFunction } from '../$types';
+	import MenuDeleteActionModal from './MenuDeleteActionModal.svelte';
 
 	export let menu: Menu;
-	export let disabled: boolean;
+
+	let formElement: HTMLFormElement;
 
 	const ERROR_LABEL = 'Whoops! We cannot delete the menu. Please try again later.';
-	const MODAL_MESSAGE = `Are you sure you want to delete the menu "${menu.name}"?`;
-
-	let isModalDisplayed = false;
-	let isLoading = false;
-	let error: string | undefined = undefined;
 
 	function showModal() {
-		isModalDisplayed = true;
+		const modal: Modal = {
+			content: {
+				component: MenuDeleteActionModal,
+				props: { menu }
+			},
+			confirmLabel: 'Delete',
+			closeLabel: 'Dismiss',
+			disabled: false,
+			onClose: () => modalStore.close(),
+			onConfirm: () => submitForm()
+		};
+		modalStore.open(modal);
 	}
 
-	function hideModal() {
-		isModalDisplayed = false;
+	function submitForm() {
+		formElement.requestSubmit();
 	}
 
 	const submitFunction: SubmitFunction = () => {
-		isLoading = true;
+		modalStore.setProperty('disabled', true);
 		return async ({ result, update }) => {
 			if (result.type === 'success') {
-				error = undefined;
-				hideModal();
+				modalStore.close();
 			} else {
-				error = ERROR_LABEL;
+				modalStore.setProperty('error', ERROR_LABEL);
+				modalStore.setProperty('disabled', false);
 			}
-			isLoading = false;
 			update();
 		};
 	};
 </script>
 
-<Button variant="primary" label="Delete" dataTestId="delete" on:click={showModal} {disabled} />
+<MiniButton tag="button" variant="secondary" dataTestId="delete" on:click={showModal}>
+	<TrashIcon />
+</MiniButton>
 
-{#if isModalDisplayed}
-	<form method="post" action="?/deleteMenu" use:enhance={submitFunction}>
-		<input type="hidden" name="id" value={menu.id} />
-		<ConfirmationModal
-			message={MODAL_MESSAGE}
-			confirmLabel="Confirm"
-			closeLabel="Cancel"
-			disabled={isLoading}
-			{error}
-			on:close={hideModal}
-		/>
-	</form>
-{/if}
+<form bind:this={formElement} method="post" action="?/deleteMenu" use:enhance={submitFunction}>
+	<input type="hidden" name="id" value={menu.id} />
+</form>

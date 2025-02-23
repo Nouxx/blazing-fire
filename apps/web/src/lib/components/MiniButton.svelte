@@ -10,6 +10,7 @@
 	export let variant: ButtonVariant;
 	export let dataTestId: string;
 	export let href: string | null = null;
+	export let disabled: boolean = false;
 
 	if (tag === 'a' && !href) {
 		console.error('"href" attribute is not defined in the MiniButton component');
@@ -21,37 +22,62 @@
 </script>
 
 {#if tag === 'button'}
-	<button class="button {variant}" on:click={handleClick} data-testid={dataTestId}>
+	<button
+		class="mini-button mini-button__{variant}"
+		on:click={handleClick}
+		data-testid={dataTestId}
+		{disabled}
+	>
 		<slot />
 	</button>
 {/if}
 
 {#if tag === 'a'}
-	<a {href} class="button {variant}" data-testid={dataTestId}>
+	<a {href} class="mini-button mini-button__{variant}" data-testid={dataTestId}>
 		<slot />
 	</a>
 {/if}
 
 <style lang="scss">
-	.button {
+	$button-variants: (
+		primary: (
+			background: var(--mini-button-color-background-primary),
+			background-hover: var(--mini-button-color-background-primary-hover),
+			content: var(--mini-button-color-content-primary),
+			content-hover: var(--mini-button-color-content-primary-hover)
+		),
+		secondary: (
+			background: var(--mini-button-color-background-secondary),
+			background-hover: var(--mini-button-color-background-secondary-hover),
+			content: var(--mini-button-color-content-secondary),
+			content-hover: var(--mini-button-color-content-secondary-hover)
+		),
+		tertiary: (
+			background: var(--mini-button-color-background-tertiary),
+			background-hover: var(--mini-button-color-background-tertiary-hover),
+			content: var(--mini-button-color-content-tertiary),
+			content-hover: var(--mini-button-color-content-tertiary-hover)
+		),
+		neutral-primary: (
+			background: var(--button-color-background-neutral-primary),
+			background-hover: var(--button-color-background-neutral-primary-hover),
+			content: var(--button-color-content-neutral-primary),
+			content-hover: var(--button-color-content-neutral-primary-hover)
+		),
+		neutral-secondary: (
+			background: var(--button-color-background-neutral-secondary),
+			background-hover: var(--button-color-background-neutral-secondary-hover),
+			content: var(--button-color-content-neutral-secondary),
+			content-hover: var(--button-color-content-neutral-secondary-hover)
+		)
+	);
+
+	.mini-button {
+		display: flex;
 		height: 2rem;
 		width: 2rem;
 		border-radius: 0.375rem;
 		padding: 0.375rem;
-
-		&.primary {
-			background: var(--button-color-background-primary);
-			& > :global(svg) {
-				fill: var(--button-content-color-primary);
-			}
-		}
-
-		&.secondary {
-			background: var(--button-color-background-secondary);
-			& > :global(svg) {
-				fill: var(--button-content-color-secondary);
-			}
-		}
 
 		& > :global(svg) {
 			display: block;
@@ -60,19 +86,31 @@
 			width: 100%;
 		}
 
-		&:hover {
-			&.primary {
-				background: var(--button-color-background-primary-hover);
+		@each $variant, $properties in $button-variants {
+			&__#{$variant} {
+				background: map-get($properties, background);
+
 				& > :global(svg) {
-					fill: var(--button-content-color-primary-hover);
+					fill: map-get($properties, content);
+				}
+
+				&:hover {
+					background: map-get($properties, background-hover);
+
+					& > :global(svg) {
+						fill: map-get($properties, content-hover);
+					}
+				}
+
+				&:disabled {
+					background: map-get($properties, background-hover);
 				}
 			}
+		}
 
-			&.secondary {
-				background: var(--button-color-background-secondary-hover);
-				& > :global(svg) {
-					fill: var(--button-content-color-secondary-hover);
-				}
+		&:disabled {
+			& > :global(svg) {
+				fill: var(--mini-button-color-content-disabled);
 			}
 		}
 	}

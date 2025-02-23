@@ -1,92 +1,97 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import MenuName from './MenuName.svelte';
-	import MenuActionsFeedback from './MenuActionsFeedback.svelte';
+	import Nutrient from './Nutrient.svelte';
 	import MenuDeleteAction from './MenuDeleteAction.svelte';
-	import MenuRenameAction from './MenuRenameAction.svelte';
-
+	import { menuPageStore } from '../stores/menu-store';
+	import BookmarkSolidIcon from '$lib/components/icons/BookmarkSolidIcon.svelte';
+	import MiniButton from '$lib/components/MiniButton.svelte';
 	import type { Menu } from '$lib/types/menu';
 
 	export let menu: Menu;
-	export let editionMode: boolean;
-
-	let isSubmitted: boolean;
-	let saveSuccessful: boolean;
-	let isLoading: boolean;
-	/** the value currently stored in the data source (DB) */
 	let storedName: string;
 
 	$: isNameDifferentFromDB = menu.name !== storedName;
 
 	function initState() {
-		isSubmitted = false;
-		saveSuccessful = false;
 		setStoredName(menu.name);
-		isLoading = false;
 	}
 
 	function setStoredName(name: string) {
 		storedName = name;
 		menu.name = name;
-		isNameDifferentFromDB = false;
 	}
 
 	initState();
 
-	$: if (editionMode === true) {
+	let isEditionEnabled: boolean;
+
+	const unsubscribe = menuPageStore.subscribe((store) => {
+		isEditionEnabled = store.isEditionEnabled;
+	});
+
+	onDestroy(() => unsubscribe());
+
+	$: if (isEditionEnabled) {
 		initState();
 	}
 
-	$: if (editionMode === false) {
-		if (isNameDifferentFromDB) {
-			setStoredName(storedName);
-		}
-	}
-
-	function handleRenameSuccess(event: CustomEvent<Menu>) {
-		isSubmitted = true;
-		saveSuccessful = true;
-		setStoredName(event.detail.name);
-		isLoading = false;
-	}
-
-	function handleRenameError() {
-		isSubmitted = true;
-		saveSuccessful = false;
-		isLoading = false;
-	}
-
-	function handleSave() {
-		isLoading = true;
+	$: if (!isEditionEnabled && isNameDifferentFromDB) {
+		setStoredName(storedName);
 	}
 </script>
 
-<div
-	class="flex flex-row w-full p-3 my-3 h-16 border-2 border-slate-400 rounded menu-tile"
-	data-testid="menu"
->
-	<div class="flex flex-1 w-full">
-		<MenuName bind:menu {editionMode} />
+<div class="tile" data-testid="menu">
+	<div class="tile__header">
+		<div class="tile__header-title">
+			<MenuName bind:menu />
+		</div>
+		<div class="tile__header-actions">
+			{#if isEditionEnabled}
+				<MenuDeleteAction {menu} />
+			{:else}
+				<MiniButton tag="button" variant="neutral-secondary" disabled={true} dataTestId="temp">
+					<BookmarkSolidIcon />
+				</MiniButton>
+			{/if}
+		</div>
 	</div>
 
-	{#if editionMode}
-		<MenuActionsFeedback status={saveSuccessful} display={isSubmitted} />
-		<div data-testid="actions" class="flex flex-row items-center [&>*]:ml-2">
-			<MenuRenameAction
-				{menu}
-				disabled={!isNameDifferentFromDB}
-				on:success={handleRenameSuccess}
-				on:error={handleRenameError}
-				on:save={handleSave}
-			/>
-			<MenuDeleteAction {menu} disabled={isLoading} />
-		</div>
-	{/if}
+	<div class="tile__content">
+		<Nutrient value="2600" label="Calories" />
+		<Nutrient value="80" label="Fat" />
+		<Nutrient value="120" label="Proteins" />
+		<Nutrient value="370" label="Carbs" />
+	</div>
 </div>
 
 <style lang="scss">
-	.menu-tile {
-		&:hover {
-			background: var(--color-background-secondary);
+	@use '../../../../style' as *;
+
+	.tile {
+		display: flex;
+		flex-direction: column;
+		gap: 4rem;
+		background-color: var(--color-background-tertiary);
+		border-radius: 0.5rem;
+		padding: 1rem;
+
+		box-shadow: 0 0.125rem 0.125rem var(--shadow-color);
+
+		&__header {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			gap: $spacing-8;
+
+			&-title {
+				flex-grow: 1;
+			}
+		}
+
+		&__content {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
 		}
 	}
 </style>
