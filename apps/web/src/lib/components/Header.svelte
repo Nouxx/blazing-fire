@@ -78,7 +78,6 @@
 			align-items: center;
 
 			gap: 0.5rem;
-			// height: 2rem;
 		}
 	}
 </style>

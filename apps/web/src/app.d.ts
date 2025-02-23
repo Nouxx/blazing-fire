@@ -16,7 +16,6 @@ declare global {
 		interface PageData {
 			session: Session | null;
 			user: User | null;
-			// src/routes/(app)/menus
 			menus?: {
 				name: string;
 			}[];

@@ -14,11 +14,11 @@ import type { Menu } from '$lib/types/menu';
 export const load: PageServerLoad = async ({ parent, locals }) => {
 	await parent();
 
-	const { user, supabase } = locals;
+	const { user, session, supabase } = locals;
 
-	// todo: handle error
-	if (!user) {
-		error(500);
+	// todo: share this logic
+	if (!user || !session) {
+		error(401);
 	}
 
 	const menuRepository = new SupabaseMenuRepository(supabase);
@@ -92,16 +92,6 @@ export const actions = {
 				data: { name, id: Number(menuId) }
 			});
 		}
-
-		// fake delay
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-
-		// fake error
-		// return createFormActionsFailureResponse(400, {
-		// 	action: 'renameMenu',
-		// 	error: { message: 'Missing inputs' },
-		// 	data: { name, id: Number(menuId) }
-		// });
 
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
 		const menuService = new MenuService(supabaseRepo);

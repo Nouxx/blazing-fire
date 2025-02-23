@@ -6,6 +6,6 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 	const { session, user } = locals;
 
 	if (!session || !user) {
-		redirect(303, routes.notSignedIn); // todo: refacto
+		redirect(303, routes.notSignedIn);
 	}
 };
