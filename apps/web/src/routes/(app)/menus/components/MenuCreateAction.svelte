@@ -6,7 +6,7 @@
 	import type { SubmitFunction } from '../$types';
 
 	let isLoading = false;
-	let isSubmitted = false; // todo: use form store instead
+	let isSubmitted = false;
 	let isSubmissionOk = false;
 
 	const submitFunction: SubmitFunction = () => {

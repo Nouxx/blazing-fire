@@ -14,17 +14,12 @@ import type { Menu } from '$lib/types/menu';
 export const load: PageServerLoad = async ({ parent, locals }) => {
 	await parent();
 
-	const { user, session, supabase } = locals;
-
-	// todo: share this logic
-	if (!user || !session) {
-		error(401);
-	}
+	const { user, supabase } = locals;
 
 	const menuRepository = new SupabaseMenuRepository(supabase);
 	const menuService = new MenuService(menuRepository);
 
-	const response = await menuService.listMenusForUser(user.id);
+	const response = await menuService.listMenusForUser(user!.id);
 
 	if (response.error) {
 		error(500, response.error);
@@ -51,16 +46,9 @@ export const actions = {
 	createMenu: async ({ locals }) => {
 		const { user, supabase } = locals;
 
-		if (!user) {
-			return createFormActionsFailureResponse(500, {
-				action: 'createMenu',
-				error: { message: 'No User' }
-			});
-		}
-
 		const supabaseRepo = new SupabaseMenuRepository(supabase);
 		const menuService = new MenuService(supabaseRepo);
-		const response = await menuService.createNewMenuForUser(user.id);
+		const response = await menuService.createNewMenuForUser(user!.id);
 
 		if (response.error) {
 			return createFormActionsFailureResponse(500, {
@@ -72,14 +60,7 @@ export const actions = {
 		return createFormActionsSuccessResponse('createMenu', null);
 	},
 	renameMenu: async ({ locals, request }) => {
-		const { user, supabase } = locals;
-
-		if (!user) {
-			return createFormActionsFailureResponse(500, {
-				action: 'renameMenu',
-				error: { message: 'No User' }
-			});
-		}
+		const { supabase } = locals;
 
 		const formData = await request.formData();
 		const name = getString(formData.get('name'));
@@ -108,14 +89,7 @@ export const actions = {
 		return createFormActionsSuccessResponse('renameMenu', { name, id: Number(menuId) });
 	},
 	deleteMenu: async ({ locals, request }) => {
-		const { user, supabase } = locals;
-
-		if (!user) {
-			return createFormActionsFailureResponse(500, {
-				action: 'deleteMenu',
-				error: { message: 'No User' }
-			});
-		}
+		const { supabase } = locals;
 
 		const formData = await request.formData();
 		const menuId = getString(formData.get('id'));

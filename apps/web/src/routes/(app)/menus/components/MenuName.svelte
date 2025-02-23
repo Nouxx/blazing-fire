@@ -4,6 +4,7 @@
 	import { enhance } from '$app/forms';
 	import { menuPageStore } from '../stores/menu-store';
 	import type { Menu } from '$lib/types/menu';
+	import type { SubmitFunction } from '../$types';
 
 	export let menu: Menu;
 
@@ -29,33 +30,30 @@
 	onDestroy(() => {
 		unsubscribeFromPageStore();
 	});
+
+	const submitFunction: SubmitFunction = ({ formData, cancel }) => {
+		textInputElement.setState('loading');
+
+		const nameToSubmit = formData.get('name');
+		if (nameToSubmit === initialMenu.name) {
+			cancel();
+			textInputElement.setState(undefined);
+		}
+
+		return async ({ result }) => {
+			if (result.type === 'success') {
+				textInputElement.setState('success');
+				setInitialMenu();
+			} else {
+				textInputElement.setState('error');
+			}
+		};
+	};
 </script>
 
 <div class="menu__name">
 	{#if isEditionEnabled}
-		<form
-			bind:this={formElement}
-			action="?/renameMenu"
-			method="post"
-			use:enhance={({ formData, cancel }) => {
-				textInputElement.setState('loading');
-
-				const nameToSubmit = formData.get('name');
-				if (nameToSubmit === initialMenu.name) {
-					cancel();
-					textInputElement.setState(undefined);
-				}
-
-				return async ({ result }) => {
-					if (result.type === 'success') {
-						textInputElement.setState('success');
-						setInitialMenu();
-					} else {
-						textInputElement.setState('error');
-					}
-				};
-			}}
-		>
+		<form bind:this={formElement} action="?/renameMenu" method="post" use:enhance={submitFunction}>
 			<input type="hidden" name="id" value={menu.id} />
 			<TextInput
 				name="name"
