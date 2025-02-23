@@ -20,7 +20,6 @@
 	function setStoredName(name: string) {
 		storedName = name;
 		menu.name = name;
-		isNameDifferentFromDB = false; // todo: remove
 	}
 
 	initState();
