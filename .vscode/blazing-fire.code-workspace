@@ -4,7 +4,8 @@
       "path": "../."
     },
     {
-      "path": "../apps/web"
+      "path": "../apps/web",
+      "name": "apps/web"
     }
   ]
 }
