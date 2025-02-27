@@ -19,3 +19,5 @@ COPY ../apps/web/package.json .
 WORKDIR /app
 
 RUN npm clean-install --no-audit
+
+ENV PUBLIC_VERSION=dev

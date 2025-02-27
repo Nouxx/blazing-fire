@@ -121,3 +121,46 @@ Push local migrations to remote
 ```bash
 npx supabase db push
 ```
+
+## Deployment
+
+Chain of thoughts
+
+### CI
+
+TBD: all PRs goes to main.
+
+Everything is checked before merging: confident to rollout to users when all checks are green!
+
+### CD
+
+#### Merging to `main`
+
+After merge is requested, **deploy** job is triggered with the merge queue (or not), which does the following
+
+1. generate the tag based on the most recent tag pushed on main
+2. build the application with the version as build argument
+3. deploy the built artifact
+4. tag the commit pushed and push the tag
+
+**Rationale**
+
+- understandable git history (tag = version deployed in prod)
+- easy to work with, base branches doesn't have to be up-to-date (even I think it's better)
+- scalable with large teams
+- fail safe (deploy failed, no tag, no new version)
+
+**semVer is it?**
+
+It is.
+
+**Does everything gets deployed?**
+
+No, if a PR merge only commit (remember, squash and merge only) is not bringing anything to the user the **deploy** job mentioned above is exited early.
+
+When pushed to `main`:
+
+- `ci`, `docs` and `test` does not trigger any new version
+- `fix`, `build`, `chore`, `refactor`, `revert` triggers a **patch** bump in the version
+- `feat`, `style` and `perf` triggers a **minor** bump in the version
+- any type that triggers a version bump appended with `!` triggers a **major** bump in the version
