@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.1.2](https://github.com/Nouxx/blazing-fire/compare/0.1.1...0.1.2) (2025-03-02)
+
+
+### Chores
+
+* add vercel lib ([#23](https://github.com/Nouxx/blazing-fire/issues/23)) ([f2ced8b](https://github.com/Nouxx/blazing-fire/commit/f2ced8b56ef2b8ead24a758058c90581ce3a245b))
+* **local:** switch to docker ([#17](https://github.com/Nouxx/blazing-fire/issues/17)) ([390d4f3](https://github.com/Nouxx/blazing-fire/commit/390d4f3ded9dd44dbd7b723691e42c79f891e419)), closes [#7](https://github.com/Nouxx/blazing-fire/issues/7)
+
+
+### Continuous Integration
+
+* enable workflow dispatch on deploy job ([b69bf7c](https://github.com/Nouxx/blazing-fire/commit/b69bf7c00e9a1df52280afc921ba3789a248ceb5))
+* move notification to PR description ([#22](https://github.com/Nouxx/blazing-fire/issues/22)) ([d2fab2d](https://github.com/Nouxx/blazing-fire/commit/d2fab2dc604716ca1aa50bc4c9e48223d2ebea9e))
+* upgrade release please action ([#24](https://github.com/Nouxx/blazing-fire/issues/24)) ([7ecf62d](https://github.com/Nouxx/blazing-fire/commit/7ecf62d05cef8a30502d771be25c2c3eeea46bdf))
+
+
+### Styles
+
+* header ([#20](https://github.com/Nouxx/blazing-fire/issues/20)) ([b0b135d](https://github.com/Nouxx/blazing-fire/commit/b0b135d9dbb43c52e6582bf27b7345239655a43c))
+* menu page ([#25](https://github.com/Nouxx/blazing-fire/issues/25)) ([cc42c34](https://github.com/Nouxx/blazing-fire/commit/cc42c34038c1a61d9533ffebb5316f954f3649d8))
+
 ## [0.1.1](https://github.com/Nouxx/blazing-fire/compare/0.1.0...0.1.1) (2024-06-14)
 
 
