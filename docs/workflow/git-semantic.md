@@ -1,6 +1,8 @@
-## Semantic
+# Semantic
 
 All PRs (being merged to `main`) are merged solely using the _"Squash and Merge"_ option.
+
+When merging, the (only) commit message is filled by default with the PR title and its format is secured with a ruleset.
 
 **Why?**
 
@@ -8,7 +10,7 @@ Mainly to linear git history and a clean main branch by avoiding "points in time
 
 _(wisdom from [release-please](https://github.com/googleapis/release-please))_
 
-### Convention
+## Convention
 
 One must follow the [conventional commit convention](https://www.conventionalcommits.org/en/v1.0.0).
 
