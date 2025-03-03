@@ -1,24 +1,60 @@
-name: Deploy Production Environment
+name: Production Deployment
 
 env:
   VERCEL_DEPLOY: true
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROD_PROJECT_ID }}
-  SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_PROD_ACCESS_TOKEN }}
-  SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_PROD_DB_PASSWORD }}
+  SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+  SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+  SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
   SUPABASE_DIRECTORY: apps/web
 
 on:
-  push:
-    tags:
-      - '*'
   workflow_dispatch: # temporary
+  push:
+    branches:
+      - main
 
 jobs:
+  compute-new-version:
+    name: Compute new version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.compute-new-version.outputs.value }}
+      commit-sha: ${{ steps.git-variables.outputs.most-recent-commit-sha }}
+    steps:
+      - name: Checkout "tools" directory
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+          sparse-checkout: |
+            tools
+
+      - name: Set git related variables
+        id: git-variables
+        run: |
+          most_recent_tag=$(git describe --tags --abbrev=0)
+          most_recent_commit_sha=$(git rev-parse HEAD)
+          most_recent_commit_name=$(git --no-pager log --format=%B -n 1 $most_recent_commit_sha)
+          echo "most-recent-tag=$most_recent_tag" >> $GITHUB_OUTPUT
+          echo "most-recent-commit-sha=$most_recent_commit_sha" >> $GITHUB_OUTPUT
+          echo "most-recent-commit-name=$most_recent_commit_name" >> $GITHUB_OUTPUT
+
+      - name: Run the new version calculation script
+        id: compute-new-version
+        run: |
+          new_version=$(./tools/new-version.sh "${{ steps.git-variables.outputs.most-recent-tag }}" '${{ steps.git-variables.outputs.most-recent-commit-name }}')
+          echo "value=$new_version" >> $GITHUB_OUTPUT
+
   deploy-prod:
     name: Deploy Production Environment
+    needs: compute-new-version
+    if: ${{ needs.compute-new-version.outputs.version != '' }}
     runs-on: ubuntu-latest
+    env:
+      NEW_VERSION: ${{ needs.compute-new-version.outputs.version }}
+      COMMIT_TO_TAG: ${{ needs.compute-new-version.outputs.commit-sha }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,27 +64,43 @@ jobs:
         with:
           node-version: 18.20.3
 
-      - name: Install Vercel CLI
+      - name: Install vercel CLI
         run: npm install --global vercel@34.2.6
 
-      - name: Pull Vercel Environment Information
+      - name: Update the "PUBLIC_VERSION" environment variable in vercel
+        run: |
+          vercel env rm PUBLIC_VERSION --yes --token=${{ secrets.VERCEL_TOKEN }}
+          echo "${{ env.NEW_VERSION }}" | vercel env add PUBLIC_VERSION production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Pull vercel environments variables
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Install Supabase CLI
+      - name: Install supabase CLI
         uses: supabase/setup-cli@v1
         with:
-          version: 1.183.5
+          version: 2.15.8
 
       - name: Link Supabase project
         working-directory: ${{ env.SUPABASE_DIRECTORY }}
         run: supabase link --project-ref ${{ env.SUPABASE_PROJECT_ID }}
 
-      - name: Build Project Artifacts
+      - name: Build apps/web
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Push migration (if any)
         working-directory: ${{ env.SUPABASE_DIRECTORY }}
         run: supabase db push
 
-      - name: Deploy Project Artifacts to Vercel
+      - name: Deploy apps/web to vercel
         run: vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Tag the commit
+        run: |
+          git tag ${{ env.NEW_VERSION }} ${{ env.COMMIT_TO_TAG }}
+          git push origin ${{ env.NEW_VERSION }}
+
+      - name: Create the GitHub release for version ${{ env.NEW_VERSION }}
+        run: |
+          gh release create "${{ env.NEW_VERSION }}" \
+            --generate-notes \
+            --latest
