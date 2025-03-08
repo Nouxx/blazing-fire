@@ -47,10 +47,10 @@ jobs:
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
-      # todo: test with ENV (for PUBLIC_VERSION)
-
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          PUBLIC_VERSION: preview
 
       - name: Deploy Project Artifacts to Vercel
         id: deployment
@@ -62,7 +62,7 @@ jobs:
       - name: Set 'ENVIRONMENT_URL'
         run: echo "ENVIRONMENT_URL=https://${{ env.VERCEL_ALIAS }}.vercel.app" >> $GITHUB_ENV
 
-      - name: Populate test report URL in failure message template
+      - name: Populate environment information in message template
         run: |
           sed -i 's|\$VERCEL_ALIAS|${{ env.VERCEL_ALIAS }}|g' .github/templates/deploy/ephemeral.md
           sed -i 's|\$ENVIRONMENT_URL|${{ env.ENVIRONMENT_URL }}|g' .github/templates/deploy/ephemeral.md
