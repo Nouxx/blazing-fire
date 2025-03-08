@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PUBLIC_VERSION } from '$env/static/public';
 	import { routes } from '$lib/const/routes';
 	import Logo from '$lib/components/icons/LogoIcon.svelte';
 	import MiniButton from './MiniButton.svelte';
@@ -19,11 +20,12 @@
 	}
 </script>
 
-<div class="header" data-testid="header">
+<header class="header" data-testid="header">
 	<div class="header__logo">
 		<a href={routes.home} data-testid="logo">
 			<Logo />
 		</a>
+		<p class="header__version">version {PUBLIC_VERSION}</p>
 	</div>
 
 	<div class="header__actions" data-testid="navigation">
@@ -42,9 +44,11 @@
 			<UserIcon />
 		</MiniButton>
 	</div>
-</div>
+</header>
 
 <style lang="scss">
+	@use '../../style' as *;
+
 	.header {
 		background: var(--header-color-background);
 		position: sticky;
@@ -64,12 +68,20 @@
 			display: flex;
 			align-items: center;
 			flex: 1 1 0%;
+			gap: $spacing-8;
 
 			height: 2rem;
 
 			* {
 				height: inherit;
 			}
+		}
+
+		&__version {
+			@include font-small;
+
+			display: flex;
+			align-items: flex-end;
 		}
 
 		&__actions {
