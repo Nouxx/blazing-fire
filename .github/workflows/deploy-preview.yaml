@@ -1,4 +1,4 @@
-name: Deploy Preview Environment
+name: Preview Deployment
 
 env:
   VERCEL_DEPLOY: true

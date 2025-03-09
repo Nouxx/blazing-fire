@@ -73,7 +73,7 @@ jobs:
       - name: Install supabase CLI
         uses: supabase/setup-cli@v1
         with:
-          version: 2.15.8
+          version: 1.183.5
 
       - name: Link Supabase project
         working-directory: ${{ env.SUPABASE_DIRECTORY }}
