@@ -1,37 +1,37 @@
 {
-  "globalEnv": ["VERCEL_DEPLOY", "CI", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"],
-  "tasks": {
-    "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "test:unit": {},
-    "format:fix": {},
-    "format:check": {},
-    "dev": {
-      "cache": false,
-      "persistent": true,
-      "interactive": true,
-      "env": ["SUPABASE_URL", "SUPABASE_ANON_KEY", "PUBLIC_ENVIRONMENT"]
-    },
-    "db:reset": {
-      "cache": false,
-      "persistent": true,
-      "env": ["POSTGRES_HOST", "POSTGRES_PORT", "POSTGRES_DB", "POSTGRES_PASSWORD"]
-    },
-    "db:dump": {
-      "cache": false,
-      "env": ["POSTGRES_HOST", "POSTGRES_PORT", "POSTGRES_DB", "POSTGRES_PASSWORD"]
-    },
-    "db:types": {
-      "cache": false,
-      "env": ["POSTGRES_HOST", "POSTGRES_PORT", "POSTGRES_DB", "POSTGRES_PASSWORD"]
-    }
-  },
-  "ui": "tui",
-  "$schema": "https://turbo.build/schema.json"
+	"globalEnv": ["VERCEL_DEPLOY", "CI", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"],
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"inputs": ["$TURBO_DEFAULT$", ".env*"],
+			"outputs": [".next/**", "!.next/cache/**"]
+		},
+		"lint": {
+			"dependsOn": ["^lint"]
+		},
+		"test:unit": {},
+		"format:fix": {},
+		"format:check": {},
+		"dev": {
+			"cache": false,
+			"persistent": true,
+			"interactive": true,
+			"env": ["SUPABASE_URL", "SUPABASE_ANON_KEY", "PUBLIC_ENVIRONMENT"]
+		},
+		"db:reset": {
+			"cache": false,
+			"persistent": true,
+			"env": ["POSTGRES_HOST", "POSTGRES_PORT", "POSTGRES_DB", "POSTGRES_PASSWORD"]
+		},
+		"db:dump": {
+			"cache": false,
+			"env": ["POSTGRES_HOST", "POSTGRES_PORT", "POSTGRES_DB", "POSTGRES_PASSWORD"]
+		},
+		"db:types": {
+			"cache": false,
+			"env": ["POSTGRES_HOST", "POSTGRES_PORT", "POSTGRES_DB", "POSTGRES_PASSWORD"]
+		}
+	},
+	"ui": "tui",
+	"$schema": "https://turbo.build/schema.json"
 }

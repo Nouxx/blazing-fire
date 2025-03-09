@@ -23,6 +23,9 @@ RUN npm clean-install
 
 COPY --from=partial-monorepo /app/out/full/ .
 
+# environment variables required for the build
+ENV PUBLIC_VERSION=local
+
 RUN npx turbo run build --filter=web
 
 FROM base AS prod-dep

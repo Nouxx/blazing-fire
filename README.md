@@ -32,7 +32,7 @@ Note: The `node_modules` folders on the host and within Docker containers are is
 ### Manage dependencies
 
 ```bash
-npm install <package> --workspace=workspace1 --workspace=workspace2
+npm install package --workspace=workspace2 --workspace=workspace1
 ```
 
 Note: Whenever the package lock is updated, the base image must be rebuilt for these changes to take effect.
@@ -91,7 +91,7 @@ If tests fail, a report will be available at `localhost:9323`, as configured by 
 Run these commands from the host. They use shell scripts to leverage environment variables from the `.env` file used in the Docker composition.
 
 ```bash
-npm run db:dump # dump the current state of the DB to a static file
+npm run db:dump  # dump the current state of the DB to a static file
 npm run db:reset # restore the current dump from that file
 npm run db:types # generated TS typing for better DX
 ```
