@@ -37,8 +37,11 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@32.5.0
 
+      - name: Set 'PR_NUMBER'
+        run: echo "PR_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
+
       - name: Set 'VERCEL_ALIAS'
-        run: echo "VERCEL_ALIAS=blazing-fire-preview-pr-${{ github.event.number }}" >> $GITHUB_ENV
+        run: echo "VERCEL_ALIAS=blazing-fire-preview-pr-${{ env.PR_NUMBER }}" >> $GITHUB_ENV
 
       - name: Get git information for the current branch
         id: git-info
@@ -50,7 +53,7 @@ jobs:
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
         env:
-          PUBLIC_VERSION: preview
+          PUBLIC_VERSION: pr-${{ env.PR_NUMBER }}
 
       - name: Deploy Project Artifacts to Vercel
         id: deployment
