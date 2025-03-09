@@ -10,7 +10,6 @@ env:
   SUPABASE_DIRECTORY: apps/web
 
 on:
-  workflow_dispatch: # temporary
   push:
     branches:
       - main
@@ -73,6 +72,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
 
       - name: Setup Node
         uses: actions/setup-node@v3
