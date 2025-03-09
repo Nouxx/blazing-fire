@@ -67,11 +67,6 @@ jobs:
       - name: Install vercel CLI
         run: npm install --global vercel@34.2.6
 
-      - name: Update the "PUBLIC_VERSION" environment variable in vercel
-        run: |
-          vercel env rm PUBLIC_VERSION --yes --token=${{ secrets.VERCEL_TOKEN }}
-          echo "${{ env.NEW_VERSION }}" | vercel env add PUBLIC_VERSION production --token=${{ secrets.VERCEL_TOKEN }}
-
       - name: Pull vercel environments variables
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
@@ -86,6 +81,8 @@ jobs:
 
       - name: Build apps/web
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          PUBLIC_VERSION: ${{ env.NEW_VERSION }}
 
       - name: Push migration (if any)
         working-directory: ${{ env.SUPABASE_DIRECTORY }}
