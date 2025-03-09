@@ -28,6 +28,12 @@
 			}
 		}
 
+		&__secondary {
+			& > :global(svg) {
+				fill: var(--icon-color-secondary);
+			}
+		}
+
 		&__success {
 			& > :global(svg) {
 				fill: var(--icon-color-success);
