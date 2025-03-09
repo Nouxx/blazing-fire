@@ -1,4 +1,4 @@
-name: Deploy Preview Environment
+name: Preview Deployment
 
 env:
   VERCEL_DEPLOY: true
@@ -37,8 +37,11 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@32.5.0
 
+      - name: Set 'PR_NUMBER'
+        run: echo "PR_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
+
       - name: Set 'VERCEL_ALIAS'
-        run: echo "VERCEL_ALIAS=blazing-fire-preview-pr-${{ github.event.number }}" >> $GITHUB_ENV
+        run: echo "VERCEL_ALIAS=blazing-fire-preview-pr-${{ env.PR_NUMBER }}" >> $GITHUB_ENV
 
       - name: Get git information for the current branch
         id: git-info
@@ -49,6 +52,8 @@ jobs:
 
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          PUBLIC_VERSION: pr-${{ env.PR_NUMBER }}
 
       - name: Deploy Project Artifacts to Vercel
         id: deployment
@@ -60,7 +65,7 @@ jobs:
       - name: Set 'ENVIRONMENT_URL'
         run: echo "ENVIRONMENT_URL=https://${{ env.VERCEL_ALIAS }}.vercel.app" >> $GITHUB_ENV
 
-      - name: Populate test report URL in failure message template
+      - name: Populate environment information in message template
         run: |
           sed -i 's|\$VERCEL_ALIAS|${{ env.VERCEL_ALIAS }}|g' .github/templates/deploy/ephemeral.md
           sed -i 's|\$ENVIRONMENT_URL|${{ env.ENVIRONMENT_URL }}|g' .github/templates/deploy/ephemeral.md
