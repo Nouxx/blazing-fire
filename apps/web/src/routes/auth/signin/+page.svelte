@@ -8,6 +8,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Icon from '$lib/components/atoms/Icon.svelte';
 	import LeftArrow from '$lib/components/icons/LeftArrow.svelte';
+	import LinkButton from '$lib/components/LinkButton.svelte';
 
 	export let form: ActionData;
 
@@ -54,10 +55,11 @@
 
 	<div class="page__content">
 		<header class="header">
-			<Icon variant="secondary">
-				<LeftArrow />
-			</Icon>
-			<p class="header__cta">Go back</p>
+			<LinkButton label="Go back" link="#">
+				<Icon variant="secondary" slot="icon">
+					<LeftArrow />
+				</Icon>
+			</LinkButton>
 		</header>
 
 		<h1>Sign In</h1>

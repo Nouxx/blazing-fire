@@ -14,8 +14,9 @@
 		justify-content: center;
 		align-items: center;
 
-		height: 100%;
+		height: 2rem;
 		width: 2rem;
+		padding: 0.375rem;
 
 		& > :global(svg) {
 			max-width: 100%;
@@ -30,7 +31,7 @@
 
 		&__secondary {
 			& > :global(svg) {
-				fill: var(--icon-color-secondary);
+				fill: var(--icon-color-secondary); // todo: refactor to use color variables
 			}
 		}
 

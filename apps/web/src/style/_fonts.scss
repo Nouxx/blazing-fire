@@ -56,9 +56,9 @@
 	color: var(--color-font-primary);
 }
 
-@mixin font-small {
+@mixin font-small($color: var(--color-font-primary)) {
 	font-family: 'Inter';
 	font-weight: 300;
 	font-size: 0.875rem;
-	color: var(--color-font-primary);
+	color: $color;
 }
