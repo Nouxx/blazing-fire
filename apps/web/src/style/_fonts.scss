@@ -35,18 +35,18 @@
 	color: var(--color-font-primary);
 }
 
-@mixin font-sub-heading {
+@mixin font-sub-heading($color: var(--color-font-primary)) {
 	font-family: 'Inter';
 	font-weight: 500;
 	font-size: 1.25rem;
-	color: var(--color-font-primary);
+	color: $color;
 }
 
-@mixin font-body {
+@mixin font-body($color: var(--color-font-primary)) {
 	font-family: 'Inter';
 	font-weight: 400;
 	font-size: 1.125rem;
-	color: var(--color-font-primary);
+	color: $color;
 }
 
 @mixin font-button {

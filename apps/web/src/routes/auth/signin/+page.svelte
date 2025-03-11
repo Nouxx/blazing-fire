@@ -48,13 +48,14 @@
 	}
 </script>
 
-<div data-testid="sign-in-form" class="page">
-	<div class="page__image">
-		<img src="/img/login-orange.png" alt="Login illustration" />
+<div data-testid="sign-in-form" class="login-page">
+	<div class="login-hero">
+		<img class="login-hero__image" src="/img/login-orange.png" alt="Login illustration" />
+		<!-- todo: optimize image (srcset) -->
 	</div>
 
-	<div class="page__content">
-		<header class="header">
+	<div class="login-content">
+		<header class="login-header">
 			<LinkButton label="Go back" link="#">
 				<Icon variant="secondary" slot="icon">
 					<LeftArrow />
@@ -62,77 +63,99 @@
 			</LinkButton>
 		</header>
 
-		<h1>Sign In</h1>
+		<div class="login-form">
+			<h1 class="login-form__title">Log In</h1>
+			<p class="login-form__subtitle">
+				Enter the information you provided when you created your account.
+			</p>
 
-		<form method="post" action="?/signInWithPassword" use:enhance>
-			<input
-				name="email"
-				placeholder="email"
-				value={form?.email ?? ''}
-				on:input={(event) => handleInput(event, 'email')}
-				data-testid="email"
-			/>
-			<input
-				type="password"
-				placeholder="password"
-				name="password"
-				on:input={(event) => handleInput(event, 'password')}
-				data-testid="password"
-			/>
-			{#if form?.error}
-				<p data-testid="error">Invalid credentials</p>
-			{/if}
-			<Button
-				variant="primary"
-				type="submit"
-				label="Sign in"
-				dataTestId="submit"
-				disabled={!validityState.email || !validityState.password}
-			/>
-		</form>
+			<form method="post" action="?/signInWithPassword" use:enhance>
+				<input
+					name="email"
+					placeholder="email"
+					value={form?.email ?? ''}
+					on:input={(event) => handleInput(event, 'email')}
+					data-testid="email"
+				/>
+				<input
+					type="password"
+					placeholder="password"
+					name="password"
+					on:input={(event) => handleInput(event, 'password')}
+					data-testid="password"
+				/>
+				{#if form?.error}
+					<p data-testid="error">Invalid credentials</p>
+				{/if}
+				<Button
+					variant="primary"
+					type="submit"
+					label="Sign in"
+					dataTestId="submit"
+					disabled={!validityState.email || !validityState.password}
+				/>
+			</form>
 
-		<CallToAction
-			title="Don't have an account?"
-			label="Go to Sign Up"
-			link={routes.signup}
-			id="signup"
-		/>
+			<CallToAction
+				title="Don't have an account?"
+				label="Go to Sign Up"
+				link={routes.signup}
+				id="signup"
+			/>
+		</div>
 	</div>
 </div>
 
 <style lang="scss">
 	@use '../../../style' as *;
 
-	.page {
+	.login-page {
 		display: flex;
 		flex-direction: row;
 		height: 100%;
+	}
+
+	.login-hero {
+		width: 50%;
 
 		&__image {
-			width: 50%;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
 
-			& img {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
+	.login-content {
+		width: 50%;
+		display: flex;
+		flex-direction: column;
+
+		.login-header {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+
+			padding: $spacing-24 $spacing-16;
+
+			&__cta {
+				@include font-small;
 			}
 		}
 
-		&__content {
-			width: 50%;
-			display: flex;
-			flex-direction: column;
+		.login-form {
+			height: 100%;
+			padding: $spacing-80 $spacing-128;
 
-			.header {
-				display: flex;
-				justify-content: flex-start;
-				align-items: center;
+			&__title {
+				@include font-heading;
+				text-align: center;
+				margin-bottom: $spacing-16;
+			}
 
-				padding: $spacing-24 $spacing-16;
-
-				&__cta {
-					@include font-small;
-				}
+			&__subtitle {
+				@include font-body(var(--color-font-secondary));
+				text-align: center;
+				margin-bottom: $spacing-32;
 			}
 		}
 	}
