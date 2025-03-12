@@ -8,7 +8,7 @@
 
 	export let tag: ButtonTag = 'button';
 	export let variant: ButtonVariant;
-	export let dataTestId: string;
+	export let dataTestId: string | null = null;
 	export let href: string | null = null;
 	export let disabled: boolean = false;
 

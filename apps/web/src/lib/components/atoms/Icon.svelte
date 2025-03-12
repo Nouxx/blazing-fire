@@ -29,6 +29,12 @@
 			}
 		}
 
+		&__neutral-primary {
+			& > :global(svg) {
+				fill: var(--icon-color-neutral-primary);
+			}
+		}
+
 		&__secondary {
 			& > :global(svg) {
 				fill: var(--icon-color-secondary); // todo: refactor to use color variables

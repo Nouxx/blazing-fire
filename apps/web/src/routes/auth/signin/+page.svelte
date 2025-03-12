@@ -9,6 +9,10 @@
 	import Icon from '$lib/components/atoms/Icon.svelte';
 	import LeftArrow from '$lib/components/icons/LeftArrow.svelte';
 	import LinkButton from '$lib/components/LinkButton.svelte';
+	import GoogleIcon from '$lib/components/icons/brand/GoogleIcon.svelte';
+	import FacebookIcon from '$lib/components/icons/brand/FacebookIcon.svelte';
+	import AppleIcon from '$lib/components/icons/brand/AppleIcon.svelte';
+	import MiniButton from '$lib/components/MiniButton.svelte';
 
 	export let form: ActionData;
 
@@ -68,6 +72,18 @@
 			<p class="login-form__subtitle">
 				Enter the information you provided when you created your account.
 			</p>
+
+			<div class="login-form__social">
+				<MiniButton variant="primary">
+					<GoogleIcon />
+				</MiniButton>
+				<MiniButton variant="primary">
+					<FacebookIcon />
+				</MiniButton>
+				<MiniButton variant="primary">
+					<AppleIcon />
+				</MiniButton>
+			</div>
 
 			<form method="post" action="?/signInWithPassword" use:enhance>
 				<input
@@ -155,6 +171,14 @@
 			&__subtitle {
 				@include font-body(var(--color-font-secondary));
 				text-align: center;
+				margin-bottom: $spacing-32;
+			}
+
+			&__social {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				gap: $spacing-8;
 				margin-bottom: $spacing-32;
 			}
 		}
