@@ -68,21 +68,31 @@
 		</header>
 
 		<div class="login-form">
-			<h1 class="login-form__title">Log In</h1>
-			<p class="login-form__subtitle">
-				Enter the information you provided when you created your account.
-			</p>
+			<div class="login-form__heading">
+				<h1 class="login-form__heading-title">Log In</h1>
+				<p class="login-form__heading-subtitle">
+					Enter the information you provided when you created your account.
+				</p>
+			</div>
 
 			<div class="login-form__social">
-				<MiniButton variant="primary">
-					<GoogleIcon />
-				</MiniButton>
-				<MiniButton variant="primary">
-					<FacebookIcon />
-				</MiniButton>
-				<MiniButton variant="primary">
-					<AppleIcon />
-				</MiniButton>
+				<div class="login-form__social-icons">
+					<MiniButton variant="primary" disabled>
+						<GoogleIcon />
+					</MiniButton>
+					<MiniButton variant="primary" disabled>
+						<FacebookIcon />
+					</MiniButton>
+					<MiniButton variant="primary" disabled>
+						<AppleIcon />
+					</MiniButton>
+				</div>
+
+				<p class="login-form__social-message">Social login is not yet available</p>
+			</div>
+
+			<div class="login-form__separator">
+				<p class="login-form__separator-label">Or login with</p>
 			</div>
 
 			<form method="post" action="?/signInWithPassword" use:enhance>
@@ -160,26 +170,61 @@
 
 		.login-form {
 			height: 100%;
-			padding: $spacing-80 $spacing-128;
+			padding: $spacing-48 $spacing-96;
 
-			&__title {
-				@include font-heading;
-				text-align: center;
-				margin-bottom: $spacing-16;
-			}
+			display: flex;
+			flex-direction: column;
+			gap: $spacing-24;
 
-			&__subtitle {
-				@include font-body(var(--color-font-secondary));
-				text-align: center;
-				margin-bottom: $spacing-32;
+			&__heading {
+				&-title {
+					@include font-heading;
+					text-align: center;
+				}
+
+				&-subtitle {
+					@include font-body(var(--color-font-secondary));
+					text-align: center;
+				}
 			}
 
 			&__social {
 				display: flex;
-				flex-direction: row;
-				justify-content: center;
+				flex-direction: column;
 				gap: $spacing-8;
-				margin-bottom: $spacing-32;
+
+				&-icons {
+					display: flex;
+					flex-direction: row;
+					justify-content: center;
+					gap: $spacing-8;
+				}
+
+				&-message {
+					@include font-small(var(--color-font-secondary));
+					text-align: center;
+				}
+			}
+
+			&__separator {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+				gap: $spacing-80;
+
+				&-label {
+					@include font-body();
+					text-align: center;
+					width: fit-content;
+				}
+
+				&::before, &::after {
+					content: '';
+					height: 1px;
+					border: 1px solid var(--color-font-primary);
+					flex: 1;
+				}
 			}
 		}
 	}
