@@ -14,8 +14,10 @@
 	export let disabled = false;
 	export let href: string | null = null;
 	export let shadow: boolean = false;
+	export let fullWidth: boolean = false;
 
 	const shadowClass = shadow ? `button__${variant}--shadow` : '';
+	const fullWidthClass = fullWidth ? `button__${variant}--full-width` : '';
 
 	if (tag === 'a' && !href) {
 		console.error('"href" attribute is not defined in the Button component');
@@ -32,7 +34,7 @@
 
 {#if tag === 'button'}
 	<button
-		class="button button__{variant} {shadowClass}"
+		class="button button__{variant} {shadowClass} {fullWidthClass}"
 		{type}
 		on:click={handleClick}
 		{disabled}
@@ -94,6 +96,10 @@
 
 				&--shadow {
 					box-shadow: 0 0.125rem 0.125rem var(--shadow-color);
+				}
+
+				&--full-width {
+					width: 100%;
 				}
 			}
 		}

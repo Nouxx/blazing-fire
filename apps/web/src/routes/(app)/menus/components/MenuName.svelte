@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TextInput from '$lib/components/TextInput.svelte';
+	import TextInput from '$lib/components/FormInput.svelte';
 	import { onDestroy } from 'svelte';
 	import { enhance } from '$app/forms';
 	import { menuPageStore } from '../stores/menu-store';
