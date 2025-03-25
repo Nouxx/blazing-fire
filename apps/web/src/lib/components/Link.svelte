@@ -1,21 +1,27 @@
 <script lang="ts">
+	import Text from './atoms/Text.svelte';
+	import type { TextColor, TextFont } from './types/text';
+
 	export let href: string;
-	export let label: string;
+
+	export let font: TextFont = 'body';
+	export let color: TextColor = 'primary';
 </script>
 
 <a {href} class="link">
-	<p class="link__label">{label}</p>
+	<Text {font} {color}><slot /></Text>
 </a>
 
 <style lang="scss">
 	@use '../../style/' as *;
 
 	.link {
-		@include font-small(var(--color-font-secondary));
 		cursor: pointer;
 
-		:hover {
-			text-decoration: underline;
+		&:hover {
+			:global(span) {
+				text-decoration: underline;
+			}
 		}
 	}
 </style>

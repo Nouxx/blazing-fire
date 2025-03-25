@@ -11,6 +11,8 @@
 <style lang="scss">
 	@use '../../style/' as *;
 
+	$transition-duration: 0.2s;
+
 	.link {
 		display: flex;
 		flex-direction: row;
@@ -20,15 +22,19 @@
 			align-items: center;
 			@include font-small(var(--color-font-secondary));
 			line-height: $spacing-32;
+			transition: color $transition-duration ease;
+		}
 
-			&:hover {
-				color: var(--color-font-primary);
-			}
+		:global(svg) {
+			transition: fill $transition-duration ease;
 		}
 
 		&:hover {
 			:global(svg) {
 				fill: var(--color-font-primary);
+			}
+			.link__label {
+				color: var(--color-font-primary);
 			}
 		}
 	}

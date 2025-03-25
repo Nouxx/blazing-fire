@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import CallToAction from '$lib/components/CallToAction.svelte';
-	import type { GenericInputElement } from '$lib/types/input-event.js';
 	import { onMount } from 'svelte';
 	import type { ActionData } from './$types';
-	import { routes } from '$lib/const/routes';
 	import Icon from '$lib/components/atoms/Icon.svelte';
 	import LeftArrow from '$lib/components/icons/LeftArrow.svelte';
 	import LinkButton from '$lib/components/LinkButton.svelte';
@@ -16,6 +13,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import FormCheckbox from '$lib/components/FormCheckbox.svelte';
+	import Text from '$lib/components/atoms/Text.svelte';
 
 	export let form: ActionData;
 
@@ -80,18 +78,18 @@
 
 			<div class="login-form__social">
 				<div class="login-form__social-icons">
-					<MiniButton variant="primary" disabled>
+					<MiniButton variant="primary">
 						<GoogleIcon />
 					</MiniButton>
-					<MiniButton variant="primary" disabled>
+					<MiniButton variant="primary">
 						<FacebookIcon />
 					</MiniButton>
-					<MiniButton variant="primary" disabled>
+					<MiniButton variant="primary">
 						<AppleIcon />
 					</MiniButton>
 				</div>
 
-				<p class="login-form__social-message">Social login is not yet available</p>
+				<!-- <p class="login-form__social-message">Social login is not yet available</p> -->
 			</div>
 
 			<div class="login-form__separator">
@@ -134,27 +132,30 @@
 				{/if}
 
 				<div class="login-form__submit">
-					<div class="banner">
+					<div class="login-form__helper-links">
 						<FormCheckbox name="remember-me" label="Remember me?" />
-						<Link label="Forgot password?" href="#" />
+						<Link href="#" color="secondary" font="small">Forgot password?</Link>
 					</div>
-					<Button
-						variant="primary"
-						type="submit"
-						label="Sign in"
-						dataTestId="submit"
-						disabled={!validityState.email || !validityState.password}
-						fullWidth
-					/>
+					<div class="login-form__button-wrapper">
+						<Button
+							variant="primary"
+							type="submit"
+							label="Sign in"
+							dataTestId="submit"
+							disabled={!validityState.email || !validityState.password}
+							fullWidth
+							fullHeight
+						/>
+					</div>
 				</div>
 			</form>
 
-			<!-- <CallToAction
-				title="Don't have an account?"
-				label="Go to Sign Up"
-				link={routes.signup}
-				id="signup"
-			/> -->
+			<div class="cta">
+				<Text font="body-bold" color="secondary">
+					Don't have an account yet?
+					<Link href="#" color="secondary" font="body-bold">Register</Link>
+				</Text>
+			</div>
 		</div>
 	</div>
 </div>
@@ -204,14 +205,18 @@
 			gap: $spacing-24;
 
 			&__heading {
+				display: flex;
+				flex-direction: column;
+				gap: $spacing-8;
+
 				&-title {
 					@include font-heading;
 					text-align: center;
 				}
 
 				&-subtitle {
-					@include font-body(var(--color-font-secondary));
-					text-align: center;
+					@include font-small(var(--color-font-secondary));
+					text-align: left;
 				}
 			}
 
@@ -266,15 +271,26 @@
 				flex-direction: column;
 				gap: $spacing-8;
 			}
+
+			&__helper-links {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+
+				@include font-small(var(--color-font-secondary));
+			}
+
+			&__button-wrapper {
+				height: 4.5rem;
+			}
 		}
 
-		.banner {
+		.cta {
 			display: flex;
 			flex-direction: row;
-			justify-content: space-between;
 			align-items: center;
-
-			@include font-small(var(--color-font-secondary));
+			margin-top: $spacing-16;
 		}
 	}
 </style>

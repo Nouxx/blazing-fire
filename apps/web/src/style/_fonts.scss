@@ -1,31 +1,9 @@
+// heading
+
 @font-face {
 	font-family: 'Inter';
 	font-weight: 700;
-	src: local('Inter Bold') url('/fonts/Inter_18pt-Bold.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Inter';
-	font-weight: 600;
-	src: url('/fonts/Inter_18pt-SemiBold.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Inter';
-	font-weight: 500;
-	src: url('/fonts/Inter_18pt-Medium.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Inter';
-	font-weight: 400;
-	src: url('/fonts/Inter_18pt-Regular.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Inter';
-	font-weight: 300;
-	src: url('/fonts/Inter_18pt-Light.woff2') format('woff2');
+	src: url('/fonts/Inter_18pt-Bold.woff2') format('woff2');
 }
 
 @mixin font-heading {
@@ -35,37 +13,77 @@
 	color: var(--color-font-primary);
 }
 
+// sub-heading
+
+@font-face {
+	font-family: 'Inter';
+	font-weight: 600;
+	src: url('/fonts/Inter_18pt-Medium.woff2') format('woff2');
+}
+
 @mixin font-sub-heading($color: var(--color-font-primary)) {
 	font-family: 'Inter';
-	font-weight: 500;
+	font-weight: 600;
 	font-size: 1.25rem;
 	color: $color;
 }
 
+// body
+
+@font-face {
+	font-family: 'Inter';
+	font-weight: 500;
+	src: url('/fonts/Inter_18pt-Regular.woff2') format('woff2');
+}
+
 @mixin font-body($color: var(--color-font-primary)) {
+	font-family: 'Inter';
+	font-weight: 500;
+	font-size: 1.125rem;
+	color: $color;
+}
+
+// body bold
+
+@font-face {
+	font-family: 'Inter';
+	font-weight: 400;
+	src: url('/fonts/Inter_18pt-Medium.woff2') format('woff2');
+}
+
+@mixin font-body-bold($color: var(--color-font-primary)) {
 	font-family: 'Inter';
 	font-weight: 400;
 	font-size: 1.125rem;
 	color: $color;
 }
 
-@mixin font-body-bold($color: var(--color-font-primary)) {
+// button
+
+@font-face {
 	font-family: 'Inter';
-	font-weight: 500;
-	font-size: 1.125rem;
-	color: $color;
+	font-weight: 300;
+	src: url('/fonts/Inter_18pt-SemiBold.woff2') format('woff2');
 }
 
 @mixin font-button {
 	font-family: 'Inter';
-	font-weight: 600;
+	font-weight: 300;
 	font-size: 1rem;
 	color: var(--color-font-primary);
 }
 
+// small
+
+@font-face {
+	font-family: 'Inter';
+	font-weight: 200;
+	src: url('/fonts/Inter_18pt-Regular.woff2') format('woff2');
+}
+
 @mixin font-small($color: var(--color-font-primary)) {
 	font-family: 'Inter';
-	font-weight: 300;
+	font-weight: 200;
 	font-size: 0.875rem;
 	color: $color;
 }

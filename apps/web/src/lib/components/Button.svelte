@@ -15,9 +15,11 @@
 	export let href: string | null = null;
 	export let shadow: boolean = false;
 	export let fullWidth: boolean = false;
+	export let fullHeight: boolean = false;
 
 	const shadowClass = shadow ? `button__${variant}--shadow` : '';
 	const fullWidthClass = fullWidth ? `button__${variant}--full-width` : '';
+	const fullHeightClass = fullHeight ? `button__${variant}--full-height` : '';
 
 	if (tag === 'a' && !href) {
 		console.error('"href" attribute is not defined in the Button component');
@@ -100,6 +102,10 @@
 
 				&--full-width {
 					width: 100%;
+				}
+
+				&--full-width {
+					height: 100%;
 				}
 			}
 		}
