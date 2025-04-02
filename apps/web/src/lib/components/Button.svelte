@@ -17,6 +17,8 @@
 	export let fullWidth: boolean = false;
 	export let fullHeight: boolean = false;
 
+	// add var to have different font 
+
 	const shadowClass = shadow ? `button__${variant}--shadow` : '';
 	const fullWidthClass = fullWidth ? `button__${variant}--full-width` : '';
 	const fullHeightClass = fullHeight ? `button__${variant}--full-height` : '';
@@ -36,7 +38,7 @@
 
 {#if tag === 'button'}
 	<button
-		class="button button__{variant} {shadowClass} {fullWidthClass}"
+		class="button button__{variant} {shadowClass} {fullWidthClass} {fullHeightClass}"
 		{type}
 		on:click={handleClick}
 		{disabled}
