@@ -121,7 +121,8 @@
 				<FormInput
 					type="password"
 					name="password"
-					label="Your password"
+					label="Password"
+					placeholder="your password"
 					value={form?.error ? '' : ''}
 					on:input={(event) => handleInput(event.detail.value, 'password')}
 				/>
