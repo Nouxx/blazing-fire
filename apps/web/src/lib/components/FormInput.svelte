@@ -43,6 +43,7 @@
 	interface TextInputEvents {
 		focusIn: { value: string };
 		focusOut: { value: string };
+		input: { value: string };
 	}
 
 	const dispatch = createEventDispatcher<TextInputEvents>();
@@ -50,8 +51,13 @@
 	function handleFocusIn() {
 		dispatch('focusIn', { value });
 	}
+
 	function handleFocusOut() {
 		dispatch('focusOut', { value });
+	}
+
+	function handleInput() {
+		dispatch('input', { value });
 	}
 </script>
 
@@ -69,6 +75,7 @@
 				{disabled}
 				on:focusin={handleFocusIn}
 				on:focusout={handleFocusOut}
+				on:input={handleInput}
 				data-testid={dataTestId}
 			/>
 		{/if}
@@ -84,6 +91,7 @@
 				{disabled}
 				on:focusin={handleFocusIn}
 				on:focusout={handleFocusOut}
+				on:input={handleInput}
 				data-testid={dataTestId}
 			/>
 		{/if}
@@ -99,6 +107,7 @@
 				{disabled}
 				on:focusin={handleFocusIn}
 				on:focusout={handleFocusOut}
+				on:input={handleInput}
 				data-testid={dataTestId}
 			/>
 		{/if}

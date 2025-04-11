@@ -1,11 +1,12 @@
 <script lang="ts">
-	export let label: string;
 	export let name: string;
 </script>
 
 <div class="form-checkbox">
 	<input id={name} type="checkbox" class="form-checkbox__control" />
-	<label for={name} class="form-checkbox__label">{label}</label>
+	<label for={name} class="form-checkbox__label">
+		<slot />
+	</label>
 </div>
 
 <style lang="scss">

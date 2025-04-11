@@ -14,6 +14,8 @@
 	import Link from '$lib/components/Link.svelte';
 	import FormCheckbox from '$lib/components/FormCheckbox.svelte';
 	import Text from '$lib/components/atoms/Text.svelte';
+	import { routes } from '$lib/const/routes';
+	import Message from '$lib/components/Message.svelte';
 
 	export let form: ActionData;
 
@@ -42,14 +44,25 @@
 	};
 
 	onMount(() => {
-		validityState.email = form?.email ? true : false;
+		validityState.email = form?.data?.email ? true : false;
 		validityState.password = false;
 	});
 
 	function handleInput(newValue: string, input: SignInFormInputName): void {
-		console.log('handleInput', newValue, input);
 		const isValid = signInFormFields[input].isValid(newValue);
 		validityState[input] = isValid;
+	}
+
+	$: if (form) {
+		if (form.error) {
+			showErrorMessage = true;
+		}
+	}
+
+	let showErrorMessage = true;
+
+	function handleMessageDismiss() {
+		showErrorMessage = false;
 	}
 </script>
 
@@ -61,7 +74,7 @@
 
 	<div class="login-content">
 		<header class="login-header">
-			<LinkButton label="Go back" link="#">
+			<LinkButton label="Go back" link={routes.landing}>
 				<Icon variant="secondary" slot="icon">
 					<LeftArrow />
 				</Icon>
@@ -102,38 +115,28 @@
 					name="email"
 					label="Email"
 					placeholder="your@email.com"
-					value={form?.email ?? ''}
-					on:focusOut={(event) => handleInput(event.detail.value, 'email')}
+					value={form?.data?.email ?? ''}
+					on:input={(event) => handleInput(event.detail.value, 'email')}
 				/>
 				<FormInput
 					type="password"
 					name="password"
-					label="Password"
-					value={form?.email ?? ''}
-					on:focusOut={(event) => handleInput(event.detail.value, 'password')}
+					label="Your password"
+					value={form?.error ? '' : ''}
+					on:input={(event) => handleInput(event.detail.value, 'password')}
 				/>
-				<!-- <input
-					name="email"
-					placeholder="email"
-					value={form?.email ?? ''}
-					on:input={(event) => handleInput(event, 'email')}
-					data-testid="email"
-				/>
-				<input
-					type="password"
-					placeholder="password"
-					name="password"
-					on:input={(event) => handleInput(event, 'password')}
-					data-testid="password"
-				/> -->
 
-				{#if form?.error}
-					<p data-testid="error">Invalid credentials</p>
+				{#if form?.error && showErrorMessage}
+					<Message on:dismiss={handleMessageDismiss}>
+						<Text color="tertiary">Invalid credentials</Text>
+					</Message>
 				{/if}
 
 				<div class="login-form__submit">
 					<div class="login-form__helper-links">
-						<FormCheckbox name="remember-me" label="Remember me?" />
+						<FormCheckbox name="remember-me">
+							<Text font="small" color="secondary">Remember me?</Text>
+						</FormCheckbox>
 						<Link href="#" color="secondary" font="small">Forgot password?</Link>
 					</div>
 					<div class="login-form__button-wrapper">
@@ -153,7 +156,7 @@
 			<div class="cta">
 				<Text font="body-bold" color="secondary">
 					Don't have an account yet?
-					<Link href="#" color="secondary" font="body-bold">Register</Link>
+					<Link href={routes.signup} color="secondary" font="body-bold">Register</Link>
 				</Text>
 			</div>
 		</div>
@@ -282,7 +285,7 @@
 			}
 
 			&__button-wrapper {
-				height: 4.5rem;
+				height: 4rem;
 			}
 		}
 

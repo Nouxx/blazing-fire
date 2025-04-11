@@ -13,10 +13,6 @@
 <style lang="scss">
 	@use '../../../style' as *;
 
-	.text {
-		@include font-body;
-	}
-
 	.font {
 		&-heading {
 			@include font-heading;
@@ -50,6 +46,10 @@
 
 		&-secondary {
 			color: var(--color-font-secondary);
+		}
+
+		&-tertiary {
+			color: var(--color-font-tertiary);
 		}
 
 		&-error {

@@ -75,7 +75,7 @@
 		padding-left: $spacing-16;
 		padding-right: $spacing-16;
 
-		height: $spacing-36;
+		height: $spacing-32;
 		width: fit-content;
 
 		text-align: center;

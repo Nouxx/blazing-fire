@@ -7,7 +7,7 @@
 	const dispatch = createEventDispatcher();
 
 	export let tag: ButtonTag = 'button';
-	export let variant: ButtonVariant;
+	export let variant: ButtonVariant = "primary";
 	export let dataTestId: string | null = null;
 	export let href: string | null = null;
 	export let disabled: boolean = false;
@@ -69,6 +69,12 @@
 			background-hover: var(--button-color-background-neutral-secondary-hover),
 			content: var(--button-color-content-neutral-secondary),
 			content-hover: var(--button-color-content-neutral-secondary-hover)
+		),
+		error: (
+			background: var(--button-color-background-error),
+			background-hover: var(--button-color-background-error-hover),
+			content: var(--button-color-content-error),
+			content-hover: var(--button-color-content-error-hover)
 		)
 	);
 
