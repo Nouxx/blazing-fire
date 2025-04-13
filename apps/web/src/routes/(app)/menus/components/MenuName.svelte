@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TextInput from '$lib/components/FormInput.svelte';
+	import FormInput from '$lib/components/FormInput.svelte';
 	import { onDestroy } from 'svelte';
 	import { enhance } from '$app/forms';
 	import { menuPageStore } from '../stores/menu-store';
@@ -11,7 +11,7 @@
 	let initialMenu: Menu;
 	let isEditionEnabled: boolean;
 	let formElement: HTMLFormElement;
-	let textInputElement: TextInput;
+	let textInputElement: FormInput;
 
 	const unsubscribeFromPageStore = menuPageStore.subscribe((store) => {
 		isEditionEnabled = store.isEditionEnabled;
@@ -55,14 +55,15 @@
 	{#if isEditionEnabled}
 		<form bind:this={formElement} action="?/renameMenu" method="post" use:enhance={submitFunction}>
 			<input type="hidden" name="id" value={menu.id} />
-			<TextInput
+			<FormInput
 				name="name"
 				bind:value={menu.name}
 				bind:this={textInputElement}
-				on:focusOut={submitForm}
 				charactersLimit={40}
+				on:focusOut={submitForm}
 				disabled={false}
 				dataTestId="name-input"
+				size="small"
 			/>
 		</form>
 	{:else}

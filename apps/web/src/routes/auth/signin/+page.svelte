@@ -115,6 +115,7 @@
 					name="email"
 					label="Email"
 					placeholder="your@email.com"
+					dataTestId="email"
 					value={form?.data?.email ?? ''}
 					on:input={(event) => handleInput(event.detail.value, 'email')}
 				/>
@@ -123,6 +124,7 @@
 					name="password"
 					label="Password"
 					placeholder="your password"
+					dataTestId="password"
 					value={form?.error ? '' : ''}
 					on:input={(event) => handleInput(event.detail.value, 'password')}
 				/>
@@ -157,7 +159,9 @@
 			<div class="cta">
 				<Text font="body-bold" color="secondary">
 					Don't have an account yet?
-					<Link href={routes.signup} color="secondary" font="body-bold">Register</Link>
+					<Link href={routes.signup} color="secondary" font="body-bold" dataTestId="link-to-signup">
+						Register
+					</Link>
 				</Text>
 			</div>
 		</div>

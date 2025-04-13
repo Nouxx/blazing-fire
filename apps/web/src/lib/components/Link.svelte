@@ -6,9 +6,10 @@
 
 	export let font: TextFont = 'body';
 	export let color: TextColor = 'primary';
+	export let dataTestId: string | undefined = undefined;
 </script>
 
-<a {href} class="link">
+<a {href} class="link" data-testId={dataTestId}>
 	<Text {font} {color}><slot /></Text>
 </a>
 

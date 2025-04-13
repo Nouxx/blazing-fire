@@ -8,6 +8,7 @@
 	import type { TextInputState } from './types/input';
 
 	type HTMLInput = 'text' | 'password' | 'email';
+	type TextInputSize = 'small' | 'medium';
 
 	export let value: string;
 	export let name: string;
@@ -17,6 +18,7 @@
 	export let dataTestId: string | undefined = undefined;
 	export let placeholder: string | undefined = undefined;
 	export let type: HTMLInput = 'text';
+	export let size: TextInputSize = 'medium';
 
 	export function setState(newState: TextInputState) {
 		state = newState;
@@ -62,8 +64,10 @@
 </script>
 
 <div class="text-input">
-	<label for={name} class="text-input__label">{label}</label>
-	<div class="text-input__wrapper">
+	{#if label}
+		<label for={name} class="text-input__label">{label}</label>
+	{/if}
+	<div class="text-input__wrapper text-input__wrapper--{size}">
 		{#if type === 'text'}
 			<input
 				type="text"
@@ -157,8 +161,18 @@
 			flex-direction: row;
 			align-items: center;
 			background-color: var(--input-color-background-primary);
-			padding: $spacing-16;
 			border-radius: 8px;
+			height: inherit;
+
+			&--small {
+				height: $spacing-40;
+				padding: 0 $spacing-8;
+			}
+
+			&--medium {
+				height: $spacing-52;
+				padding: 0 $spacing-16;
+			}
 		}
 
 		&__control {
