@@ -101,8 +101,6 @@
 						<AppleIcon />
 					</MiniButton>
 				</div>
-
-				<!-- <p class="login-form__social-message">Social login is not yet available</p> -->
 			</div>
 
 			<div class="login-form__separator">
@@ -156,7 +154,7 @@
 				</div>
 			</form>
 
-			<div class="cta">
+			<div class="login-form__cta">
 				<Text font="body-bold" color="secondary">
 					Don't have an account yet?
 					<Link href={routes.signup} color="secondary" font="body-bold" dataTestId="link-to-signup">
@@ -198,10 +196,6 @@
 			align-items: center;
 
 			padding: $spacing-24 $spacing-16;
-
-			&__cta {
-				@include font-small;
-			}
 		}
 
 		.login-form {
@@ -238,11 +232,6 @@
 					flex-direction: row;
 					justify-content: center;
 					gap: $spacing-8;
-				}
-
-				&-message {
-					@include font-small(var(--color-font-secondary));
-					text-align: center;
 				}
 			}
 
@@ -292,13 +281,13 @@
 			&__button-wrapper {
 				height: 4rem;
 			}
-		}
 
-		.cta {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			margin-top: $spacing-16;
+			&__cta {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				margin-top: $spacing-16;
+			}
 		}
 	}
 </style>

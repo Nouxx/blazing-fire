@@ -17,8 +17,6 @@
 	export let fullWidth: boolean = false;
 	export let fullHeight: boolean = false;
 
-	// add var to have different font 
-
 	const shadowClass = shadow ? `button__${variant}--shadow` : '';
 	const fullWidthClass = fullWidth ? `button__${variant}--full-width` : '';
 	const fullHeightClass = fullHeight ? `button__${variant}--full-height` : '';
@@ -106,7 +104,7 @@
 					width: 100%;
 				}
 
-				&--full-width {
+				&--full-height {
 					height: 100%;
 				}
 			}

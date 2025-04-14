@@ -5,10 +5,10 @@
 	import TriangleExclamation from './icons/TriangleExclamation.svelte';
 	import Icon from './atoms/Icon.svelte';
 	import CheckIcon from './icons/CheckIcon.svelte';
-	import type { TextInputState } from './types/input';
+	import type { FormInputState } from './types/input';
 
 	type HTMLInput = 'text' | 'password' | 'email';
-	type TextInputSize = 'small' | 'medium';
+	type FormInputSize = 'small' | 'medium';
 
 	export let value: string;
 	export let name: string;
@@ -18,13 +18,13 @@
 	export let dataTestId: string | undefined = undefined;
 	export let placeholder: string | undefined = undefined;
 	export let type: HTMLInput = 'text';
-	export let size: TextInputSize = 'medium';
+	export let size: FormInputSize = 'medium';
 
-	export function setState(newState: TextInputState) {
+	export function setState(newState: FormInputState) {
 		state = newState;
 	}
 
-	let state: TextInputState = undefined;
+	let state: FormInputState = undefined;
 	let showSuccess: boolean;
 
 	$: {
@@ -42,13 +42,13 @@
 		}
 	}
 
-	interface TextInputEvents {
+	interface FormInputEvents {
 		focusIn: { value: string };
 		focusOut: { value: string };
 		input: { value: string };
 	}
 
-	const dispatch = createEventDispatcher<TextInputEvents>();
+	const dispatch = createEventDispatcher<FormInputEvents>();
 
 	function handleFocusIn() {
 		dispatch('focusIn', { value });

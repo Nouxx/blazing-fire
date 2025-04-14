@@ -3,14 +3,15 @@
 	import type { TextColor, TextFont } from './types/text';
 
 	export let href: string;
-
 	export let font: TextFont = 'body';
 	export let color: TextColor = 'primary';
 	export let dataTestId: string | undefined = undefined;
 </script>
 
 <a {href} class="link" data-testId={dataTestId}>
-	<Text {font} {color}><slot /></Text>
+	<Text {font} {color}>
+		<slot />
+	</Text>
 </a>
 
 <style lang="scss">

@@ -11,7 +11,7 @@
 	let initialMenu: Menu;
 	let isEditionEnabled: boolean;
 	let formElement: HTMLFormElement;
-	let textInputElement: FormInput;
+	let formInputElement: FormInput;
 
 	const unsubscribeFromPageStore = menuPageStore.subscribe((store) => {
 		isEditionEnabled = store.isEditionEnabled;
@@ -32,20 +32,20 @@
 	});
 
 	const submitFunction: SubmitFunction = ({ formData, cancel }) => {
-		textInputElement.setState('loading');
+		formInputElement.setState('loading');
 
 		const nameToSubmit = formData.get('name');
 		if (nameToSubmit === initialMenu.name) {
 			cancel();
-			textInputElement.setState(undefined);
+			formInputElement.setState(undefined);
 		}
 
 		return async ({ result }) => {
 			if (result.type === 'success') {
-				textInputElement.setState('success');
+				formInputElement.setState('success');
 				setInitialMenu();
 			} else {
-				textInputElement.setState('error');
+				formInputElement.setState('error');
 			}
 		};
 	};
@@ -58,7 +58,7 @@
 			<FormInput
 				name="name"
 				bind:value={menu.name}
-				bind:this={textInputElement}
+				bind:this={formInputElement}
 				charactersLimit={40}
 				on:focusOut={submitForm}
 				disabled={false}

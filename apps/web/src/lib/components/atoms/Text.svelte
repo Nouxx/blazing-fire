@@ -8,7 +8,9 @@
 	const colorClass = `color-${color}`;
 </script>
 
-<span class="text {fontClass} {colorClass}"><slot /></span>
+<span class="text {fontClass} {colorClass}">
+	<slot />
+</span>
 
 <style lang="scss">
 	@use '../../../style' as *;

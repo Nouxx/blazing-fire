@@ -68,5 +68,6 @@ export const actions: Actions = {
 
 		redirect(303, routes.home);
 	}
+	// signin does not return any data, hence the any
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 } satisfies Actions<any | ActionFailure<SignInPageFormActionsFailure>>;

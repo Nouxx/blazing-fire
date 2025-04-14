@@ -57,13 +57,6 @@
 					opacity: 1;
 				}
 			}
-
-			// &:checked {
-			// 	padding: 0.125rem;
-			// 	border: 0.25rem solid var(--input-color-background-primary);
-			// 	border-radius: 2px;
-			// 	background-color: var(--input-color-background-secondary);
-			// }
 		}
 
 		&__label {
