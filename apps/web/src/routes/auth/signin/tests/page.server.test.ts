@@ -60,8 +60,12 @@ describe('actions.signInWithPassword()', () => {
 
 		// Then
 		const expectedResult = {
-			email: mockEmail,
-			error: 'Invalid credentials'
+			status: 400,
+			data: {
+				action: 'signInWithPassword',
+				error: { message: 'Invalid credentials' },
+				data: { email: 'test@mail.com' }
+			}
 		};
 		expect(result).toEqual(expectedResult);
 	});
@@ -92,11 +96,12 @@ describe('actions.signInWithPassword()', () => {
 
 		// Then
 		const expectedResult = {
+			status: 500,
 			data: {
-				email: mockEmail,
-				error: 'Server error. Try again later.'
-			},
-			status: 500
+				action: 'signInWithPassword',
+				error: { message: 'Server error' },
+				data: { email: 'test@mail.com' }
+			}
 		};
 		expect(result).toEqual(expectedResult);
 	});

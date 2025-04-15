@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TextInput from '$lib/components/TextInput.svelte';
+	import FormInput from '$lib/components/FormInput.svelte';
 	import { onDestroy } from 'svelte';
 	import { enhance } from '$app/forms';
 	import { menuPageStore } from '../stores/menu-store';
@@ -11,7 +11,7 @@
 	let initialMenu: Menu;
 	let isEditionEnabled: boolean;
 	let formElement: HTMLFormElement;
-	let textInputElement: TextInput;
+	let formInputElement: FormInput;
 
 	const unsubscribeFromPageStore = menuPageStore.subscribe((store) => {
 		isEditionEnabled = store.isEditionEnabled;
@@ -32,20 +32,20 @@
 	});
 
 	const submitFunction: SubmitFunction = ({ formData, cancel }) => {
-		textInputElement.setState('loading');
+		formInputElement.setState('loading');
 
 		const nameToSubmit = formData.get('name');
 		if (nameToSubmit === initialMenu.name) {
 			cancel();
-			textInputElement.setState(undefined);
+			formInputElement.setState(undefined);
 		}
 
 		return async ({ result }) => {
 			if (result.type === 'success') {
-				textInputElement.setState('success');
+				formInputElement.setState('success');
 				setInitialMenu();
 			} else {
-				textInputElement.setState('error');
+				formInputElement.setState('error');
 			}
 		};
 	};
@@ -55,14 +55,15 @@
 	{#if isEditionEnabled}
 		<form bind:this={formElement} action="?/renameMenu" method="post" use:enhance={submitFunction}>
 			<input type="hidden" name="id" value={menu.id} />
-			<TextInput
+			<FormInput
 				name="name"
 				bind:value={menu.name}
-				bind:this={textInputElement}
-				on:focusOut={submitForm}
+				bind:this={formInputElement}
 				charactersLimit={40}
+				on:focusOut={submitForm}
 				disabled={false}
 				dataTestId="name-input"
+				size="small"
 			/>
 		</form>
 	{:else}

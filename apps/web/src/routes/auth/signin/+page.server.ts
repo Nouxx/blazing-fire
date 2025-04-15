@@ -1,10 +1,23 @@
-import { fail, type Actions, redirect } from '@sveltejs/kit';
+import { type Actions, redirect, type ActionFailure } from '@sveltejs/kit';
 import type { AuthError } from '@supabase/supabase-js';
 import type { PageServerLoad } from './$types';
 import { getStringFromFormValue } from '$lib/forms/form-input';
 import type { AuthFormData } from '$lib/types/forms/auth';
 import { routes } from '$lib/const/routes';
 import { redirectIfSession } from '$lib/server/auth';
+import {
+	createFormActionsFailureResponse,
+	type FormActionsFailureResponse
+} from '$lib/server/form';
+
+type SignInPageActionsName = 'signInWithPassword';
+
+type SignInPageResponseData = null;
+
+type SignInPageFormActionsFailure = FormActionsFailureResponse<
+	SignInPageActionsName,
+	SignInPageResponseData
+>;
 
 function extractFromFormData(formData: FormData): AuthFormData {
 	const email = getStringFromFormValue(formData.get('email'));
@@ -12,20 +25,8 @@ function extractFromFormData(formData: FormData): AuthFormData {
 	return { email, password };
 }
 
-type SignInFormError = {
-	error: string;
-	email: string;
-};
-
 function isWrongCredentialsError(error: AuthError | null) {
 	return error?.status === 400;
-}
-
-function signInFormError(message: string, email: string): SignInFormError {
-	return {
-		error: message,
-		email
-	};
 }
 
 export const load: PageServerLoad = async ({ parent, locals }) => {
@@ -47,11 +48,26 @@ export const actions: Actions = {
 
 		if (error) {
 			if (isWrongCredentialsError(error)) {
-				return signInFormError('Invalid credentials', email);
+				return createFormActionsFailureResponse(400, {
+					action: 'signInWithPassword',
+					error: {
+						message: 'Invalid credentials'
+					},
+					data: { email }
+				});
 			}
-			return fail<SignInFormError>(500, signInFormError('Server error. Try again later.', email));
+
+			return createFormActionsFailureResponse(500, {
+				action: 'signInWithPassword',
+				error: {
+					message: 'Server error'
+				},
+				data: { email }
+			});
 		}
 
 		redirect(303, routes.home);
 	}
-};
+	// signin does not return any data, hence the any
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+} satisfies Actions<any | ActionFailure<SignInPageFormActionsFailure>>;

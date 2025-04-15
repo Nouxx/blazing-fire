@@ -1,1 +1,1 @@
-export type TextInputState = 'success' | 'loading' | 'error' | undefined;
+export type FormInputState = 'success' | 'loading' | 'error' | undefined;

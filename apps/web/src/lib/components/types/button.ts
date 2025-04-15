@@ -3,7 +3,8 @@ export type ButtonVariant =
 	| 'secondary'
 	| 'tertiary'
 	| 'neutral-primary'
-	| 'neutral-secondary';
+	| 'neutral-secondary'
+	| 'error';
 
 export type ButtonTag = 'a' | 'button';
 

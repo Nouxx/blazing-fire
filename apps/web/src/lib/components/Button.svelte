@@ -14,8 +14,12 @@
 	export let disabled = false;
 	export let href: string | null = null;
 	export let shadow: boolean = false;
+	export let fullWidth: boolean = false;
+	export let fullHeight: boolean = false;
 
 	const shadowClass = shadow ? `button__${variant}--shadow` : '';
+	const fullWidthClass = fullWidth ? `button__${variant}--full-width` : '';
+	const fullHeightClass = fullHeight ? `button__${variant}--full-height` : '';
 
 	if (tag === 'a' && !href) {
 		console.error('"href" attribute is not defined in the Button component');
@@ -32,7 +36,7 @@
 
 {#if tag === 'button'}
 	<button
-		class="button button__{variant} {shadowClass}"
+		class="button button__{variant} {shadowClass} {fullWidthClass} {fullHeightClass}"
 		{type}
 		on:click={handleClick}
 		{disabled}
@@ -69,7 +73,7 @@
 		padding-left: $spacing-16;
 		padding-right: $spacing-16;
 
-		height: $spacing-36;
+		height: $spacing-32;
 		width: fit-content;
 
 		text-align: center;
@@ -94,6 +98,14 @@
 
 				&--shadow {
 					box-shadow: 0 0.125rem 0.125rem var(--shadow-color);
+				}
+
+				&--full-width {
+					width: 100%;
+				}
+
+				&--full-height {
+					height: 100%;
 				}
 			}
 		}
