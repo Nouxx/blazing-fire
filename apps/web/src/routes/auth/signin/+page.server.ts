@@ -57,7 +57,7 @@ export const actions: Actions = {
 				});
 			}
 
-			return createFormActionsFailureResponse(400, {
+			return createFormActionsFailureResponse(500, {
 				action: 'signInWithPassword',
 				error: {
 					message: 'Server error'
